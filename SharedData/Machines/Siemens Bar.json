@@ -1,0 +1,70 @@
+﻿{
+  "MachineName": "Siemens Bar",
+  "SerialNumber": "C-AB553",
+
+  "LastInspectionDate": "2026-01-03",
+  "LastInspectionType": "Weekly",
+  "MaintenanceSchedule": {
+    "Weekly": 7,
+    "Monthly": 30,
+    "MidYear": 180
+  },
+  "Maintenance": {
+    "שבועי": [
+      {
+        "Code": "A-A",
+        "Description": "בדוק לחץ מים"
+      },
+      {
+        "Code": "B",
+        "Description": "בדוק חוזק מכסה בסיס"
+      },
+      {
+        "Code": "C",
+        "Description": "בדוק רעשים חריגים"
+      }
+    ],
+    "חודשי": [
+      {
+        "Code": "AIR",
+        "Description": "בדיקת פילטר אויר"
+      },
+
+ {
+        "Code": "OIL",
+        "Description": "בדיקת פילטר שמן"
+      },
+      {
+        "Code": "COOLANT",
+        "Description": "בדיקת מערכת קירור"
+      }
+    ],
+    "דו-חודשי": [
+      {
+        "Code": "BM12",
+        "Description": "בדיקה דו־חודשית כללית"
+      }
+    ],
+    "רבעוני": [
+      {
+        "Code": "B-TEMPT",
+        "Description": "בדיקה של טמפרטורת  מעבד"
+      },
+      {
+        "Code": "B-MOTHERBOARD",
+        "Description": "בדיקה של טמפרטורת  לוח אם"
+      },
+      {
+        "Code": "B-AIR-VENT",
+        "Description": "בדיקה של טמפרטורת  מאורר"
+      }
+    ],
+   
+    "שנתי": [
+      {
+        "Code": "B-ANNUAL-CHECK",
+        "Description": "בדיקה שנתית מלאה"
+      }
+    ]
+  }
+}

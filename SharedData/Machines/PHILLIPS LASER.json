@@ -1,0 +1,65 @@
+﻿{
+  "MachineName": "PHILLIPS LASER",
+  "SerialNumber": "LASER-A34",
+
+  "LastInspectionDate": "2026-01-01",
+  "LastInspectionType": "Weekly",
+  "MaintenanceSchedule": {
+    "Weekly": 7,
+    "Monthly": 30,
+    "MidYear": 180
+  },
+  "Maintenance": {
+    "שבועי": [
+      {
+        "Code": "A",
+        "Description": "בדוק לחץ שמן"
+      },
+      {
+        "Code": "B",
+        "Description": "בדוק רצועות"
+      },
+      {
+        "Code": "C",
+        "Description": "בדוק רעשים חריגים"
+      }
+    ],
+    "חודשי": [
+      {
+        "Code": "X",
+        "Description": "בדיקת פילטרים"
+      },
+      {
+        "Code": "Y",
+        "Description": "בדיקת מערכת קירור"
+      }
+    ],
+    "דו-חודשי": [
+      {
+        "Code": "BM1",
+        "Description": "בדיקה דו־חודשית כללית"
+      }
+    ],
+    "רבעוני": [
+      {
+        "Code": "TM1",
+        "Description": "בדיקה של טמפרטורת  מעבד"
+      },
+      {
+        "Code": "TM2",
+        "Description": "בדיקה של טמפרטורת  לוח אם"
+      },
+      {
+        "Code": "TM3",
+        "Description": "בדיקה של טמפרטורת  מאורר"
+      }
+    ],
+     
+    "שנתי": [
+      {
+        "Code": "AN1",
+        "Description": "בדיקה שנתית מלאה"
+      }
+    ]
+  }
+}

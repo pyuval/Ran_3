@@ -1,0 +1,3718 @@
+// Begin FormInspectionHistoryViewer.Designer.txt
+using System.Windows.Forms;
+
+namespace FormInspectionHistoryViewerNS
+{
+    partial class FormInspectionHistoryViewer
+    {
+        private System.ComponentModel.IContainer components = null;
+
+        private ListBox lstFiles;
+        private TextBox txtSearch;
+        private Label lblSearch;
+        private DataGridView dgvPreview;
+        private Button btnOpen;
+        private Button btnRefresh;
+        private Button btnOpenZipFolder;
+
+        protected override void Dispose(bool disposing)
+        {_$disposing && (components != null))
+                components.Dispose();
+            base.Dispose(disposing);
+        }
+
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+
+            this.lstFiles = new ListBox();
+            this.txtSearch = new TextBox();
+            this.lblSearch = new Label();
+            this.dgvPreview = new DataGridView();
+            this.btnOpen = new Button();
+            this.btnRefresh = new Button();
+            this.btnOpenZipFolder = new Button();
+
+            this.SuspendLayout();
+
+            // lblSearch
+            this.lblSearch.AutoSize = true;
+            this.lblSearch.Location = new System.Drawing.Point(20, 20);
+            this.lblSearch.Text = "Search:";
+
+            // txtSearch
+            this.txtSearch.Location = new System.Drawing.Point(80, 18);
+            this.txtSearch.Size = new System.Drawing.Size(200, 22);
+
+            // lstFiles
+            this.lstFiles.Location = new System.Drawing.Point(20, 60);
+            this.lstFiles.Size = new System.Drawing.Size(260, 480);
+
+            // dgvPreview
+            this.dgvPreview.Location = new System.Drawing.Point(300, 60);
+            this.dgvPreview.Size = new System.Drawing.Size(900, 480);
+            this.dgvPreview.ReadOnly = true;
+            this.dgvPreview.AllowUserToAddRows = false;
+            this.dgvPreview.AllowUserToDeleteRows = false;
+
+            // btnOpen
+            this.btnOpen.Location = new System.Drawing.Point(20, 550);
+            this.btnOpen.Size = new System.Drawing.Size(120, 30);
+            this.btnOpen.Text = "Open File";
+
+            // btnRefresh
+            this.btnRefresh.Location = new System.Drawing.Point(160, 550);
+            this.btnRefresh.Size = new System.Drawing.Size(120, 30);
+            this.btnRefresh.Text = "Refresh";
+
+            // btnOpenZipFolder
+            this.btnOpenZipFolder.Location = new System.Drawing.Point(300, 550);
+            this.btnOpenZipFolder.Size = new System.Drawing.Size(120, 30);
+            this.btnOpenZipFolder.Text = "Open Archive";
+
+            // FormInspectionHistoryViewer
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1200, 600);
+            this.Controls.Add(this.lblSearch);
+            this.Controls.Add(this.txtSearch);
+            this.Controls.Add(this.lstFiles);
+            this.Controls.Add(this.dgvPreview);
+            this.Controls.Add(this.btnOpen);
+            this.Controls.Add(this.btnRefresh);
+            this.Controls.Add(this.btnOpenZipFolder);
+            this.Name = "FormInspectionHistoryViewer";
+            this.Text = "טבלת הסטוריה של כל הבדיקות";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+
+            this.ResumeLayout(false);
+            this.PerformLayout();
+        }
+    }
+}
+
+// End FormInspectionHistoryViewer.Designer.txt
+
+// Begin FormInspectionHistoryViewer.txt
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace FormInspectionHistoryViewerNS
+{
+    public partial class FormInspectionHistoryViewer : Form
+    {
+        public FormInspectionHistoryViewer()
+        {
+            InitializeComponent();
+            LoadFileList();
+        }
+
+        private List<string> _allFiles = new List<string>();
+
+        private string GetSharedFolder()
+        {
+            return Path.Combine("..", "..", "..", "SharedData", "InspectionLogs");
+        }
+
+        private void LoadFileList()
+        {
+            string folder = GetSharedFolder();
+
+            Directory.CreateDirectory(folder);
+
+            _allFiles = Directory.GetFiles(folder, "*.csv")
+                                 .OrderByDescending(f => f)
+                                 .ToList();
+
+            lstFiles.Items.Clear();
+            lstFiles.Items.AddRange(_allFiles.Select(Path.GetFileName).ToArray());
+        }
+
+        //private void FilterFiles()
+        //{
+        //    string term = txtSearch.Text.Trim().ToLower();
+
+        // var filtered = _allFiles .Where(f => Path.GetFileName(f).ToLower().Contains(term)) .ToList();
+
+        //    lstFiles.Items.Clear();
+        //    lstFiles.Items.AddRange(filtered.Select(Path.GetFileName).ToArray());
+        //}
+
+        //private void LoadCsvPreview()
+        //{
+        //    try
+        //    {
+        //_$lstFiles.SelectedItem == null)
+        //            return;
+
+        // string folder = GetSharedFolder(); string filePath = Path.Combine(folder, lstFiles.SelectedItem.ToString());
+
+        // dgvPreview.Columns.Clear(); dgvPreview.Rows.Clear();
+
+        // var lines = File.ReadAllLines(filePath, Encoding.UTF8);_$lines.Length == 0) return;
+
+        // var headers = lines[0].Split(',');_$var h in headers) dgvPreview.Columns.Add(h, h);
+
+        //_$)
+        //            dgvPreview.Rows.Add(lines[i].Split(','));
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        MessageBox.Show($"{e.Message}");
+        //    }
+        //}
+
+        //private void OpenSelectedFile()
+        //{
+        //_$lstFiles.SelectedItem == null)
+        //        return;
+
+        // string folder = GetSharedFolder(); string filePath = Path.Combine(folder, lstFiles.SelectedItem.ToString());
+
+        //    System.Diagnostics.Process.Start(filePath);
+        //}
+
+        //private void OpenZipFolder()
+        //{
+        //    string zipFolder = GetSharedFolder();
+        //    Directory.CreateDirectory(zipFolder);
+        //    System.Diagnostics.Process.Start(zipFolder);
+        //}
+
+        //private string GetSetting(string key, string defaultValue)
+        //{
+        //    return ConfigurationManager.AppSettings[key] ?? defaultValue;
+        //}
+    }
+}
+// End FormInspectionHistoryViewer.txt
+
+// Begin Program.txt
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace FormInspectionHistoryViewerNS
+{
+    internal static class Program
+    {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        private static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application_$new FormInspectionHistoryViewer());
+        }
+    }
+}
+// End Program.txt
+
+// Begin InspectionRecord.txt
+using System;
+
+using System.Linq;
+
+namespace MachineInspections
+{
+    public class InspectionRecord
+    {
+        public string MachineName { get; set; }
+        public string MachineSN { get; set; }
+        public string Interval { get; set; }
+        public DateTime LastInspectionDate { get; set; }
+        public string Type { get; set; }
+        public string Result { get; set; }
+    }
+}
+// End InspectionRecord.txt
+
+// Begin InspectionScheduleResult.txt
+using System;
+
+using System.Collections.Generic;
+
+using System.Linq;
+
+namespace MachineInspections
+{
+    public class InspectionScheduleResult
+    {
+        public Dictionary<string, DateTime> NextDueDates { get; set; } = new Dictionary<string, DateTime>();
+        public Dictionary<string, string> StatusMessages { get; set; } = new Dictionary<string, string>();
+        public string MostUrgentInterval { get; set; }
+
+        public InspectionScheduleResult CalculateSchedule(MachineDefinition machine)
+        {
+            var result = new InspectionScheduleResult();
+            DateTime today = DateTime.Today;
+
+            //Maintencxe schedule is a dictionary of interval name to list of tests, e.g. "Weekly" -> [test1, test2]_$var interval in machine.MaintenanceSchedule)
+            {
+                string name = interval.Key;
+                int days = interval.Value;
+
+                DateTime nextDue = machine.LastInspectionDate.AddDays(days);
+                result.NextDueDates[name] = nextDue;
+
+                //if (today > nextDue)
+                //{
+                //    int late = (today - nextDue).Days;
+                //    result.StatusMessages[name] = $"*{Translate(name)} באיחור של {late} ימים";
+                //}_$today == nextDue)
+                {
+                    result.StatusMessages[name] = $"*{Translate(name)} נדרשת היום";
+                }
+                else
+                {
+                    result.StatusMessages[name] = $"*{Translate(name)} הבאה: {nextDue:dd.MM.yyyy}";
+                }
+            }
+
+            // Most urgent = earliest next due date
+            result.MostUrgentInterval = result.NextDueDates
+                .OrderBy(d => d.Value)
+                .First().Key;
+
+            return result;
+        }
+
+        public string Translate(string key)
+        {
+            switch (key)
+            {
+                case "Weekly":
+                    return "בדיקה שבועית";
+
+                case "Monthly":
+                    return "בדיקה חודשית";
+
+                case "BiMonthly":
+                    return "בדיקה דו־חודשית";
+
+                case "TriMonthly":
+                    return "בדיקה תלת־חודשית";
+
+                case "MidYear":
+                    return "בדיקה חצי־שנתית";
+
+                case "Annual":
+                    return "בדיקה שנתית";
+
+                default:
+                    return key;
+            }
+        }
+    }
+}
+// End InspectionScheduleResult.txt
+
+// Begin Inspector.txt
+using System;
+
+using System.Linq;
+
+namespace MachineInspections
+{
+    public class Inspector
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string ID { get; set; }
+
+        public string Password { get; set; } // NEW
+    }
+}
+// End Inspector.txt
+
+// Begin LoginForm.Designer.txt
+
+
+using System;
+using System.Windows.Forms;
+
+namespace MachineInspections
+{
+    partial class LoginForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {_$disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.FirstNameTB = new System.Windows.Forms.TextBox();
+            this.FirstNameLabel = new System.Windows.Forms.Label();
+            this.PasswordLabel = new System.Windows.Forms.Label();
+            this.IDLabel = new System.Windows.Forms.Label();
+            this.LastNameLabel = new System.Windows.Forms.Label();
+            this.LastNameTB = new System.Windows.Forms.TextBox();
+            this.IDTB = new System.Windows.Forms.TextBox();
+            this.PasswordTB = new System.Windows.Forms.TextBox();
+            this.SignINButton = new System.Windows.Forms.Button();
+            this.SignUpButton = new System.Windows.Forms.Button();
+            this.EntryFormLabel = new System.Windows.Forms.Label();
+            this.SuspendLayout();
+            //
+            // FirstNameTB
+            //
+            this.FirstNameTB.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.FirstNameTB.Location = new System.Drawing.Point(89, 69);
+            this.FirstNameTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.FirstNameTB.Name = "FirstNameTB";
+            this.FirstNameTB.Size = new System.Drawing.Size(132, 22);
+            this.FirstNameTB.TabIndex = 2;
+            this.FirstNameTB.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.FirstNameTB.Enter += new System.EventHandler(this.FirstNameTB_Enter);
+            //
+            // FirstNameLabel
+            //
+            this.FirstNameLabel.AutoSize = true;
+            this.FirstNameLabel.Location = new System.Drawing.Point(287, 69);
+            this.FirstNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.FirstNameLabel.Name = "FirstNameLabel";
+            this.FirstNameLabel.Size = new System.Drawing.Size(54, 16);
+            this.FirstNameLabel.TabIndex = 1;
+            this.FirstNameLabel.Text = "שם פרטי";
+            //
+            // PasswordLabel
+            //
+            this.PasswordLabel.AutoSize = true;
+            this.PasswordLabel.Location = new System.Drawing.Point(300, 217);
+            this.PasswordLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.PasswordLabel.Name = "PasswordLabel";
+            this.PasswordLabel.Size = new System.Drawing.Size(44, 16);
+            this.PasswordLabel.TabIndex = 2;
+            this.PasswordLabel.Text = "סיסמא";
+            //
+            // IDLabel
+            //
+            this.IDLabel.AutoSize = true;
+            this.IDLabel.Location = new System.Drawing.Point(287, 171);
+            this.IDLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.IDLabel.Name = "IDLabel";
+            this.IDLabel.Size = new System.Drawing.Size(53, 16);
+            this.IDLabel.TabIndex = 3;
+            this.IDLabel.Text = "מס אישי";
+            //
+            // LastNameLabel
+            //
+            this.LastNameLabel.AutoSize = true;
+            this.LastNameLabel.Location = new System.Drawing.Point(271, 118);
+            this.LastNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LastNameLabel.Name = "LastNameLabel";
+            this.LastNameLabel.Size = new System.Drawing.Size(67, 16);
+            this.LastNameLabel.TabIndex = 4;
+            this.LastNameLabel.Text = "שם משפחה";
+            //
+            // LastNameTB
+            //
+            this.LastNameTB.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.LastNameTB.Location = new System.Drawing.Point(89, 110);
+            this.LastNameTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.LastNameTB.Name = "LastNameTB";
+            this.LastNameTB.Size = new System.Drawing.Size(132, 22);
+            this.LastNameTB.TabIndex = 5;
+            this.LastNameTB.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.LastNameTB.Enter += new System.EventHandler(this.LastNameTB_Enter);
+            //
+            // IDTB
+            //
+            this.IDTB.Location = new System.Drawing.Point(89, 162);
+            this.IDTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.IDTB.Name = "IDTB";
+            this.IDTB.Size = new System.Drawing.Size(132, 22);
+            this.IDTB.TabIndex = 6;
+            //
+            // PasswordTB
+            //
+            this.PasswordTB.Location = new System.Drawing.Point(89, 213);
+            this.PasswordTB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PasswordTB.Name = "PasswordTB";
+            this.PasswordTB.Size = new System.Drawing.Size(132, 22);
+            this.PasswordTB.TabIndex = 7;
+            //
+            // SignINButton
+            //
+            this.SignINButton.Location = new System.Drawing.Point(253, 300);
+            this.SignINButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SignINButton.Name = "SignINButton";
+            this.SignINButton.Size = new System.Drawing.Size(100, 28);
+            this.SignINButton.TabIndex = 8;
+            this.SignINButton.Text = "כנס";
+            this.SignINButton.UseVisualStyleBackColor = true;
+            this.SignINButton.Click += new System.EventHandler(this.SignIn);
+            //
+            // SignUpButton
+            //
+            this.SignUpButton.Location = new System.Drawing.Point(104, 300);
+            this.SignUpButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SignUpButton.Name = "SignUpButton";
+            this.SignUpButton.Size = new System.Drawing.Size(100, 28);
+            this.SignUpButton.TabIndex = 9;
+            this.SignUpButton.Text = "הירשם";
+            this.SignUpButton.UseVisualStyleBackColor = true;
+            this.SignUpButton.Click += new System.EventHandler(this.SignUp);
+            //
+            // EntryFormLabel
+            //
+            this.EntryFormLabel.AutoSize = true;
+            this.EntryFormLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.EntryFormLabel.Location = new System.Drawing.Point(124, 17);
+            this.EntryFormLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.EntryFormLabel.Name = "EntryFormLabel";
+            this.EntryFormLabel.Size = new System.Drawing.Size(183, 36);
+            this.EntryFormLabel.TabIndex = 10;
+            this.EntryFormLabel.Text = "כניסה למערכת";
+            this.EntryFormLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            //
+            // LoginForm
+            //
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(376, 359);
+            this.Controls.Add(this.EntryFormLabel);
+            this.Controls.Add(this.SignUpButton);
+            this.Controls.Add(this.SignINButton);
+            this.Controls.Add(this.PasswordTB);
+            this.Controls.Add(this.IDTB);
+            this.Controls.Add(this.LastNameTB);
+            this.Controls.Add(this.LastNameLabel);
+            this.Controls.Add(this.IDLabel);
+            this.Controls.Add(this.PasswordLabel);
+            this.Controls.Add(this.FirstNameLabel);
+            this.Controls.Add(this.FirstNameTB);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Name = "LoginForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+
+        private void FirstNameTB_Enter(object sender, EventArgs e)
+        {
+
+            // Force caret to the right even when empty
+            BeginInvoke((MethodInvoker)(() =>
+            {
+                FirstNameTB.SelectionStart = FirstNameTB.Text.Length;
+            }));
+        }
+
+
+
+
+        private void LastNameTB_Enter(object sender, EventArgs e)
+        {
+
+            // Force caret to the right even when empty
+            BeginInvoke((MethodInvoker)(() =>
+            {
+                LastNameTB.SelectionStart = LastNameTB.Text.Length;
+            }));
+        }
+
+
+
+        #endregion
+
+        private System.Windows.Forms.TextBox FirstNameTB;
+        private System.Windows.Forms.Label FirstNameLabel;
+        private System.Windows.Forms.Label PasswordLabel;
+        private System.Windows.Forms.Label IDLabel;
+        private System.Windows.Forms.Label LastNameLabel;
+        private System.Windows.Forms.TextBox LastNameTB;
+        private System.Windows.Forms.TextBox IDTB;
+        private System.Windows.Forms.TextBox PasswordTB;
+        private System.Windows.Forms.Button SignINButton;
+        private System.Windows.Forms.Button SignUpButton;
+        private System.Windows.Forms.Label EntryFormLabel;
+    }
+}
+
+
+
+// End LoginForm.Designer.txt
+
+// Begin LoginForm.txt
+using System;
+using System.Text.Json;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+using System.Text;
+using System.Windows.Forms;
+
+namespace MachineInspections
+{
+    public partial class LoginForm : Form
+    {
+        private List<Inspector> inspectors = new List<Inspector>();
+
+        public class UserContainer
+        {
+            public List<Inspector> Users
+            {
+                get; set;
+            }
+        }
+
+        public LoginForm()
+        {
+            InitializeComponent();
+            LoadInspectors();
+            DialogResult = DialogResult.None;
+            // FillSignIn();
+        }
+
+        private void FillSignIn()
+        {
+            this.FirstNameTB.Text = "יובל";
+            this.LastNameTB.Text = "פארי";
+            this.IDTB.Text = "3755839";
+            this.PasswordTB.Text = "123456";
+        }
+
+        private void LoadInspectors()
+        {
+            string folder = GetSharedFolder();
+            string file = Path.Combine(folder, "Users.json");_$!File.Exists(file))
+                return;
+
+            try
+            {
+                string jsonString = File.ReadAllText(file);
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var container = JsonSerializer.Deserialize<UserContainer>(jsonString, options);_$container?.Users != null)
+                {
+                    inspectors = container.Users;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading JSON: {ex.Message}");
+            }
+        }
+
+        private void LoadInspectors1()
+        {
+            string folder = GetSharedFolder();
+            string file = Path.Combine(folder, "Users.json");_$!File.Exists(file))
+            {
+                return;
+            }
+
+            try
+            {_$var line in File.ReadLines(file, Encoding.UTF8).Skip(1))
+                {
+                    var p = line.Split(',');
+
+                    inspectors.Add(new Inspector
+                    {
+                        FirstName = p[0].Trim(),
+                        LastName = p[1].Trim(),
+                        ID = p[2].Trim(),
+                        Password = p.Length > 3 ? p[3].Trim() : string.Empty
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}");
+            }
+        }
+
+        public static void CreateInspectorsCsv(string folderPath, List<Inspector> inspectors)
+        {
+            Directory.CreateDirectory(folderPath);
+
+            string filePath = Path.Combine(folderPath, "Users.json");
+
+            using (var sw = new StreamWriter(filePath, false, new UTF8Encoding(true)))
+            {
+                sw.WriteLine("FirstName,LastName,ID,Password");_$var i in inspectors)
+                {
+                    sw.WriteLine($"{i.FirstName},{i.LastName},{i.ID},{i.Password}");
+                }
+            }
+        }
+
+        public static void SaveInspectorsJson(string folderPath, List<Inspector> inspectors)
+        {
+            Directory.CreateDirectory(folderPath);
+            string filePath = Path.Combine(folderPath, "Users.json");
+
+            var container = new UserContainer { Users = inspectors };
+            var options = new JsonSerializerOptions { WriteIndented = true };
+
+            string jsonString = JsonSerializer.Serialize(container, options);
+            File.WriteAllText(filePath, jsonString, Encoding.UTF8);
+        }
+
+        private void SaveInspectorsCsv()
+        {
+            string folder = GetSharedFolder();
+            CreateInspectorsCsv(folder, inspectors);
+
+            this.DialogResult = DialogResult.OK;
+            //this.Close();
+        }
+
+        private void SignIn(object sender, EventArgs e)
+        {
+            string name = FirstNameTB.Text.Trim();
+            string lastName = LastNameTB.Text.Trim();
+            string id = IDTB.Text.Trim();
+            string password = PasswordTB.Text.Trim();
+
+            var inspector = inspectors.FirstOrDefault(inspect =>
+                inspect.FirstName.Equals(name, StringComparison.OrdinalIgnoreCase) &&
+                 inspect.LastName.Equals(lastName, StringComparison.OrdinalIgnoreCase) &&
+                inspect.ID == id && inspect.Password == password);_$inspector == null)
+            {
+                MessageBox.Show("אף משתמש כזה לא קיים. פנה למנהל");
+                return;
+            }_$string.IsNullOrEmpty(inspector.Password))
+            {
+                MessageBox.Show("משתמש לא רשום. אנא הירשם תחילה");
+                return;
+            }_$inspector.Password != password)
+            {
+                MessageBox.Show("סיסמא שגויה.");
+                return;
+            }
+
+            // SUCCESS
+            LoggedInInspector = inspector;
+            this.DialogResult = DialogResult.OK;
+            // this.Close();
+        }
+
+        private void SignUp(object sender, EventArgs e)
+        {
+            string name = FirstNameTB.Text.Trim();
+            string LastName = LastNameTB.Text.Trim();
+            string id = IDTB.Text.Trim();
+            string password = PasswordTB.Text.Trim();
+
+            var inspector = inspectors.FirstOrDefault(i =>
+                i.FirstName.Equals(name, StringComparison.OrdinalIgnoreCase) &&
+                i.LastName.Equals(LastName, StringComparison.OrdinalIgnoreCase) &&
+                i.ID == id);_$inspector == null)
+            {
+                MessageBox.Show("אף משתמש כזה לא קיים. פנה למנהל");
+                return;
+            }_$!string.IsNullOrEmpty(inspector.Password))
+            {
+                MessageBox.Show("משתמש כבר רשום. אנא התחבר");
+                return;
+            }
+
+            // Save password
+            inspector.Password = password;
+
+            SaveInspectorsCsv();
+
+            MessageBox.Show("הרשמה בוצעה בהצלחה. כעת ניתן להיכנס");
+        }
+
+        private string GetSharedFolder()
+        {
+            return Path.Combine("..", "..", "..", "SharedData", "Users");
+        }
+
+        public Inspector LoggedInInspector
+        {
+            get; private set;
+        }
+    }
+}
+// End LoginForm.txt
+
+// Begin Machine.txt
+using System;
+
+using System.Linq;
+
+namespace MachineInspections
+{
+    public class Machine
+    {
+        public string Serial { get; set; }
+        public string Name { get; set; }
+        public bool Daily { get; set; }
+        public bool Weekly { get; set; }
+        public bool Monthly { get; set; }
+        public bool BiMonthly { get; set; }
+        public bool TriMonthly { get; set; }
+        public bool MidYear { get; set; }
+        public bool Annual { get; set; }
+    }
+}
+// End Machine.txt
+
+// Begin MachineDefinition.txt
+using System;
+
+using System.Collections.Generic;
+
+namespace MachineInspections
+{
+    public class MachineDefinition
+    {
+        public DateTime LastInspectionDate { get; set; }
+        public string LastInspectionType { get; set; }
+        public string MachineName { get; set; }
+
+        public Dictionary<string, List<MaintenanceTest>> Maintenance { get; set; }
+        public Dictionary<string, int> MaintenanceSchedule { get; set; }
+        public string SerialNumber { get; set; }
+    }
+}
+// End MachineDefinition.txt
+
+// Begin MachineInspectionForm.Designer.txt
+ 
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    namespace MachineInspections
+{
+    partial class MachineInspectionForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {_$disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.lstMachines = new System.Windows.Forms.ListBox();
+            this.tabIntervals = new System.Windows.Forms.TabControl();
+            this.lblMachineName = new System.Windows.Forms.Label();
+            this.lblSerial = new System.Windows.Forms.Label();
+            this.lblNextInspection = new System.Windows.Forms.Label();
+            this.btnSaveInspection = new System.Windows.Forms.Button();
+            this.panelRight = new System.Windows.Forms.Panel();
+            this.panelTop = new System.Windows.Forms.Panel();
+            this.Date = new System.Windows.Forms.Label();
+            this.lblInspectionStatus = new System.Windows.Forms.Label();
+            this.panelRight.SuspendLayout();
+            this.panelTop.SuspendLayout();
+            this.SuspendLayout();
+            //
+            // lstMachines
+            //
+            this.lstMachines.Dock = System.Windows.Forms.DockStyle.Left;
+            this.lstMachines.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.lstMachines.ItemHeight = 25;
+            this.lstMachines.Location = new System.Drawing.Point(0, 0);
+            this.lstMachines.Name = "lstMachines";
+            this.lstMachines.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lstMachines.Size = new System.Drawing.Size(250, 703);
+            this.lstMachines.TabIndex = 2;
+            this.lstMachines.SelectedIndexChanged += new System.EventHandler(this.lstMachines_SelectedIndexChanged);
+            //
+            // tabIntervals
+            //
+            this.tabIntervals.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabIntervals.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
+            this.tabIntervals.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.tabIntervals.ItemSize = new System.Drawing.Size(150, 40);
+            this.tabIntervals.Location = new System.Drawing.Point(10, 110);
+            this.tabIntervals.Name = "tabIntervals";
+            this.tabIntervals.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.tabIntervals.RightToLeftLayout = true;
+            this.tabIntervals.SelectedIndex = 0;
+            this.tabIntervals.Size = new System.Drawing.Size(930, 533);
+            this.tabIntervals.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.tabIntervals.TabIndex = 0;
+            this.tabIntervals.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabIntervals_DrawItem);
+            //
+            // lblMachineName
+            //
+            this.lblMachineName.AutoSize = true;
+            this.lblMachineName.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.lblMachineName.Location = new System.Drawing.Point(10, 10);
+            this.lblMachineName.Name = "lblMachineName";
+            this.lblMachineName.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblMachineName.Size = new System.Drawing.Size(0, 32);
+            this.lblMachineName.TabIndex = 0;
+            //
+            // lblSerial
+            //
+            this.lblSerial.AutoSize = true;
+            this.lblSerial.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.lblSerial.Location = new System.Drawing.Point(10, 45);
+            this.lblSerial.Name = "lblSerial";
+            this.lblSerial.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblSerial.Size = new System.Drawing.Size(0, 25);
+            this.lblSerial.TabIndex = 1;
+            //
+            // lblNextInspection
+            //
+            this.lblNextInspection.AutoSize = true;
+            this.lblNextInspection.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.lblNextInspection.Location = new System.Drawing.Point(10, 70);
+            this.lblNextInspection.Name = "lblNextInspection";
+            this.lblNextInspection.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblNextInspection.Size = new System.Drawing.Size(0, 25);
+            this.lblNextInspection.TabIndex = 3;
+            //
+            // btnSaveInspection
+            //
+            this.btnSaveInspection.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnSaveInspection.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnSaveInspection.Location = new System.Drawing.Point(10, 643);
+            this.btnSaveInspection.Name = "btnSaveInspection";
+            this.btnSaveInspection.Size = new System.Drawing.Size(930, 50);
+            this.btnSaveInspection.TabIndex = 2;
+            this.btnSaveInspection.Text = "חתום בדיקה";
+            this.btnSaveInspection.Click += new System.EventHandler(this.btnSaveInspection_Click);
+            //
+            // panelRight
+            //
+            this.panelRight.Controls.Add(this.tabIntervals);
+            this.panelRight.Controls.Add(this.panelTop);
+            this.panelRight.Controls.Add(this.btnSaveInspection);
+            this.panelRight.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelRight.Location = new System.Drawing.Point(250, 0);
+            this.panelRight.Name = "panelRight";
+            this.panelRight.Padding = new System.Windows.Forms.Padding(10);
+            this.panelRight.Size = new System.Drawing.Size(950, 703);
+            this.panelRight.TabIndex = 1;
+            //
+            // panelTop
+            //
+            this.panelTop.Controls.Add(this.lblMachineName);
+            this.panelTop.Controls.Add(this.lblSerial);
+            this.panelTop.Controls.Add(this.Date);
+            this.panelTop.Controls.Add(this.lblNextInspection);
+            this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelTop.Location = new System.Drawing.Point(10, 10);
+            this.panelTop.Name = "panelTop";
+            this.panelTop.Padding = new System.Windows.Forms.Padding(5);
+            this.panelTop.Size = new System.Drawing.Size(930, 100);
+            this.panelTop.TabIndex = 1;
+            //
+            // Date
+            //
+            this.Date.Location = new System.Drawing.Point(0, 0);
+            this.Date.Name = "Date";
+            this.Date.Size = new System.Drawing.Size(100, 23);
+            this.Date.TabIndex = 2;
+            this.Date.Text = "17/05/2026";
+            //
+            // lblInspectionStatus
+            //
+            this.lblInspectionStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblInspectionStatus.AutoSize = true;
+            this.lblInspectionStatus.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.lblInspectionStatus.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblInspectionStatus.Location = new System.Drawing.Point(280, 10);
+            this.lblInspectionStatus.Name = "lblInspectionStatus";
+            this.lblInspectionStatus.Padding = new System.Windows.Forms.Padding(10);
+            this.lblInspectionStatus.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblInspectionStatus.Size = new System.Drawing.Size(20, 48);
+            this.lblInspectionStatus.TabIndex = 0;
+            this.lblInspectionStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+            // MachineInspectionForm
+            //
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1200, 703);
+            this.Controls.Add(this.lblInspectionStatus);
+            this.Controls.Add(this.panelRight);
+            this.Controls.Add(this.lstMachines);
+            this.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.Name = "MachineInspectionForm";
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "מערכת בדיקות מכונות";
+            this.panelRight.ResumeLayout(false);
+            this.panelTop.ResumeLayout(false);
+            this.panelTop.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+
+
+
+
+        #endregion
+
+        #region class members
+        private System.Windows.Forms.ListBox lstMachines;
+        private System.Windows.Forms.TabControl tabIntervals;
+        private System.Windows.Forms.Label lblMachineName;
+        private System.Windows.Forms.Label lblSerial;
+        private System.Windows.Forms.Label lblNextInspection;
+        private System.Windows.Forms.Button btnSaveInspection;
+        private System.Windows.Forms.Panel panelRight;
+        private System.Windows.Forms.Panel panelTop;
+        private System.Windows.Forms.Label lblInspectionStatus;
+        private System.Windows.Forms.Label Date;
+
+
+        #endregion
+    }
+}
+
+
+
+
+// End MachineInspectionForm.Designer.txt
+
+// Begin MachineInspectionForm.txt
+using System;
+
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Drawing;
+using System.IO;
+
+using System.Linq;
+
+using System.Text;
+
+using System.Text.Json;
+
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
+namespace MachineInspections
+{
+    public partial class MachineInspectionForm : Form
+    {
+        private InspectionScheduleResult inspectionScheduleResult;
+        private readonly Inspector m_loggedInInspector;
+
+        private Dictionary<string, Color> _intervalColors = new Dictionary<string, Color>
+        {
+            { "Weekly", Color.LightGreen },
+            { "Monthly", Color.LightBlue },
+            { "BiMonthly", Color.Khaki },
+            { "TriMonthly", Color.Gold },
+            { "MidYear", Color.Orange },
+            { "Annual", Color.LightCoral }
+        };
+
+        private List<MachineDefinition> _machines = new List<MachineDefinition>();
+
+        public MachineInspectionForm(Inspector loggedInInspector)
+        {
+            InitializeComponent();
+            inspectionScheduleResult = new InspectionScheduleResult();
+            m_loggedInInspector = loggedInInspector;
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            LoadMachines();
+            BindMachineList();
+        }
+
+        private void LoadMachines()
+        {
+            string folder = Path.Combine("..", "..", "..", @"SharedData\Machines");
+
+            //Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Machines");_$!Directory.Exists(folder))
+                return;
+
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };_$var file in Directory.GetFiles(folder, "*.json"))
+            {
+                var json = File.ReadAllText(file, Encoding.UTF8);
+                var machine = JsonSerializer.Deserialize<MachineDefinition>(json, options);_$machine != null)
+                    _machines.Add(machine);
+            }
+        }
+
+        private void BindMachineList()
+        {
+            lstMachines.DisplayMember = "MachineName";
+            lstMachines.ValueMember = "SerialNumber";
+            lstMachines.DataSource = _machines;
+        }
+
+        private void lstMachines_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var machine = lstMachines.SelectedItem as MachineDefinition;_$machine == null)
+                return;
+
+            ShowMachineDetails(machine);
+            ShowInspectionStatus(machine);
+        }
+
+        private void ShowMachineDetails(MachineDefinition machine)
+        {
+            // lblMachineName.Text = machine.MachineName; lblSerial.Text = machine.SerialNumber;
+
+            // TODO: compute next inspection and set lblNextInspection.Text
+
+            BuildIntervalTabs(machine);
+        }
+
+        private void BuildIntervalTabs(MachineDefinition machine)
+        {
+            tabIntervals.TabPages.Clear();_$var interval in machine.Maintenance)
+            {
+                string key = interval.Key;
+                var tests = interval.Value;_$tests.Count == 0)
+                    continue; // skip empty intervals
+
+                // Use the existing GetIntervalDisplayName helper instead of calling
+                // InspectionScheduleResult.Translate (which is not accessible here).
+                var tab = new TabPage(GetIntervalDisplayName(key))
+                {
+                    Tag = key
+                };
+
+                var panel = new FlowLayoutPanel
+                {
+                    Dock = DockStyle.Fill,
+                    AutoScroll = true,
+                    FlowDirection = FlowDirection.TopDown,
+                    WrapContents = false
+                };_$var test in tests)
+                {
+                    var chk = new CheckBox
+                    {
+                        AutoSize = true,
+                        Text = $"{test.Code} - {test.Description}",
+                        Tag = test
+                    };
+                    panel.Controls.Add(chk);
+                }
+
+                tab.Controls.Add(panel);
+                tabIntervals.TabPages.Add(tab);
+            }
+        }
+
+        private Color GetIntervalColor(string interval)
+        {
+            switch (interval)
+            {
+                case "שבועי":
+                    return Color.DarkGreen;
+
+                case "חודשי":
+                    return Color.DarkBlue;
+
+                case "דו-חודשי":
+                    return Color.DarkViolet;
+
+                case "רבעוני":
+                    return Color.DarkSalmon;
+
+                case "חצי-שנתי":
+                    return Color.DarkOrange;
+
+                case "שנתי":
+                    return Color.DarkRed;
+
+                default:
+                    return Color.Black;
+            }
+        }
+
+        private string GetIntervalDisplayName(string key)
+        {
+            switch (key)
+            {
+                case "Weekly":
+                    return "בדיקה שבועית";
+
+                case "Monthly":
+                    return "בדיקה חודשית";
+
+                case "BiMonthly":
+                    return "בדיקה דו־חודשית";
+
+                case "TriMonthly":
+                    return "בדיקה תלת־חודשית";
+
+                case "MidYear":
+                    return "בדיקה חצי־שנתית";
+
+                case "Annual":
+                    return "בדיקה שנתית";
+
+                default:
+                    return key;
+            }
+        }
+
+        private string GetSharedFolder()
+        {
+            return Path.Combine("..", "..", "..", "SharedData", "InspectionLogs");
+        }
+
+        private void btnSaveInspection_Click(object sender, EventArgs e)
+        {
+            var machine = lstMachines.SelectedItem as MachineDefinition;_$machine == null)
+                return;
+
+            string folder = GetSharedFolder();
+
+            Directory.CreateDirectory(folder);
+
+            string filePath = Path.Combine(folder, $"{machine.MachineName}.Results.csv");
+
+            // Loop through ALL tabs_$TabPage tab in tabIntervals.TabPages)
+            {
+                string intervalKey = GetIntervalKeyFromTab(tab.Text);
+
+                var panel = tab.Controls.OfType<FlowLayoutPanel>().FirstOrDefault();_$panel == null)
+                    continue;
+                // VALIDATION
+                bool allChecked = panel.Controls.OfType<CheckBox>().All(c => c.Checked);_$!allChecked)
+                {
+                    MessageBox.Show(
+                       this,
+                       $"לא ניתן לשמור. יש להשלים את כל הבדיקות עבור '{tab.Text}'.",
+                       "שגיאה",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Warning,
+                   MessageBoxDefaultButton.Button1,
+                   MessageBoxOptions.RightAlign | MessageBoxOptions.RtlReading
+                     );
+
+                    return; // stop saving if validation fails
+                }
+                var results = new List<(string Code, bool Done)>();_$var chk in panel.Controls.OfType<CheckBox>())
+                {
+                    var test = chk.Tag as MaintenanceTest;_$test != null)
+                    {
+                        results.Add((test.Code, chk.Checked));
+                    }
+                }
+
+                // Save this interval’s results
+                AppendInspectionToCsv(machine, intervalKey, results);
+            }
+
+            var result = MessageBox.Show(
+                     this,
+                     $"הבדיקות נשמרו.",
+                     "",
+                     MessageBoxButtons.OK,
+                     MessageBoxIcon.Information,
+                 MessageBoxDefaultButton.Button1,
+                 MessageBoxOptions.RightAlign | MessageBoxOptions.RtlReading
+                   );
+        }
+
+        #region CSV FILE HANDLING
+
+        private void AppendInspectionToCsv(MachineDefinition machine, string intervalKey,
+                                   List<(string Code, bool Done)> results)
+        {
+            try
+            {
+                string filePath = GetActiveCsvFile(machine);
+
+                using (var writer = new StreamWriter(filePath, append: true, new UTF8Encoding(true)))
+                {_$var r in results)
+                    {
+                        string result = r.Done ? "עבר" : "נכשל";
+
+                        writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}," +
+                                         $"{m_loggedInInspector.FirstName} {m_loggedInInspector.LastName}," +
+                                         $"{m_loggedInInspector.ID}," +
+                                         $"{machine.MachineName}," +
+                                         $"{machine.SerialNumber}," +
+                                         $"{intervalKey}," +
+                                         $"{r.Code}," +
+                                         result);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error writing CSV: " + ex.Message);
+                throw;
+            }
+        }
+
+        private string GetActiveCsvFile(MachineDefinition machine)
+        {
+            string folder = GetSharedFolder();
+
+            Directory.CreateDirectory(folder);
+
+            string baseName = GetSetting("CsvBaseName", "Results");
+
+            string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            string filePath = Path.Combine(folder, $"{machine.MachineName}.{baseName}_{timestamp}.csv");
+
+            int maxSizeMB = GetSettingInt("CsvMaxSizeMB", 2);
+            int maxFiles = GetSettingInt("CsvMaxFiles", 50);
+
+            // Find existing files
+            var files = Directory.GetFiles(folder, $"{machine.MachineName}*.csv")
+                                 .OrderBy(f => f)
+                                 .ToList();
+
+            // If no files exist ? create new_$files.Count == 0)
+                return CreateNewCsvFile(machine, folder, baseName);
+
+            string latest = files.Last();
+
+            // Check file size
+            long sizeMB = new FileInfo(latest).Length / (1024 * 1024);_$sizeMB >= maxSizeMB)
+            {
+                latest = CreateNewCsvFile(machine, folder, baseName);
+            }
+
+            // Enforce max file count_$files.Count > maxFiles)
+            {
+                int toDelete = files.Count - maxFiles;_$var old in files.Take(toDelete))
+                    File.Delete(old);
+            }
+
+            return latest;
+        }
+
+        private string CreateNewCsvFile(MachineDefinition machine, string folder, string baseName)
+        {
+            string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            string filePath = Path.Combine(folder, $"{machine.MachineName}.{baseName}_{timestamp}.csv");
+
+            using (var writer = new StreamWriter(filePath, false, new UTF8Encoding(true)))
+            {
+                writer.WriteLine("תאריך,שם הבודק,מספר אישי,מכונה,מס סיריאלי,תדירות,סוג הבדיקה,תוצאות הבדיקה");
+            }
+
+            return filePath;
+        }
+
+        private string GetSetting(string key, string defaultValue)
+        {
+            return ConfigurationManager.AppSettings[key] ?? defaultValue;
+        }
+
+        private int GetSettingInt(string key, int defaultValue)
+        {_$int.TryParse(ConfigurationManager.AppSettings[key], out int value))
+                return value;
+            return defaultValue;
+        }
+
+        #endregion CSV FILE HANDLING
+
+        private string GetIntervalKeyFromTab(string displayName)
+        {
+            switch (displayName)
+            {
+                case "בדיקה שבועית":
+                    return "Weekly";
+
+                case "בדיקה חודשית":
+                    return "Monthly";
+
+                case "בדיקה דו־חודשית":
+                    return "BiMonthly";
+
+                case "בדיקה תלת־חודשית":
+                    return "TriMonthly";
+
+                case "בדיקה חצי־שנתית":
+                    return "MidYear";
+
+                case "בדיקה שנתית":
+                    return "Annual";
+
+                default:
+                    return displayName;
+            }
+        }
+
+        private string _mostUrgentInterval;
+
+        private void tabIntervals_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            TabPage tab = tabIntervals.TabPages[e.Index];
+            string intervalKey = tab.Tag as string;
+
+            bool isUrgent = intervalKey == _mostUrgentInterval;
+            bool isSelected = e.Index == tabIntervals.SelectedIndex;
+
+            Color backColor = Color.White;
+
+            //if (isUrgent)
+            //    baseColor = ControlPaint.Dark(baseColor, 0.25f);
+
+            //if (isSelected)
+            //    baseColor = ControlPaint.Dark(baseColor, 0.15f);
+
+            //using (SolidBrush brush = new SolidBrush(baseColor))
+            //    e.Graphics.FillRectangle(brush, e.Bounds);
+
+            Font font = new Font(tab.Font, FontStyle.Bold);
+            var color = GetIntervalColor(intervalKey);_$isSelected)
+            {
+                FontStyle style = FontStyle.Bold | FontStyle.Underline;
+                font = new Font(font, style);
+            }
+
+            TextRenderer.DrawText(
+                e.Graphics,
+                tab.Text,
+                font,
+                e.Bounds,
+                color,
+                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
+            );
+        }
+
+        private void tabIntervals_DrawItem1(object sender, DrawItemEventArgs e)
+        {
+            TabPage tab = tabIntervals.TabPages[e.Index];
+            string intervalKey = tab.Tag as string;
+            bool isSelected = (e.Index == tabIntervals.SelectedIndex);
+
+            // Base color
+            Color backColor = Color.White;_$intervalKey != null && _intervalColors.ContainsKey(intervalKey))
+                // backColor = _intervalColors[intervalKey];
+
+                // Draw background
+                using (SolidBrush brush = new SolidBrush(backColor))
+                {
+                    // e.Graphics..FillRectangle(new SolidBrush(backColor), e.Bounds);
+                }
+
+            // Draw text
+            Font font = new Font(tab.Font, FontStyle.Bold);
+            var color = GetIntervalColor(intervalKey);_$isSelected)
+            {
+                FontStyle style = FontStyle.Bold | FontStyle.Underline;
+                font = new Font(font, style);
+            }
+
+            TextRenderer.DrawText(
+                e.Graphics,
+                tab.Text,
+                font,
+                e.Bounds,
+               color,
+                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
+            );
+        }
+
+        private void ShowInspectionStatus(MachineDefinition machine)
+        {
+            var schedule = inspectionScheduleResult.CalculateSchedule(machine);
+
+            string text = "";_$var msg in schedule.StatusMessages.Values)
+            {
+                text += msg + "\n";
+            }
+
+            lblInspectionStatus.Text = text.Trim();
+            lblInspectionStatus.TextAlign = ContentAlignment.TopLeft;
+            lblInspectionStatus.RightToLeft = RightToLeft.Yes;
+
+            _mostUrgentInterval = schedule.MostUrgentInterval;
+
+            tabIntervals.Invalidate(); // redraw tabs with highlight
+        }
+    }
+}
+// End MachineInspectionForm.txt
+
+// Begin MaintenanceTest.txt
+using System;
+using System.Linq;
+
+namespace MachineInspections
+{
+    public class MaintenanceTest
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+}
+// End MaintenanceTest.txt
+
+// Begin Program.txt
+using MachineMaintenance;
+using System.Windows.Forms;
+
+namespace MachineInspections
+{
+    internal static class Program
+    {
+        private static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            using (var login = new LoginForm())
+            {_$login.ShowDialog() == DialogResult.OK)
+                {
+                    Application_$new MachineInspectionForm(login.LoggedInInspector));
+                }
+            }
+        }
+    }
+}
+// End Program.txt
+
+// Begin AddInspectionEditorForm.txt
+namespace MachineMaintenance
+{
+    using System;
+    using System.Windows.Forms;
+
+    public class AddInspectionEditorForm : Form
+    {
+        private Label lblCode;
+        private Label lblDescription;
+        private TextBox txtCode;
+        private TextBox txtDescription;
+        private Button btnOK;
+        private Button btnCancel;
+
+        public string Code => txtCode.Text.Trim();
+        public string Description => txtDescription.Text.Trim();
+
+        public AddInspectionEditorForm(string code = "", string description = "")
+        {
+            InitializeComponent();
+
+            txtCode.Text = code;
+            txtDescription.Text = description;_$!string.IsNullOrEmpty(code))
+                this.Text = "Edit Test";
+            else
+                this.Text = "Add Test";
+        }
+
+        private void InitializeComponent()
+        {
+            this.lblCode = new System.Windows.Forms.Label();
+            this.lblDescription = new System.Windows.Forms.Label();
+            this.txtCode = new System.Windows.Forms.TextBox();
+            this.txtDescription = new System.Windows.Forms.TextBox();
+            this.btnOK = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            //
+            // lblCode
+            //
+            this.lblCode.AutoSize = true;
+            this.lblCode.Location = new System.Drawing.Point(20, 20);
+            this.lblCode.Name = "lblCode";
+            this.lblCode.Size = new System.Drawing.Size(77, 16);
+            this.lblCode.TabIndex = 0;
+            this.lblCode.Text = "קוד לבדיקה:";
+            //
+            // lblDescription
+            //
+            this.lblDescription.AutoSize = true;
+            this.lblDescription.Location = new System.Drawing.Point(20, 60);
+            this.lblDescription.Name = "lblDescription";
+            this.lblDescription.Size = new System.Drawing.Size(39, 16);
+            this.lblDescription.TabIndex = 2;
+            this.lblDescription.Text = "תאור:";
+            //
+            // txtCode
+            //
+            this.txtCode.Location = new System.Drawing.Point(120, 18);
+            this.txtCode.Name = "txtCode";
+            this.txtCode.Size = new System.Drawing.Size(220, 22);
+            this.txtCode.TabIndex = 1;
+            //
+            // txtDescription
+            //
+            this.txtDescription.Location = new System.Drawing.Point(120, 58);
+            this.txtDescription.Multiline = true;
+            this.txtDescription.Name = "txtDescription";
+            this.txtDescription.Size = new System.Drawing.Size(220, 60);
+            this.txtDescription.TabIndex = 3;
+            //
+            // btnOK
+            //
+            this.btnOK.Location = new System.Drawing.Point(120, 140);
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Size = new System.Drawing.Size(75, 23);
+            this.btnOK.TabIndex = 4;
+            this.btnOK.Text = "שמור";
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            //
+            // btnCancel
+            //
+            this.btnCancel.Location = new System.Drawing.Point(220, 140);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 5;
+            this.btnCancel.Text = "בטל";
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            //
+            // AddInspectionEditorForm
+            //
+            this.ClientSize = new System.Drawing.Size(380, 200);
+            this.Controls.Add(this.lblCode);
+            this.Controls.Add(this.txtCode);
+            this.Controls.Add(this.lblDescription);
+            this.Controls.Add(this.txtDescription);
+            this.Controls.Add(this.btnOK);
+            this.Controls.Add(this.btnCancel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "AddInspectionEditorForm";
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "הוסף בדיקה";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {_$string.IsNullOrWhiteSpace(txtCode.Text))
+            {
+                MessageBox.Show("Test code cannot be empty.");
+                return;
+            }_$string.IsNullOrWhiteSpace(txtDescription.Text))
+            {
+                MessageBox.Show("Description cannot be empty.");
+                return;
+            }
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+    }
+}
+// End AddInspectionEditorForm.txt
+
+// Begin IntervalEditorForm.txt
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace MachineMaintenance
+{
+    public class IntervalEditorForm : Form
+    {
+        private Label lblName;
+        private Label lblDays;
+        private TextBox txtName;
+        private TextBox txtDays;
+        private Button btnOK;
+        private Button btnCancel;
+
+        public string IntervalName => txtName.Text.Trim();
+        public int IntervalDays => int.TryParse(txtDays.Text.Trim(), out int d) ? d : 0;
+
+        public IntervalEditorForm()
+        {
+            InitializeComponent();
+        }
+
+        private void InitializeComponent()
+        {
+            this.lblName = new Label();
+            this.lblDays = new Label();
+            this.txtName = new TextBox();
+            this.txtDays = new TextBox();
+            this.btnOK = new Button();
+            this.btnCancel = new Button();
+
+            // Form
+            this.ClientSize = new Size(300, 160);
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.StartPosition = FormStartPosition.CenterParent;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Text = "הוסף מועד";
+            this.RightToLeft = RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+
+            // Label: Name
+            this.lblName.AutoSize = true;
+            this.lblName.Location = new Point(20, 20);
+            this.lblName.Text = "שם:";
+
+            // TextBox: Name
+            this.txtName.Location = new Point(100, 18);
+            this.txtName.Size = new Size(160, 22);
+
+            // Label: Days
+            this.lblDays.AutoSize = true;
+            this.lblDays.Location = new Point(20, 60);
+            this.lblDays.Text = "ימים:";
+
+            // TextBox: Days
+            this.txtDays.Location = new Point(100, 58);
+            this.txtDays.Size = new Size(160, 22);
+
+            // OK Button
+            this.btnOK.Location = new Point(50, 110);
+            this.btnOK.Size = new Size(80, 30);
+            this.btnOK.Text = "אישור";
+            this.btnOK.Click += new EventHandler(this.btnOK_Click);
+
+            // Cancel Button
+            this.btnCancel.Location = new Point(150, 110);
+            this.btnCancel.Size = new Size(80, 30);
+            this.btnCancel.Text = "ביטול";
+            this.btnCancel.Click += new EventHandler(this.btnCancel_Click);
+
+            // Add controls
+            this.Controls.Add(this.lblName);
+            this.Controls.Add(this.txtName);
+            this.Controls.Add(this.lblDays);
+            this.Controls.Add(this.txtDays);
+            this.Controls.Add(this.btnOK);
+            this.Controls.Add(this.btnCancel);
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {_$string.IsNullOrWhiteSpace(txtName.Text))
+            {
+                MessageBox.Show("שם המועד לא יכול להיות ריק");
+                return;
+            }_$!int.TryParse(txtDays.Text, out _))
+            {
+                MessageBox.Show("ימים חייבים להיות מספר");
+                return;
+            }
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+    }
+}
+// End IntervalEditorForm.txt
+
+// Begin MachineDefinition.txt
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MachineMaintenance
+{
+    public class MachineDefinition
+    {
+        public string MachineName { get; set; }
+        public string SerialNumber { get; set; }
+        public Dictionary<string, int> MaintenanceSchedule { get; set; }
+
+        public DateTime LastInspectionDate { get; set; }
+        public string LastInspectionType { get; set; }
+
+        public Dictionary<string, List<MaintenanceTest>> Maintenance { get; set; }
+    }
+}
+// End MachineDefinition.txt
+
+// Begin MachineMaintenceForm.Designer.txt
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace MachineMaintenance
+{
+
+    partial class MachineMaintenenceForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {_$disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.lblSerial = new System.Windows.Forms.Label();
+            this.txtSerial = new System.Windows.Forms.TextBox();
+            this.lblSchedule = new System.Windows.Forms.Label();
+            this.dgvSchedule = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lblTests = new System.Windows.Forms.Label();
+            this.treeTests = new System.Windows.Forms.TreeView();
+            this.btnAddTest = new System.Windows.Forms.Button();
+            this.btnEditTest = new System.Windows.Forms.Button();
+            this.btnDeleteTest = new System.Windows.Forms.Button();
+            this.btnLoadJson = new System.Windows.Forms.Button();
+            this.btnSaveJson = new System.Windows.Forms.Button();
+            this.lblSelectMachine = new System.Windows.Forms.Label();
+            this.cmbMachines = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnAddInterval = new System.Windows.Forms.Button();
+            this.btnDeleteInterval = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnAddMachine = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSchedule)).BeginInit();
+            this.SuspendLayout();
+            //
+            // lblSerial
+            //
+            this.lblSerial.AutoSize = true;
+            this.lblSerial.Location = new System.Drawing.Point(918, 98);
+            this.lblSerial.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSerial.Name = "lblSerial";
+            this.lblSerial.Size = new System.Drawing.Size(64, 16);
+            this.lblSerial.TabIndex = 2;
+            this.lblSerial.Text = "מס סידורי";
+            //
+            // txtSerial
+            //
+            this.txtSerial.Location = new System.Drawing.Point(564, 95);
+            this.txtSerial.Margin = new System.Windows.Forms.Padding(4);
+            this.txtSerial.Name = "txtSerial";
+            this.txtSerial.Size = new System.Drawing.Size(265, 22);
+            this.txtSerial.TabIndex = 3;
+            //
+            // lblSchedule
+            //
+            this.lblSchedule.AutoSize = true;
+            this.lblSchedule.Location = new System.Drawing.Point(887, 145);
+            this.lblSchedule.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSchedule.Name = "lblSchedule";
+            this.lblSchedule.Size = new System.Drawing.Size(95, 16);
+            this.lblSchedule.TabIndex = 8;
+            this.lblSchedule.Text = "תדירות בדיקות";
+            //
+            // dgvSchedule
+            //
+            this.dgvSchedule.ColumnHeadersHeight = 29;
+            this.dgvSchedule.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2});
+            this.dgvSchedule.Location = new System.Drawing.Point(542, 175);
+            this.dgvSchedule.Margin = new System.Windows.Forms.Padding(4);
+            this.dgvSchedule.Name = "dgvSchedule";
+            this.dgvSchedule.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.dgvSchedule.RowHeadersWidth = 51;
+            this.dgvSchedule.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.dgvSchedule.Size = new System.Drawing.Size(378, 246);
+            this.dgvSchedule.TabIndex = 9;
+            //
+            // dataGridViewTextBoxColumn1
+            //
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridViewTextBoxColumn1.HeaderText = "שם הבדיקה";
+            this.dataGridViewTextBoxColumn1.MinimumWidth = 180;
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            //
+            // dataGridViewTextBoxColumn2
+            //
+            this.dataGridViewTextBoxColumn2.HeaderText = "תדירות";
+            this.dataGridViewTextBoxColumn2.MinimumWidth = 80;
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.Width = 125;
+            //
+            // lblTests
+            //
+            this.lblTests.AutoSize = true;
+            this.lblTests.Location = new System.Drawing.Point(439, 31);
+            this.lblTests.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTests.Name = "lblTests";
+            this.lblTests.Size = new System.Drawing.Size(49, 16);
+            this.lblTests.TabIndex = 10;
+            this.lblTests.Text = "בדיקות";
+            //
+            // treeTests
+            //
+            this.treeTests.AllowDrop = true;
+            this.treeTests.HideSelection = false;
+            this.treeTests.Location = new System.Drawing.Point(32, 63);
+            this.treeTests.Margin = new System.Windows.Forms.Padding(4);
+            this.treeTests.Name = "treeTests";
+            this.treeTests.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.treeTests.RightToLeftLayout = true;
+            this.treeTests.Size = new System.Drawing.Size(465, 454);
+            this.treeTests.TabIndex = 11;
+            this.treeTests.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeTests_ItemDrag);
+            this.treeTests.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeTests_DragDrop);
+            this.treeTests.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeTests_DragEnter);
+            this.treeTests.DragOver += new System.Windows.Forms.DragEventHandler(this.treeTests_DragOver);
+            //
+            // btnAddTest
+            //
+            this.btnAddTest.Location = new System.Drawing.Point(377, 644);
+            this.btnAddTest.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAddTest.Name = "btnAddTest";
+            this.btnAddTest.Size = new System.Drawing.Size(113, 28);
+            this.btnAddTest.TabIndex = 12;
+            this.btnAddTest.Text = "הוסף בדיקה";
+            this.btnAddTest.Click += new System.EventHandler(this.btnAddTest_Click);
+            //
+            // btnEditTest
+            //
+            this.btnEditTest.Location = new System.Drawing.Point(124, 644);
+            this.btnEditTest.Margin = new System.Windows.Forms.Padding(4);
+            this.btnEditTest.Name = "btnEditTest";
+            this.btnEditTest.Size = new System.Drawing.Size(107, 28);
+            this.btnEditTest.TabIndex = 13;
+            this.btnEditTest.Text = "ערוך בדיקה";
+            this.btnEditTest.Click += new System.EventHandler(this.btnEditTest_Click);
+            //
+            // btnDeleteTest
+            //
+            this.btnDeleteTest.Location = new System.Drawing.Point(256, 644);
+            this.btnDeleteTest.Margin = new System.Windows.Forms.Padding(4);
+            this.btnDeleteTest.Name = "btnDeleteTest";
+            this.btnDeleteTest.Size = new System.Drawing.Size(100, 28);
+            this.btnDeleteTest.TabIndex = 14;
+            this.btnDeleteTest.Text = "מחק בדיקה";
+            this.btnDeleteTest.Click += new System.EventHandler(this.btnDeleteTest_Click);
+            //
+            // btnLoadJson
+            //
+            this.btnLoadJson.Location = new System.Drawing.Point(882, 506);
+            this.btnLoadJson.Margin = new System.Windows.Forms.Padding(4);
+            this.btnLoadJson.Name = "btnLoadJson";
+            this.btnLoadJson.Size = new System.Drawing.Size(100, 28);
+            this.btnLoadJson.TabIndex = 15;
+            this.btnLoadJson.Text = "טען נתונים";
+            this.btnLoadJson.Visible = false;
+            this.btnLoadJson.Click += new System.EventHandler(this.btnLoadJson_Click);
+            //
+            // btnSaveJson
+            //
+            this.btnSaveJson.Location = new System.Drawing.Point(324, 692);
+            this.btnSaveJson.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSaveJson.Name = "btnSaveJson";
+            this.btnSaveJson.Size = new System.Drawing.Size(167, 28);
+            this.btnSaveJson.TabIndex = 16;
+            this.btnSaveJson.Text = "שמור נתונים";
+            this.btnSaveJson.Click += new System.EventHandler(this.btnSaveJson_Click);
+            //
+            // lblSelectMachine
+            //
+            this.lblSelectMachine.AutoSize = true;
+            this.lblSelectMachine.Location = new System.Drawing.Point(919, 63);
+            this.lblSelectMachine.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSelectMachine.Name = "lblSelectMachine";
+            this.lblSelectMachine.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblSelectMachine.Size = new System.Drawing.Size(66, 16);
+            this.lblSelectMachine.TabIndex = 0;
+            this.lblSelectMachine.Text = "בחר מכונה";
+            //
+            // cmbMachines
+            //
+            this.cmbMachines.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbMachines.Location = new System.Drawing.Point(560, 59);
+            this.cmbMachines.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbMachines.Name = "cmbMachines";
+            this.cmbMachines.Size = new System.Drawing.Size(269, 24);
+            this.cmbMachines.TabIndex = 1;
+            this.cmbMachines.SelectedIndexChanged += new System.EventHandler(this.cmbMachines_SelectedIndexChanged);
+            //
+            // label1
+            //
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(53, 537);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.label1.Size = new System.Drawing.Size(362, 16);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "* בכדי להוסיף, למחוק, או לערוך בדיקה יש לעמוד על הענף בעץ";
+            //
+            // btnAddInterval
+            //
+            this.btnAddInterval.Location = new System.Drawing.Point(395, 571);
+            this.btnAddInterval.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAddInterval.Name = "btnAddInterval";
+            this.btnAddInterval.Size = new System.Drawing.Size(100, 28);
+            this.btnAddInterval.TabIndex = 0;
+            this.btnAddInterval.Text = "הוסף מועד";
+            this.btnAddInterval.Click += new System.EventHandler(this.btnAddInterval_Click);
+            //
+            // btnDeleteInterval
+            //
+            this.btnDeleteInterval.Location = new System.Drawing.Point(269, 571);
+            this.btnDeleteInterval.Margin = new System.Windows.Forms.Padding(4);
+            this.btnDeleteInterval.Name = "btnDeleteInterval";
+            this.btnDeleteInterval.Size = new System.Drawing.Size(100, 28);
+            this.btnDeleteInterval.TabIndex = 18;
+            this.btnDeleteInterval.Text = "מחק מועד";
+            this.btnDeleteInterval.Click += new System.EventHandler(this.btnDeleteInterval_Click);
+            //
+            // label2
+            //
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(145, 607);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.label2.Size = new System.Drawing.Size(285, 16);
+            this.label2.TabIndex = 19;
+            this.label2.Text = "* לאחר הוספת מועד ניתן לגרור אותו למקום הרצוי";
+            //
+            // btnAddMachine
+            //
+            this.btnAddMachine.Location = new System.Drawing.Point(797, 451);
+            this.btnAddMachine.Name = "btnAddMachine";
+            this.btnAddMachine.Size = new System.Drawing.Size(185, 23);
+            this.btnAddMachine.TabIndex = 0;
+            this.btnAddMachine.Text = "הוסף מכונה";
+            this.btnAddMachine.Click += new System.EventHandler(this.OnAddMachine);
+            //
+            // MachineMaintenenceForm
+            //
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1053, 779);
+            this.Controls.Add(this.btnAddMachine);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.btnAddInterval);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblSelectMachine);
+            this.Controls.Add(this.cmbMachines);
+            this.Controls.Add(this.lblSerial);
+            this.Controls.Add(this.txtSerial);
+            this.Controls.Add(this.lblSchedule);
+            this.Controls.Add(this.dgvSchedule);
+            this.Controls.Add(this.lblTests);
+            this.Controls.Add(this.treeTests);
+            this.Controls.Add(this.btnAddTest);
+            this.Controls.Add(this.btnEditTest);
+            this.Controls.Add(this.btnDeleteTest);
+            this.Controls.Add(this.btnLoadJson);
+            this.Controls.Add(this.btnSaveJson);
+            this.Controls.Add(this.btnDeleteInterval);
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Name = "MachineMaintenenceForm";
+            this.RightToLeftLayout = true;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "טופס מכונות";
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSchedule)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+
+
+        #endregion
+
+        #region UI Controls
+        private System.Windows.Forms.TextBox txtSerial;
+
+        private System.Windows.Forms.DataGridView dgvSchedule;
+
+        private System.Windows.Forms.TreeView treeTests;
+
+        private System.Windows.Forms.Button btnAddTest;
+        private System.Windows.Forms.Button btnEditTest;
+        private System.Windows.Forms.Button btnDeleteTest;
+
+        private System.Windows.Forms.Button btnLoadJson;
+        private System.Windows.Forms.Button btnSaveJson;
+        private System.Windows.Forms.Label lblSerial;
+        private System.Windows.Forms.Label lblSchedule;
+        private System.Windows.Forms.Label lblTests;
+        private Button btnAddInterval;
+        private Button btnAddMachine;
+
+
+        private ComboBox cmbMachines;
+        private Label lblSelectMachine;
+        private Button btnDeleteInterval;
+
+
+        //load json
+
+
+        #endregion
+        private Label label1;
+        private Label label2;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+    }
+}
+
+
+// End MachineMaintenceForm.Designer.txt
+
+// Begin MachineMaintenceForm.txt
+using System;
+
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+
+using System.Text;
+using System.Text.Json;
+using System.Windows.Forms;
+
+namespace MachineMaintenance
+{
+    public partial class MachineMaintenenceForm : Form
+    {
+        private bool _isLoadingMachine = false;
+        private MachineDefinition _machine;
+
+        public MachineMaintenenceForm()
+        {
+            InitializeComponent();
+            LoadMachineList();
+        }
+
+        private void LoadMachineList()
+        {
+            _isLoadingMachine = true;
+            //string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Machines");
+            string folder = Path.Combine("..", "..", "..", @"SharedData\Machines");
+            Directory.CreateDirectory(folder);
+
+            cmbMachines.Items.Clear();
+            cmbMachines.Items.Add("");_$var file in Directory.GetFiles(folder, "*.json"))
+            {
+                string machineName = Path.GetFileNameWithoutExtension(file);
+                cmbMachines.Items.Add(machineName);
+            }_$cmbMachines.Items.Count > 0)
+                cmbMachines.SelectedIndex = 0;
+            _isLoadingMachine = false;
+        }
+
+        private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            PropertyNameCaseInsensitive = true,
+            ReadCommentHandling = JsonCommentHandling.Skip,
+            AllowTrailingCommas = true
+        };
+
+        #region *** ****** Load/Save JSON *********
+
+        private void btnLoadJson_Click(object sender, EventArgs e)
+        {
+            var dlg = new OpenFileDialog();
+            dlg.Filter = "JSON Files|*.json";_$dlg.ShowDialog() == DialogResult.OK)
+            {
+                string json = File.ReadAllText(dlg.FileName, Encoding.UTF8);
+                _machine = JsonSerializer.Deserialize<MachineDefinition>(json, _jsonOptions);
+
+                PopulateUI();
+            }
+        }
+
+        private void UpdateMachineFromUI()
+        {_$_machine == null)
+                _machine = new MachineDefinition();
+
+            // Machine basic info
+            _machine.MachineName = cmbMachines.SelectedText.Trim();
+            _machine.SerialNumber = txtSerial.Text.Trim();
+
+            // Maintenance Schedule (Weekly, Monthly, etc.)
+            _machine.MaintenanceSchedule = new Dictionary<string, int>();_$DataGridViewRow row in dgvSchedule.Rows)
+            {_$row.IsNewRow)
+                    continue;
+
+                var interval = row.Cells[0].Value?.ToString()?.Trim();
+                var daysValue = row.Cells[1].Value?.ToString()?.Trim();_$string.IsNullOrEmpty(interval))
+                    continue;_$string.IsNullOrEmpty(daysValue))
+                    continue;_$int.TryParse(daysValue, out int days))
+                {
+                    _machine.MaintenanceSchedule[interval] = days;
+                }
+            }
+        }
+
+        private void PopulateUI()
+        {
+            // Machine Name (ComboBox)
+            //cmbMachines.Items.Clear();
+            //cmbMachines.Items.Add(_machine.MachineName);
+            //cmbMachines.SelectedItem = _machine.MachineName;
+
+            // Serial Number
+            txtSerial.Text = _machine.SerialNumber;
+
+            // Last Inspection
+
+            // Schedule grid
+            dgvSchedule.Rows.Clear();_$var kv in _machine.MaintenanceSchedule)
+                dgvSchedule.Rows.Add(kv.Key, kv.Value);
+
+            // TreeView
+            treeTests.Nodes.Clear();_$var kv in _machine.Maintenance)
+            {
+                TreeNode intervalNode = new TreeNode(kv.Key);_$var test in kv.Value)
+                    intervalNode.Nodes.Add($"{test.Code} - {test.Description}");
+
+                treeTests.Nodes.Add(intervalNode);
+            }
+
+            treeTests.ExpandAll();
+        }
+
+        #endregion *** ****** Load/Save JSON *********
+
+        #region Event handlers for adding/editing/deleting intervals
+
+        private void btnAddInterval_Click(object sender, EventArgs e)
+        {
+            var form = new IntervalEditorForm();_$form.ShowDialog() != DialogResult.OK)
+                return;
+
+            string interval = form.IntervalName;
+
+            // Prevent duplicates_$_machine.Maintenance.ContainsKey(interval))
+            {
+                MessageBox.Show("This interval already exists.");
+                return;
+            }
+
+            // Add to machine data
+            _machine.Maintenance.Add(interval, new List<MaintenanceTest>());
+            _machine.MaintenanceSchedule.Add(interval, form.IntervalDays);
+
+            // Determine insertion index
+            int insertIndex = treeTests.Nodes.Count; // default: end_$treeTests.SelectedNode != null)
+            {
+                TreeNode selected = treeTests.SelectedNode;
+
+                // If user clicked a test, use its parent interval_$selected.Parent != null)
+                    selected = selected.Parent;
+
+                insertIndex = selected.Index + 1;
+            }
+
+            // Insert into TreeView
+            TreeNode newNode = new TreeNode(interval);
+            treeTests.Nodes.Insert(insertIndex, newNode);
+
+            // Insert into schedule grid at same index
+            dgvSchedule.Rows.Insert(insertIndex, interval, form.IntervalDays);
+        }
+
+        private void btnDeleteInterval_Click(object sender, EventArgs e)
+        {_$treeTests.SelectedNode == null)
+                return;
+
+            TreeNode node = treeTests.SelectedNode;
+
+            // Only allow deleting intervals (top-level nodes)_$node.Parent != null)
+            {
+                MessageBox.Show("ניתן למחוק רק מועד (לא בדיקה)");
+                return;
+            }
+
+            string interval = node.Text;
+
+            // Confirm_$MessageBox.Show($"למחוק את המועד '{interval}'?", "אישור מחיקה",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
+                return;
+
+            // Remove from machine data_$_machine.Maintenance.ContainsKey(interval))
+                _machine.Maintenance.Remove(interval);_$_machine.MaintenanceSchedule.ContainsKey(interval))
+                _machine.MaintenanceSchedule.Remove(interval);
+
+            // Remove from TreeView
+            treeTests.Nodes.Remove(node);
+
+            // Remove from schedule grid_$DataGridViewRow row in dgvSchedule.Rows)
+            {_$row.Cells[0].Value?.ToString() == interval)
+                {
+                    dgvSchedule.Rows.Remove(row);
+                    _$
+                }
+            }
+        }
+
+        private void btnAddTest_Click(object sender, EventArgs e)
+        {_$treeTests.SelectedNode == null)
+                return;
+
+            TreeNode intervalNode = treeTests.SelectedNode;_$intervalNode.Parent != null)
+                intervalNode = intervalNode.Parent;
+
+            string interval = intervalNode.Text;
+
+            var form = new AddInspectionEditorForm(); // small dialog with Code + Description_$form.ShowDialog() == DialogResult.OK)
+            {
+                var test = new MaintenanceTest
+                {
+                    Code = form.Code,
+                    Description = form.Description
+                };
+
+                _machine.Maintenance[interval].Add(test);
+                intervalNode.Nodes.Add($"{test.Code} - {test.Description}");
+            }
+        }
+
+        private void btnEditTest_Click(object sender, EventArgs e)
+        {_$treeTests.SelectedNode == null || treeTests.SelectedNode.Parent == null)
+                return;
+
+            string interval = treeTests.SelectedNode.Parent.Text;
+            string code = treeTests.SelectedNode.Text.Split('-')[0].Trim();
+
+            var test = _machine.Maintenance[interval].First(t => t.Code == code);
+
+            var form = new AddInspectionEditorForm(test.Code, test.Description);_$form.ShowDialog() == DialogResult.OK)
+            {
+                test.Code = form.Code;
+                test.Description = form.Description;
+
+                treeTests.SelectedNode.Text = $"{test.Code} - {test.Description}";
+            }
+        }
+
+        private void btnSaveJson_Click1(object sender, EventArgs e)
+        {
+            // Update machine info
+            _machine.MachineName = cmbMachines.Text;
+            _machine.SerialNumber = txtSerial.Text;
+
+            // Update schedule
+            _machine.MaintenanceSchedule.Clear();_$DataGridViewRow row in dgvSchedule.Rows)
+            {_$row.Cells[0].Value == null)
+                    continue;
+                string key = row.Cells[0].Value.ToString();
+                int days = Convert.ToInt32(row.Cells[1].Value);
+                _machine.MaintenanceSchedule[key] = days;
+            }
+
+            // Save JSON
+            var dlg = new SaveFileDialog();
+            dlg.Filter = "JSON Files|*.json";_$dlg.ShowDialog() == DialogResult.OK)
+            {
+                string json = JsonSerializer.Serialize(_machine, _jsonOptions);
+                File.WriteAllText(dlg.FileName, json, Encoding.UTF8);
+                MessageBox.Show("JSON saved.");
+            }
+        }
+
+        private void btnDeleteTest_Click(object sender, EventArgs e)
+        {_$treeTests.SelectedNode == null || treeTests.SelectedNode.Parent == null)
+                return;
+
+            string interval = treeTests.SelectedNode.Parent.Text;
+            string code = treeTests.SelectedNode.Text.Split('-')[0].Trim();
+
+            _machine.Maintenance[interval].RemoveAll(t => t.Code == code);
+            treeTests.SelectedNode.Remove();
+        }
+
+        private void cmbMachines_SelectedIndexChanged(object sender, EventArgs e)
+        {_$_isLoadingMachine)
+                return;   // <-- prevents recursion_$cmbMachines.SelectedItem == null)
+                return;
+
+            string machineName = cmbMachines.SelectedItem.ToString();
+            string folder = Path.Combine("..", "..", "..", @"SharedData\Machines");
+            //Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Machines");
+
+            string filePath = Path.Combine(folder, machineName + ".json");_$!File.Exists(filePath))
+            {
+                MessageBox.Show("Machine file not found: " + filePath);
+                return;
+            }
+
+            string json = File.ReadAllText(filePath, Encoding.UTF8);
+            _machine = JsonSerializer.Deserialize<MachineDefinition>(json, _jsonOptions);
+
+            PopulateUI();
+        }
+
+        private void btnSaveJson_Click(object sender, EventArgs e)
+        {_$cmbMachines.SelectedItem == null)
+            {
+                MessageBox.Show("Select a machine first.");
+                return;
+            }
+
+            UpdateMachineFromUI();
+
+            string machineName = cmbMachines.SelectedItem.ToString();
+            string folder = Path.Combine("..", "..", "..", @"SharedData\Machines");
+
+            //Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Machines");
+            string filePath = Path.Combine(folder, machineName + ".json");
+
+            string json = JsonSerializer.Serialize(_machine, _jsonOptions);
+            File.WriteAllText(filePath, json, Encoding.UTF8);
+
+            MessageBox.Show("Machine JSON saved.");
+        }
+
+        private void OnAddMachine(object sender, EventArgs e)
+
+        {
+            var form = new NewMachineForm();_$form.ShowDialog() != DialogResult.OK)
+                return;
+
+            string newName = form.MachineName;
+
+            string folder = Path.Combine("..", "..", "..", @"SharedData\Machines");
+            Directory.CreateDirectory(folder);
+
+            string filePath = Path.Combine(folder, newName + ".json");_$File.Exists(filePath))
+            {
+                MessageBox.Show("מכונה בשם זה כבר קיימת.");
+                return;
+            }
+
+            // Create new machine object
+            _machine = new MachineDefinition
+            {
+                MachineName = newName,
+                SerialNumber = "",
+                LastInspectionDate = DateTime.Now,
+                LastInspectionType = "",
+                Maintenance = new Dictionary<string, List<MaintenanceTest>>(),
+                MaintenanceSchedule = new Dictionary<string, int>()
+            };
+
+            // Save empty machine JSON
+            string json = JsonSerializer.Serialize(_machine, _jsonOptions);
+            File.WriteAllText(filePath, json, Encoding.UTF8);
+
+            // Refresh machine list
+            LoadMachineList();
+
+            // Select the new machine
+            cmbMachines.SelectedItem = newName;
+
+            MessageBox.Show("מכונה חדשה נוספה בהצלחה.");
+        }
+
+        #endregion Event handlers for adding/editing/deleting intervals
+
+        #region ********* Allow dropping on the TreeView
+
+        private void treeTests_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            DoDragDrop(e.Item, DragDropEffects.Move);
+        }
+
+        private void treeTests_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+        }
+
+        private void treeTests_DragOver(object sender, DragEventArgs e)
+        {
+            Point targetPoint = treeTests.PointToClient(new Point(e.X, e.Y));
+            treeTests.SelectedNode = treeTests.GetNodeAt(targetPoint);
+            e.Effect = DragDropEffects.Move;
+        }
+
+        private void treeTests_DragDrop(object sender, DragEventArgs e)
+        {
+            TreeNode draggedNode = (TreeNode)e.Data.GetData(_$(TreeNode));
+            Point targetPoint = treeTests.PointToClient(new Point(e.X, e.Y));
+            TreeNode targetNode = treeTests.GetNodeAt(targetPoint);_$draggedNode == null || targetNode == null || draggedNode == targetNode)
+                return;
+
+            // Only allow reordering of intervals (top-level nodes)_$draggedNode.Parent != null || targetNode.Parent != null)
+            {
+                MessageBox.Show("ניתן לגרור רק מועדים (לא בדיקות)");
+                return;
+            }
+
+            int oldIndex = draggedNode.Index;
+            int newIndex = targetNode.Index;
+
+            // Insert AFTER the target node_$newIndex > oldIndex)
+                newIndex++; // adjust for removal
+
+            treeTests.Nodes.Remove(draggedNode);
+            treeTests.Nodes.Insert(newIndex, draggedNode);
+
+            treeTests.SelectedNode = draggedNode;
+
+            // Update the underlying JSON order
+            ReorderIntervalsToMatchTree();
+        }
+
+        private void ReorderIntervalsToMatchTree()
+        {
+            var newMaintenance = new Dictionary<string, List<MaintenanceTest>>();
+            var newSchedule = new Dictionary<string, int>();_$TreeNode node in treeTests.Nodes)
+            {
+                string interval = node.Text;_$_machine.Maintenance.ContainsKey(interval))
+                    newMaintenance.Add(interval, _machine.Maintenance[interval]);_$_machine.MaintenanceSchedule.ContainsKey(interval))
+                    newSchedule.Add(interval, _machine.MaintenanceSchedule[interval]);
+            }
+
+            _machine.Maintenance = newMaintenance;
+            _machine.MaintenanceSchedule = newSchedule;
+
+            // Also reorder the schedule grid
+            dgvSchedule.Rows.Clear();_$var kv in _machine.MaintenanceSchedule)
+                dgvSchedule.Rows.Add(kv.Key, kv.Value);
+        }
+
+        #endregion ********* Allow dropping on the TreeView
+    }
+}
+// End MachineMaintenceForm.txt
+
+// Begin MaintenanceTest.txt
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MachineMaintenance
+{
+    public class MaintenanceTest
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
+}
+// End MaintenanceTest.txt
+
+// Begin NewMachineForm.Designer.txt
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace MachineMaintenance
+{
+    partial class NewMachineForm
+    {
+        private System.ComponentModel.IContainer components = null;
+
+        private Label lblName;
+        private TextBox txtName;
+        private Button btnOK;
+        private Button btnCancel;
+
+        protected override void Dispose(bool disposing)
+        {_$disposing && (components != null))
+                components.Dispose();
+            base.Dispose(disposing);
+        }
+
+        private void InitializeComponent()
+        {
+            this.lblName = new System.Windows.Forms.Label();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.btnOK = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            //
+            // lblName
+            //
+            this.lblName.AutoSize = true;
+            this.lblName.Location = new System.Drawing.Point(27, 24);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(63, 16);
+            this.lblName.TabIndex = 0;
+            this.lblName.Text = "שם מכונה:";
+            //
+            // txtName
+            //
+            this.txtName.Location = new System.Drawing.Point(145, 18);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(150, 22);
+            this.txtName.TabIndex = 1;
+            this.txtName.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            //
+            // btnOK
+            //
+            this.btnOK.Location = new System.Drawing.Point(30, 60);
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Size = new System.Drawing.Size(80, 30);
+            this.btnOK.TabIndex = 2;
+            this.btnOK.Text = "אישור";
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            //
+            // btnCancel
+            //
+            this.btnCancel.Location = new System.Drawing.Point(215, 60);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(80, 30);
+            this.btnCancel.TabIndex = 3;
+            this.btnCancel.Text = "ביטול";
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            //
+            // NewMachineForm
+            //
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(358, 120);
+            this.Controls.Add(this.lblName);
+            this.Controls.Add(this.txtName);
+            this.Controls.Add(this.btnOK);
+            this.Controls.Add(this.btnCancel);
+            this.Name = "NewMachineForm";
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "הוסף מכונה חדשה";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+    }
+}
+
+// End NewMachineForm.Designer.txt
+
+// Begin NewMachineForm.txt
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml.Linq;
+
+namespace MachineMaintenance
+{
+    public partial class NewMachineForm : Form
+    {
+        public string MachineName => txtName.Text.Trim();
+
+        public NewMachineForm()
+        {
+            InitializeComponent();
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {_$string.IsNullOrWhiteSpace(MachineName))
+            {
+                MessageBox.Show("שם המכונה לא יכול להיות ריק");
+                return;
+            }
+
+            this.DialogResult = DialogResult.OK;
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+        }
+    }
+}
+// End NewMachineForm.txt
+
+// Begin Program.txt
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace MachineMaintenance
+{
+    internal static class Program
+    {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        private static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application_$new MachineMaintenenceForm());
+        }
+    }
+}
+// End Program.txt
+
+// Begin AddUserForm.Designer.txt
+using System;
+using System.Linq;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace UserAdmin
+{
+    public partial class AddUserForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {_$disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.lblFirstName = new System.Windows.Forms.Label();
+            this.lblLastName = new System.Windows.Forms.Label();
+            this.lblID = new System.Windows.Forms.Label();
+            this.lblPassword = new System.Windows.Forms.Label();
+            this.txtFirstName = new System.Windows.Forms.TextBox();
+            this.txtLastName = new System.Windows.Forms.TextBox();
+            this.txtID = new System.Windows.Forms.TextBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.btnOK = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            //
+            // lblFirstName
+            //
+            this.lblFirstName.AutoSize = true;
+            this.lblFirstName.Location = new System.Drawing.Point(20, 20);
+            this.lblFirstName.Name = "lblFirstName";
+            this.lblFirstName.Size = new System.Drawing.Size(54, 13);
+            this.lblFirstName.TabIndex = 0;
+            this.lblFirstName.Text = "שם פרטי:";
+            //
+            // lblLastName
+            //
+            this.lblLastName.AutoSize = true;
+            this.lblLastName.Location = new System.Drawing.Point(20, 60);
+            this.lblLastName.Name = "lblLastName";
+            this.lblLastName.Size = new System.Drawing.Size(66, 13);
+            this.lblLastName.TabIndex = 2;
+            this.lblLastName.Text = "שם משפחה:";
+            //
+            // lblID
+            //
+            this.lblID.AutoSize = true;
+            this.lblID.Location = new System.Drawing.Point(20, 100);
+            this.lblID.Name = "lblID";
+            this.lblID.Size = new System.Drawing.Size(54, 13);
+            this.lblID.TabIndex = 4;
+            this.lblID.Text = "מס אישי:";
+            //
+            // lblPassword
+            //
+            this.lblPassword.AutoSize = true;
+            this.lblPassword.Location = new System.Drawing.Point(20, 140);
+            this.lblPassword.Name = "lblPassword";
+            this.lblPassword.Size = new System.Drawing.Size(44, 13);
+            this.lblPassword.TabIndex = 6;
+            this.lblPassword.Text = "סיסמא:";
+            //
+            // txtFirstName
+            //
+            this.txtFirstName.Location = new System.Drawing.Point(120, 18);
+            this.txtFirstName.Name = "txtFirstName";
+            this.txtFirstName.Size = new System.Drawing.Size(200, 20);
+            this.txtFirstName.TabIndex = 1;
+            //
+            // txtLastName
+            //
+            this.txtLastName.Location = new System.Drawing.Point(120, 58);
+            this.txtLastName.Name = "txtLastName";
+            this.txtLastName.Size = new System.Drawing.Size(200, 20);
+            this.txtLastName.TabIndex = 3;
+            //
+            // txtID
+            //
+            this.txtID.Location = new System.Drawing.Point(120, 98);
+            this.txtID.Name = "txtID";
+            this.txtID.Size = new System.Drawing.Size(200, 20);
+            this.txtID.TabIndex = 5;
+            //
+            // txtPassword
+            //
+            this.txtPassword.Location = new System.Drawing.Point(120, 138);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(200, 20);
+            this.txtPassword.TabIndex = 7;
+            this.txtPassword.UseSystemPasswordChar = true;
+            //
+            // btnOK
+            //
+            this.btnOK.Location = new System.Drawing.Point(23, 196);
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Size = new System.Drawing.Size(75, 23);
+            this.btnOK.TabIndex = 8;
+            this.btnOK.Text = "שמור";
+            this.btnOK.Click += new System.EventHandler(this.BtnOK_Click);
+            //
+            // btnCancel
+            //
+            this.btnCancel.Location = new System.Drawing.Point(131, 196);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(80, 23);
+            this.btnCancel.TabIndex = 9;
+            this.btnCancel.Text = "בטל";
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancelClick);
+            //
+            // UserEditorForm
+            //
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lblFirstName);
+            this.Controls.Add(this.txtFirstName);
+            this.Controls.Add(this.lblLastName);
+            this.Controls.Add(this.txtLastName);
+            this.Controls.Add(this.lblID);
+            this.Controls.Add(this.txtID);
+            this.Controls.Add(this.lblPassword);
+            this.Controls.Add(this.txtPassword);
+            this.Controls.Add(this.btnOK);
+            this.Controls.Add(this.btnCancel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "UserEditorForm";
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "טופס הוספת בודק ";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+
+
+        private Label lblFirstName;
+        private Label lblLastName;
+        private Label lblID;
+        private Label lblPassword;
+
+        private TextBox txtFirstName;
+        private TextBox txtLastName;
+        private TextBox txtID;
+        private TextBox txtPassword;
+
+        private Button btnOK;
+        private Button btnCancel;
+
+        public string FirstName => txtFirstName.Text.Trim();
+        public string LastName => txtLastName.Text.Trim();
+        public string UserID => txtID.Text.Trim();
+        public string Password => txtPassword.Text.Trim();
+        #endregion
+    }
+}
+
+// End AddUserForm.Designer.txt
+
+// Begin AddUserForm.txt
+using System;
+using System.Windows.Forms;
+
+namespace UserAdmin
+{
+    public partial class AddUserForm : Form
+    {
+        public AddUserForm() : this(string.Empty, string.Empty, string.Empty, string.Empty)
+        {
+        }
+
+        public AddUserForm(string firstName, string lastName, string id, string password)
+        {
+            InitializeComponent();
+
+            txtFirstName.Text = firstName;
+            txtLastName.Text = lastName;
+            txtID.Text = id;
+            txtPassword.Text = password;
+
+            this.Text = string.IsNullOrEmpty(id) ? "טופס הוספת בודק" : "טופס עריכת בודק";
+        }
+
+        #region event  handlers
+
+        private void BtnCancelClick(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        private void BtnOK_Click(object sender, System.EventArgs e)
+        {_$string.IsNullOrWhiteSpace(FirstName) ||
+                string.IsNullOrWhiteSpace(LastName) ||
+                string.IsNullOrWhiteSpace(UserID))
+            {
+                MessageBox.Show("שם פרטי, שם משפחה ומס אישי הם שדות חובה.");
+                return;
+            }
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        #endregion event  handlers
+    }
+}
+// End AddUserForm.txt
+
+// Begin FormUsersAdmin.Designer.txt
+namespace UserAdmin
+{
+    public partial class FormUsersAdmin
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {_$disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.lblSearch = new System.Windows.Forms.Label();
+            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.dgvUsers = new System.Windows.Forms.DataGridView();
+            this.FirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SecondName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Password = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).BeginInit();
+            this.SuspendLayout();
+            //
+            // lblSearch
+            //
+            this.lblSearch.AutoSize = true;
+            this.lblSearch.Location = new System.Drawing.Point(815, 27);
+            this.lblSearch.Name = "lblSearch";
+            this.lblSearch.Size = new System.Drawing.Size(34, 16);
+            this.lblSearch.TabIndex = 0;
+            this.lblSearch.Text = "חפש:";
+            //
+            // txtSearch
+            //
+            this.txtSearch.Location = new System.Drawing.Point(591, 24);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(200, 22);
+            this.txtSearch.TabIndex = 1;
+            this.txtSearch.Click += new System.EventHandler(this.txtSearch_TextChanged);
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            //
+            // dgvUsers
+            //
+            this.dgvUsers.AllowUserToAddRows = false;
+            this.dgvUsers.AllowUserToDeleteRows = false;
+            this.dgvUsers.ColumnHeadersHeight = 29;
+            this.dgvUsers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.FirstName,
+            this.SecondName,
+            this.ID,
+            this.Password});
+            this.dgvUsers.Location = new System.Drawing.Point(40, 60);
+            this.dgvUsers.Name = "dgvUsers";
+            this.dgvUsers.ReadOnly = true;
+            this.dgvUsers.RowHeadersWidth = 51;
+            this.dgvUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvUsers.Size = new System.Drawing.Size(806, 350);
+            this.dgvUsers.TabIndex = 2;
+            //
+            // FirstName
+            //
+            this.FirstName.DataPropertyName = "FirstName";
+            this.FirstName.HeaderText = "שם";
+            this.FirstName.MinimumWidth = 100;
+            this.FirstName.Name = "FirstName";
+            this.FirstName.ReadOnly = true;
+            this.FirstName.Width = 125;
+            //
+            // SecondName
+            //
+            this.SecondName.DataPropertyName = "SecondName";
+            this.SecondName.HeaderText = "משפחה";
+            this.SecondName.MinimumWidth = 150;
+            this.SecondName.Name = "SecondName";
+            this.SecondName.ReadOnly = true;
+            this.SecondName.Width = 150;
+            //
+            // ID
+            //
+            this.ID.DataPropertyName = "ID";
+            this.ID.HeaderText = "מס אישי";
+            this.ID.MinimumWidth = 6;
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Width = 125;
+            //
+            // Password
+            //
+            this.Password.DataPropertyName = "Password";
+            this.Password.HeaderText = "סיסמא";
+            this.Password.MinimumWidth = 6;
+            this.Password.Name = "Password";
+            this.Password.ReadOnly = true;
+            this.Password.Width = 125;
+            //
+            // btnAdd
+            //
+            this.btnAdd.Location = new System.Drawing.Point(538, 430);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.TabIndex = 3;
+            this.btnAdd.Text = "הוסף בודק";
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            //
+            // btnEdit
+            //
+            this.btnEdit.Location = new System.Drawing.Point(424, 430);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(75, 23);
+            this.btnEdit.TabIndex = 4;
+            this.btnEdit.Text = "ערוך בודק";
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            //
+            // btnDelete
+            //
+            this.btnDelete.Location = new System.Drawing.Point(330, 430);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 5;
+            this.btnDelete.Text = "מחק בודק";
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            //
+            // btnSave
+            //
+            this.btnSave.Location = new System.Drawing.Point(218, 430);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 6;
+            this.btnSave.Text = "שמור";
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            //
+            // FormUsersAdmin
+            //
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(897, 500);
+            this.Controls.Add(this.lblSearch);
+            this.Controls.Add(this.txtSearch);
+            this.Controls.Add(this.dgvUsers);
+            this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.btnEdit);
+            this.Controls.Add(this.btnDelete);
+            this.Controls.Add(this.btnSave);
+            this.Name = "FormUsersAdmin";
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "ניהול בודקים";
+            ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+    }
+}
+
+
+// End FormUsersAdmin.Designer.txt
+
+// Begin FormUsersAdmin.txt
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.Json;
+using System.Windows.Forms;
+
+namespace UserAdmin
+{
+    public partial class FormUsersAdmin : Form
+    {
+        private readonly JsonSerializerOptions _jsonOptions;
+
+        private UsersFile _users = new UsersFile();
+        private string _usersFilePath;
+        private Button btnAdd;
+        private Button btnDelete;
+        private Button btnEdit;
+        private Button btnSave;
+        private DataGridView dgvUsers;
+        private DataGridViewTextBoxColumn FirstName;
+        private DataGridViewTextBoxColumn ID;
+        private Label lblSearch;
+        private DataGridViewTextBoxColumn Password;
+        private DataGridViewTextBoxColumn SecondName;
+        private TextBox txtSearch;
+
+        public FormUsersAdmin()
+        {
+            _jsonOptions = new JsonSerializerOptions { WriteIndented = true, PropertyNameCaseInsensitive = true };
+
+            InitializeComponent();
+            LoadUsers();
+        }
+
+        private string GetSharedFolder()
+        {
+            return Path.Combine("..", "..", "..", "SharedData", "InspectionLogs");
+        }
+
+        // --------------------------------------------------------- ADD USER ---------------------------------------------------------
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            var form = new AddUserForm();_$form.ShowDialog() == DialogResult.OK)
+            {_$_users.Users.Any(x => x.ID == form.UserID))
+                {
+                    MessageBox.Show("משתמש עם מס אישי זה כבר קיים.");
+                    return;
+                }
+
+                var user = new UserRecord
+                {
+                    FirstName = form.FirstName,
+                    LastName = form.LastName,
+                    ID = form.UserID,
+                    Password = form.Password
+                };
+
+                _users.Users.Add(user);
+                SaveUsers();
+                PopulateGrid();
+            }
+        }
+
+        // --------------------------------------------------------- DELETE USER ---------------------------------------------------------
+        private void btnDelete_Click(object sender, EventArgs e)
+        {_$dgvUsers.CurrentRow == null)
+                return;
+
+            string id = dgvUsers.CurrentRow.Cells["ID"].Value?.ToString();
+            var user = _users.Users.FirstOrDefault(u => u.ID == id);_$user == null)
+                return;_$MessageBox.Show(
+                    $"למחוק את המשתמש {user.FirstName} {user.LastName}?",
+                    "אישור",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning) !=
+                DialogResult.Yes)
+                return;
+
+            _users.Users.Remove(user);
+            PopulateGrid();
+        }
+
+        // --------------------------------------------------------- EDIT USER ---------------------------------------------------------
+        private void btnEdit_Click(object sender, EventArgs e)
+        {_$dgvUsers.CurrentRow == null)
+                return;
+
+            string id = dgvUsers.CurrentRow.Cells["ID"].Value?.ToString();
+            var user = _users.Users.FirstOrDefault(u => u.ID == id);_$user == null)
+                return;
+
+            var form = new AddUserForm(user.FirstName, user.LastName, user.ID, user.Password);_$form.ShowDialog() == DialogResult.OK)
+            {_$form.UserID != user.ID && _users.Users.Any(x => x.ID == form.UserID))
+                {
+                    MessageBox.Show("משתמש עם מס אישי זה כבר קיים.");
+                    return;
+                }
+
+                user.FirstName = form.FirstName;
+                user.LastName = form.LastName;
+                user.ID = form.UserID;
+                user.Password = form.Password;
+
+                PopulateGrid();
+            }
+        }
+
+        // --------------------------------------------------------- SAVE BUTTON ---------------------------------------------------------
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            SaveUsers();
+            MessageBox.Show("המשתמשים נשמרו.");
+        }
+
+        // --------------------------------------------------------- INITIALIZE COMPONENT ---------------------------------------------------------
+
+        // --------------------------------------------------------- LOAD & SAVE JSON ---------------------------------------------------------
+        private void LoadUsers()
+        {
+            _usersFilePath = Path.Combine("..", "..", "..", @"SharedData\Users", "users.json");
+            //Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "users.json");_$!File.Exists(_usersFilePath))
+            {
+                _users = new UsersFile();
+                SaveUsers();
+                return;
+            }
+
+            string json = File.ReadAllText(_usersFilePath, Encoding.UTF8);
+            _users = JsonSerializer.Deserialize<UsersFile>(json, _jsonOptions) ?? new UsersFile();
+
+            PopulateGrid();
+        }
+
+        // --------------------------------------------------------- POPULATE GRID ---------------------------------------------------------
+        private void PopulateGrid(IEnumerable<UserRecord> list = null)
+        {
+            dgvUsers.Rows.Clear();
+
+            var usersToShow = list ?? _users.Users;_$var u in usersToShow)
+            {
+                dgvUsers.Rows.Add(u.FirstName, u.LastName, u.ID, u.Password);
+            }
+        }
+
+        private void SaveUsers()
+        {
+            string json = JsonSerializer.Serialize(_users, _jsonOptions);
+            File.WriteAllText(_usersFilePath, json, Encoding.UTF8);
+        }
+
+        // --------------------------------------------------------- SEARCH / FILTER ---------------------------------------------------------
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            string term = txtSearch.Text.Trim().ToLower();
+
+            var filtered = _users.Users
+                .Where(
+                    u => u.FirstName.ToLower().Contains(term) ||
+                        u.LastName.ToLower().Contains(term) ||
+                        u.ID.ToLower().Contains(term));
+
+            PopulateGrid(filtered);
+        }
+    }
+}
+// End FormUsersAdmin.txt
+
+// Begin Program.txt
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace UserAdmin
+{
+    internal static class Program
+    {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        private static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application_$new FormUsersAdmin());
+        }
+    }
+}
+// End Program.txt
+
+// Begin UserRecord.txt
+using System;
+using System.Linq;
+
+namespace UserAdmin
+{
+    // --------------------------------------------------------- DATA MODELS ---------------------------------------------------------
+    public class UserRecord
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string ID { get; set; }
+        public string Password { get; set; }
+    }
+}
+// End UserRecord.txt
+
+// Begin UsersFile.txt
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace UserAdmin
+{
+    public class UsersFile
+    {
+        public List<UserRecord> Users { get; set; } = new List<UserRecord>();
+    }
+}
+// End UsersFile.txt
+
+// Begin Program.txt
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace UserMaintenance
+{
+    internal static class Program
+    {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        private static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application_$new UserEditorForm());
+        }
+    }
+}
+// End Program.txt
+
+// Begin UserEditorForm.Designer.txt
+using System.Windows.Forms;
+
+namespace UserMaintenance
+{
+    public partial class UserEditorForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {_$disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.lblFirstName = new System.Windows.Forms.Label();
+            this.lblLastName = new System.Windows.Forms.Label();
+            this.lblID = new System.Windows.Forms.Label();
+            this.lblPassword = new System.Windows.Forms.Label();
+            this.txtFirstName = new System.Windows.Forms.TextBox();
+            this.txtLastName = new System.Windows.Forms.TextBox();
+            this.txtID = new System.Windows.Forms.TextBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.btnOK = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            //
+            // lblFirstName
+            //
+            this.lblFirstName.AutoSize = true;
+            this.lblFirstName.Location = new System.Drawing.Point(20, 20);
+            this.lblFirstName.Name = "lblFirstName";
+            this.lblFirstName.Size = new System.Drawing.Size(54, 13);
+            this.lblFirstName.TabIndex = 0;
+            this.lblFirstName.Text = "שם פרטי:";
+            //
+            // lblLastName
+            //
+            this.lblLastName.AutoSize = true;
+            this.lblLastName.Location = new System.Drawing.Point(20, 60);
+            this.lblLastName.Name = "lblLastName";
+            this.lblLastName.Size = new System.Drawing.Size(66, 13);
+            this.lblLastName.TabIndex = 2;
+            this.lblLastName.Text = "שם משפחה:";
+            //
+            // lblID
+            //
+            this.lblID.AutoSize = true;
+            this.lblID.Location = new System.Drawing.Point(20, 100);
+            this.lblID.Name = "lblID";
+            this.lblID.Size = new System.Drawing.Size(54, 13);
+            this.lblID.TabIndex = 4;
+            this.lblID.Text = "מס אישי:";
+            //
+            // lblPassword
+            //
+            this.lblPassword.AutoSize = true;
+            this.lblPassword.Location = new System.Drawing.Point(20, 140);
+            this.lblPassword.Name = "lblPassword";
+            this.lblPassword.Size = new System.Drawing.Size(44, 13);
+            this.lblPassword.TabIndex = 6;
+            this.lblPassword.Text = "סיסמא:";
+            //
+            // txtFirstName
+            //
+            this.txtFirstName.Location = new System.Drawing.Point(120, 18);
+            this.txtFirstName.Name = "txtFirstName";
+            this.txtFirstName.Size = new System.Drawing.Size(200, 20);
+            this.txtFirstName.TabIndex = 1;
+            //
+            // txtLastName
+            //
+            this.txtLastName.Location = new System.Drawing.Point(120, 58);
+            this.txtLastName.Name = "txtLastName";
+            this.txtLastName.Size = new System.Drawing.Size(200, 20);
+            this.txtLastName.TabIndex = 3;
+            //
+            // txtID
+            //
+            this.txtID.Location = new System.Drawing.Point(120, 98);
+            this.txtID.Name = "txtID";
+            this.txtID.Size = new System.Drawing.Size(200, 20);
+            this.txtID.TabIndex = 5;
+            //
+            // txtPassword
+            //
+            this.txtPassword.Location = new System.Drawing.Point(120, 138);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(200, 20);
+            this.txtPassword.TabIndex = 7;
+            this.txtPassword.UseSystemPasswordChar = true;
+            //
+            // btnOK
+            //
+            this.btnOK.Location = new System.Drawing.Point(23, 196);
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Size = new System.Drawing.Size(75, 23);
+            this.btnOK.TabIndex = 8;
+            this.btnOK.Text = "שמור";
+            this.btnOK.Click += new System.EventHandler(this.BtnOK_Click);
+            //
+            // btnCancel
+            //
+            this.btnCancel.Location = new System.Drawing.Point(131, 196);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(80, 23);
+            this.btnCancel.TabIndex = 9;
+            this.btnCancel.Text = "בטל";
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancelClick);
+            //
+            // UserEditorForm
+            //
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lblFirstName);
+            this.Controls.Add(this.txtFirstName);
+            this.Controls.Add(this.lblLastName);
+            this.Controls.Add(this.txtLastName);
+            this.Controls.Add(this.lblID);
+            this.Controls.Add(this.txtID);
+            this.Controls.Add(this.lblPassword);
+            this.Controls.Add(this.txtPassword);
+            this.Controls.Add(this.btnOK);
+            this.Controls.Add(this.btnCancel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "UserEditorForm";
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "טופס הוספת בודק ";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+
+
+        private Label lblFirstName;
+        private Label lblLastName;
+        private Label lblID;
+        private Label lblPassword;
+
+        private TextBox txtFirstName;
+        private TextBox txtLastName;
+        private TextBox txtID;
+        private TextBox txtPassword;
+
+        private Button btnOK;
+        private Button btnCancel;
+
+        public string FirstName => txtFirstName.Text.Trim();
+        public string LastName => txtLastName.Text.Trim();
+        public string UserID => txtID.Text.Trim();
+        public string Password => txtPassword.Text.Trim();
+        #endregion
+    }
+}
+
+
+
+// End UserEditorForm.Designer.txt
+
+// Begin UserEditorForm.txt
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace UserMaintenance
+{
+    public partial class UserEditorForm : Form
+    {
+        public UserEditorForm()
+        {
+            InitializeComponent();
+        }
+
+        public UserEditorForm(string firstName = "", string lastName = "", string id = "", string password = "")
+        {
+            InitializeComponent();
+
+            txtFirstName.Text = firstName;
+            txtLastName.Text = lastName;
+            txtID.Text = id;
+            txtPassword.Text = password;
+
+            this.Text = string.IsNullOrEmpty(id) ? "טופס הוספת בודק" : "טופס עריכת בודק";
+        }
+
+        #region event  handlers
+
+        private void BtnCancelClick(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        private void BtnOK_Click(object sender, System.EventArgs e)
+        {_$string.IsNullOrWhiteSpace(FirstName) ||
+                string.IsNullOrWhiteSpace(LastName) ||
+                string.IsNullOrWhiteSpace(UserID))
+            {
+                MessageBox.Show("שם פרטי, שם משפחה ומס אישי הם שדות חובה.");
+                return;
+            }
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        #endregion event  handlers
+    }
+}
+// End UserEditorForm.txt
+
+// Begin Form1.Designer.txt
+namespace UserMaintenance
+{
+    partial class Form1
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {_$disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Text = "Form1";
+        }
+
+        #endregion
+    }
+}
+
+
+// End Form1.Designer.txt
+
+// Begin Form1.txt
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace UserMaintenance
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+    }
+}
+
+// End Form1.txt
+
+// Begin Program.txt
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace UserMaintenance
+{
+    internal static class Program
+    {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application_$new Form1());
+        }
+    }
+}
+
+// End Program.txt
+
+
+ 

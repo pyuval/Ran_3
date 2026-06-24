@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="FormInspectionHistoryViewerNS/FormInspectionHistoryViewerNS.csproj" />
+  <Project Path="MachineInspections/MachineInspections.csproj" />
+  <Project Path="MachineMaintenance/MachineMaintenance.csproj" />
+  <Project Path="UserAdmin/UserAdmin.csproj" />
+  <Project Path="UserMaintenance/UserMaintenance.csproj" />
+</Solution>

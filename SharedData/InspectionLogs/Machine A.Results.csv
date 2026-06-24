@@ -1,0 +1,12 @@
+﻿תאריך,שם הבודק, מספר אישי, מכונה, מס סיריאלי, סוג בדיקה, תוצאות בדיקה,
+11/05/2026,יובל פארי,3755839,Machine A,12345,Weekly,A,TRUE
+11/05/2026,יובל פארי,3755839,Machine A,12345,Weekly,B,FALSE
+11/05/2026,יובל פארי,3755839,Machine A,12345,Weekly,C,TRUE
+11/05/2026,יובל פארי,3755839,Machine A,12345,Monthly,X,FALSE
+11/05/2026,יובל פארי,3755839,Machine A,12345,Monthly,Y,FALSE
+11/05/2026,יובל פארי,3755839,Machine A,12345,BiMonthly,BM1,TRUE
+11/05/2026,יובל פארי,3755839,Machine A,12345,TriMonthly,TM1,FALSE
+11/05/2026,יובל פארי,3755839,Machine A,12345,TriMonthly,TM2,FALSE
+11/05/2026,יובל פארי,3755839,Machine A,12345,TriMonthly,TM3,FALSE
+11/05/2026,יובל פארי,3755839,Machine A,12345,Annual,AN1,FALSE
+,,,,,,,

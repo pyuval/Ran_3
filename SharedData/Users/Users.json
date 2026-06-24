@@ -1,0 +1,16 @@
+﻿{
+  "Users": [
+    {
+      "FirstName": "יובל",
+      "LastName": "פארי",
+      "ID": "3755839",
+      "Password": "123456"
+    },
+    {
+      "FirstName": "דנה",
+      "LastName": "כהן",
+      "ID": "987654321",
+      "Password": "passw0rd"
+    }
+  ]
+}

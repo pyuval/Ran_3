@@ -1,0 +1,47 @@
+﻿{
+  "MachineName": "BOSCH BAR",
+  "SerialNumber": "C-AB553",
+
+  "LastInspectionDate": "2026-01-03",
+  "LastInspectionType": "חצי שנתי",
+  "MaintenanceSchedule": {
+    "חצי שנתי": 180,
+    "שנתי": 365
+
+  },
+  "Maintenance": {
+   
+    "חצי-שנתי": [
+      {
+        "Code": "B-TEMPT",
+        "Description": "בדיקה של טמפרטורת  מעבד"
+      },
+      {
+        "Code": "B-MOTHERBOARD",
+        "Description": "בדיקה של טמפרטורת  לוח אם"
+      },
+      {
+        "Code": "B-AIR-VENT",
+        "Description": "בדיקה של טמפרטורת  מאורר"
+      }
+    ],
+    "שנתי": [
+      {
+        "Code": "B-TEMPT",
+        "Description": "בדיקה של טמפרטורת  מעבד"
+      },
+      {
+        "Code": "B-MOTHERBOARD",
+        "Description": "בדיקה של טמפרטורת  לוח אם"
+      },
+      {
+        "Code": "B-AIR-VENT",
+        "Description": "בדיקה של טמפרטורת  מאורר"
+      },
+      {
+        "Code": "B-ANNUAL-CHECK",
+        "Description": "בדיקה שנתית מלאה"
+      }
+    ]
+  }
+}
