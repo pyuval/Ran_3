@@ -42,7 +42,7 @@
             this.flowPanel.FlowDirection = FlowDirection.RightToLeft;
             this.flowPanel.WrapContents = true; // 2–3 כפתורים בשורה
             this.flowPanel.Padding = new Padding(20);
-            this.flowPanel.BackColor = Color.FromArgb(245, 245, 245);
+            this.flowPanel.BackColor = Color.Black;
 
             this.Controls.Add(this.flowPanel);
 
