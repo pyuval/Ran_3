@@ -53,9 +53,8 @@ namespace MachineMaintenance
             this.btnAddInterval = new System.Windows.Forms.Button();
             this.btnDeleteInterval = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-
-
-
+            this.btnMachineInoperative = new System.Windows.Forms.Button();
+            this.lblMachineOperational = new System.Windows.Forms.Label();
 
             this.btnAddMachine = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSchedule)).BeginInit();
@@ -116,7 +115,7 @@ namespace MachineMaintenance
             this.dgvSchedule.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2});
-            this.dgvSchedule.Location = new System.Drawing.Point(542, 175);
+            this.dgvSchedule.Location = new System.Drawing.Point(600, 175);
             this.dgvSchedule.Margin = new System.Windows.Forms.Padding(4);
             this.dgvSchedule.Name = "dgvSchedule";
             this.dgvSchedule.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -307,6 +306,20 @@ namespace MachineMaintenance
             this.btnAddMachine.TabIndex = 0;
             this.btnAddMachine.Text = "הוסף מכונה";
             this.btnAddMachine.Click += new System.EventHandler(this.OnAddMachine);
+
+            this.btnMachineInoperative.Location = new System.Drawing.Point(600, 451);
+            this.btnMachineInoperative.Name = "btnMachineInoperative";
+            this.btnMachineInoperative.Size = new System.Drawing.Size(185, 23);
+            this.btnMachineInoperative.TabIndex = 0;
+            this.btnMachineInoperative.Text = "השבת מכונה";
+            this.btnMachineInoperative.Click += new System.EventHandler(this.OnDisableMachine);
+
+            this.lblMachineOperational.Location = new System.Drawing.Point(890, 425);
+            this.lblMachineOperational.Name = "lblMachineOperational";
+            this.lblMachineOperational.Size = new System.Drawing.Size(250, 23);
+            this.lblMachineOperational.TabIndex = 0;
+            this.lblMachineOperational.Text = "";           
+            
             //
             // MachineMaintenenceForm
             //
@@ -327,6 +340,8 @@ namespace MachineMaintenance
             this.Controls.Add(this.lblTests);
             this.Controls.Add(this.treeTests);
             this.Controls.Add(this.btnLoadJson);
+            this.Controls.Add(this.btnMachineInoperative);
+            this.Controls.Add(this.lblMachineOperational);
 
             //Add Interval
             this.Controls.Add(this.btnAddInterval);
@@ -384,6 +399,9 @@ namespace MachineMaintenance
         private ComboBox cmbMachines;
         private Label lblSelectMachine;
         private Button btnDeleteInterval;
+        private Button btnMachineInoperative;
+        private Label lblMachineOperational;
+
 
 
         //load json

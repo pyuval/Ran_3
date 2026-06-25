@@ -4,6 +4,7 @@
 
   "LastInspectionDate": "2026-01-01",
   "LastInspectionType": "שבועי",
+  "IsOperational": true,
   "MaintenanceSchedule": {
     "שבועי": 7,
     "חודשי": 30,

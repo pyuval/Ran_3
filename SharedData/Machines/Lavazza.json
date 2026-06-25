@@ -14,5 +14,7 @@
     "שנתי": 365
   },
   "InspectionTimeOverdue": null,
-  "SerialNumber": ""
+  "SerialNumber": "",
+
+  "IsOperational": true
 }

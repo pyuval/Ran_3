@@ -1,4 +1,10 @@
 <Solution>
+  <Folder Name="/Machines/">
+    <File Path="SharedData/Machines/BOSCH BAR.json" />
+    <File Path="SharedData/Machines/Lavazza.json" />
+    <File Path="SharedData/Machines/PHILLIPS LASER.json" />
+    <File Path="SharedData/Machines/Siemens Bar.json" />
+  </Folder>
   <Project Path="FormInspectionHistoryViewerNS/FormInspectionHistoryViewerNS.csproj" />
   <Project Path="MachineInspections/MachineInspections.csproj" />
   <Project Path="MachineMaintenance/MachineMaintenance.csproj" />

@@ -44,7 +44,7 @@ namespace MachineMaintenance
                 _isLoadingMachine = false;
                 return;
             }
-             
+
 
             //string folder = Path.Combine("..", "..", "..", @"SharedData\Machines");
             Directory.CreateDirectory(folder);
@@ -160,7 +160,7 @@ namespace MachineMaintenance
             treeTests.Nodes.Clear();
             if (_machine.MaintenanceDateToCodeDesc != null)
             {
-                foreach (var kv in _machine.MaintenanceDateToCodeDesc   )
+                foreach (var kv in _machine.MaintenanceDateToCodeDesc)
                 {
                     TreeNode intervalNode = new TreeNode(kv.Key);
                     if (kv.Value != null)
@@ -174,7 +174,12 @@ namespace MachineMaintenance
                 }
             }
 
+
+            lblMachineOperational.Text = _machine.IsOperational ? "המכונה תקינה" : "המכונה מושבתת";
+            this.btnMachineInoperative.Text = _machine.IsOperational ? "השבת מכונה" : "מכונה תקינה";
+
             treeTests.ExpandAll();
+
         }
 
         #endregion *** ****** Load/Save JSON *********
@@ -361,8 +366,6 @@ namespace MachineMaintenance
             treeTests.SelectedNode.Remove();
         }
 
-
-
         private void cmbMachines_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (_isLoadingMachine || cmbMachines.SelectedItem == null)
@@ -379,7 +382,7 @@ namespace MachineMaintenance
                 _isLoadingMachine = false;
                 return;
             }
-            
+
             string filePath = Path.Combine(folder, machineName + ".json");
 
             if (!File.Exists(filePath))
@@ -419,7 +422,7 @@ namespace MachineMaintenance
                 _isLoadingMachine = false;
                 return;
             }
-           
+
             string filePath = Path.Combine(folder, machineName + ".json");
 
             string json = JsonSerializer.Serialize(_machine, _jsonOptions);
@@ -443,7 +446,7 @@ namespace MachineMaintenance
                     _isLoadingMachine = false;
                     return;
                 }
-               
+
                 Directory.CreateDirectory(folder);
 
                 string filePath = Path.Combine(folder, newName + ".json");
@@ -521,6 +524,45 @@ namespace MachineMaintenance
 
             ReorderIntervalsToMatchTree();
         }
+
+
+        private void OnDisableMachine(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_machine == null)
+                {
+                    MessageBox.Show("לא נבחרה מכונה", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+
+                _machine.IsOperational = !_machine.IsOperational;
+                var folder = GetSharedFolder();
+                if (!Directory.Exists(folder))
+                {
+                    MessageBox.Show($"לא נמצאה תיקייה: {folder}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _isLoadingMachine = false;
+                    return;
+                }
+
+                string filePath = Path.Combine(folder, _machine.MachineName + ".json");
+
+                string json = JsonSerializer.Serialize(_machine, _jsonOptions);
+                File.WriteAllText(filePath, json, Encoding.UTF8);
+                this.btnMachineInoperative.Text = _machine.IsOperational ? "השבת מכונה" : "מכונה תקינה";
+                lblMachineOperational.Text = _machine.IsOperational ? "המכונה תקינה" : "המכונה מושבתת";
+
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
         private void ReorderIntervalsToMatchTree()
         {

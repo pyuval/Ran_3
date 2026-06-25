@@ -1,15 +1,7 @@
 ﻿{
-  "MachineName": "Siemens Bar",
-  "SerialNumber": "C-AB553",
-
-  "LastInspectionDate": "2026-01-03",
+  "LastInspectionDate": "2026-01-03T00:00:00",
   "LastInspectionType": "שבועי",
-
-  "Remark": "MaintenanceSchedule intervalsmust correspond to MaintenanceDateToCodeDesc intervals",
-  "MaintenanceSchedule": {
-    "שבועי": 7,
-    "שנתי": 365
-  },
+  "MachineName": "Siemens Bar",
   "MaintenanceDateToCodeDesc": {
     "שבועי": [
       {
@@ -25,12 +17,18 @@
         "Description": "בדוק רעשים חריגים"
       }
     ],
-
     "שנתי": [
       {
         "Code": "SIEMENS-ANNUAL-CHECK",
         "Description": "בדיקה שנתית מלאה"
       }
     ]
-  }
+  },
+  "MaintenanceSchedule": {
+    "שבועי": 7,
+    "שנתי": 365
+  },
+  "InspectionTimeOverdue": null,
+  "SerialNumber": "C-AB553",
+  "IsOperational": false
 }

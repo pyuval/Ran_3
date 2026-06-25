@@ -48,5 +48,6 @@
     "רבעוני": 90
   },
   "InspectionTimeOverdue": null,
-  "SerialNumber": "C-AB553"
+  "SerialNumber": "C-AB553",
+  "IsOperational": true
 }

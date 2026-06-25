@@ -21,6 +21,10 @@ namespace MachineMaintenance.Models
         public Dictionary<string, bool>? InspectionTimeOverdue { get; set; }
 
         public string? SerialNumber { get; set; }
+
+        public bool IsOperational { get; set; } = true;
+
+        public MachineDefinition() { }
     }
 }
     
