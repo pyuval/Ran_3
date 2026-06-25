@@ -385,10 +385,12 @@ namespace MachineInspections
             return filePath;
         }
 
+
         private string GetSetting(string key, string defaultValue)
         {
             return ConfigurationManager.AppSettings[key] ?? defaultValue;
         }
+
 
         private int GetSettingInt(string key, int defaultValue)
         {
@@ -449,9 +451,9 @@ namespace MachineInspections
             }
 
 
-           var  inspectionSchedules=  currentMachineInspectionScheduleResult[currentMachine.MachineName];
-           var  inspectionOverdue = inspectionSchedules.InspectionTimeIsOverdue[intervalKey];
-           
+            var inspectionSchedules = currentMachineInspectionScheduleResult[currentMachine.MachineName];
+            var inspectionOverdue = inspectionSchedules.InspectionTimeIsOverdue[intervalKey];
+
 
             isSelected = true;
             using (Font font = new Font(tab.Font, isSelected ? (FontStyle.Bold | FontStyle.Underline) : FontStyle.Bold))
@@ -484,7 +486,7 @@ namespace MachineInspections
             var inspectionSchedules = inspectionScheduleResult.CalculateSchedule(machine);
             currentMachineInspectionScheduleResult[machine.MachineName] = inspectionSchedules;
             currentMachine = machine;
-            
+
 
             if (inspectionSchedules?.StatusMessages == null)
                 return;
@@ -494,12 +496,12 @@ namespace MachineInspections
 
             if (machineToUpdate?.MaintenanceDateToCodeDesc == null)
                 return;
- 
+
             scrollPanel.Controls.Clear();
             StringBuilder sb = new StringBuilder();
             foreach (var msg in inspectionSchedules.StatusMessages.Values)
             {
-                    sb.AppendLine(msg);
+                sb.AppendLine(msg);
             }
 
             System.Windows.Forms.Label label = new System.Windows.Forms.Label
@@ -517,8 +519,8 @@ namespace MachineInspections
 
 
             _IsOverdue = inspectionSchedules.IsOverdue;
-            
-            
+
+
             tabIntervals.Invalidate(); // Triggers re-rendering of layout elements with current alerts
         }
     }

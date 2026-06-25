@@ -1,9 +1,13 @@
-﻿using System;
+﻿using MachineMaintenance.Models;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Windows.Forms;
 
@@ -19,7 +23,8 @@ namespace MachineMaintenance
             WriteIndented = true,
             PropertyNameCaseInsensitive = true,
             ReadCommentHandling = JsonCommentHandling.Skip,
-            AllowTrailingCommas = true
+            AllowTrailingCommas = true,
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
         };
 
         public MachineMaintenenceForm()
@@ -30,8 +35,18 @@ namespace MachineMaintenance
 
         private void LoadMachineList()
         {
+
             _isLoadingMachine = true;
-            string folder = Path.Combine("..", "..", "..", @"SharedData\Machines");
+            var folder = GetSharedFolder();
+            if (!Directory.Exists(folder))
+            {
+                MessageBox.Show($"Shared folder not found: {folder}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _isLoadingMachine = false;
+                return;
+            }
+             
+
+            //string folder = Path.Combine("..", "..", "..", @"SharedData\Machines");
             Directory.CreateDirectory(folder);
 
             cmbMachines.Items.Clear();
@@ -49,6 +64,25 @@ namespace MachineMaintenance
             _isLoadingMachine = false;
         }
 
+        private string GetSharedFolder()
+        {
+
+            string folder = GetSetting("Machines", "Machines");
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            folder = @Path.GetFullPath(Path.Combine(baseDir, folder));
+
+            return folder;
+
+        }
+
+
+        private string GetSetting(string key, string defaultValue)
+        {
+            return ConfigurationManager.AppSettings[key] ?? defaultValue;
+        }
+
+
+
         #region *** ****** Load/Save JSON *********
 
         private void btnLoadJson_Click(object sender, EventArgs e)
@@ -59,8 +93,13 @@ namespace MachineMaintenance
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     string json = File.ReadAllText(dlg.FileName, Encoding.UTF8);
-                    _machine = JsonSerializer.Deserialize<MachineDefinition>(json, _jsonOptions);
-
+                    var machine = JsonSerializer.Deserialize<MachineDefinition>(json, _jsonOptions);
+                    if (machine == null)
+                    {
+                        MessageBox.Show("Failed to load machine definition from JSON.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    _machine = machine;
                     PopulateUI();
                 }
             }
@@ -74,7 +113,7 @@ namespace MachineMaintenance
             _machine.MachineName = cmbMachines.SelectedItem?.ToString()?.Trim() ?? cmbMachines.Text.Trim();
             _machine.SerialNumber = txtSerial.Text.Trim();
 
-            _machine.MaintenanceSchedule = new Dictionary<string, int>();
+            //_machine.MaintenanceSchedule = new Dictionary<string, int>();
             foreach (DataGridViewRow row in dgvSchedule.Rows)
             {
                 if (row.IsNewRow)
@@ -88,7 +127,16 @@ namespace MachineMaintenance
 
                 if (int.TryParse(daysValue, out int days))
                 {
-                    _machine.MaintenanceSchedule[interval] = days;
+
+                    if (_machine.MaintenanceSchedule.ContainsKey(interval))
+                    {
+                        _machine.MaintenanceSchedule[interval] = days;
+                    }
+                    else
+                    {
+                        _machine.MaintenanceSchedule.Add(interval, days);
+                    }
+
                 }
             }
         }
@@ -110,9 +158,9 @@ namespace MachineMaintenance
             }
 
             treeTests.Nodes.Clear();
-            if (_machine.Maintenance != null)
+            if (_machine.MaintenanceDateToCodeDesc != null)
             {
-                foreach (var kv in _machine.Maintenance)
+                foreach (var kv in _machine.MaintenanceDateToCodeDesc   )
                 {
                     TreeNode intervalNode = new TreeNode(kv.Key);
                     if (kv.Value != null)
@@ -145,13 +193,18 @@ namespace MachineMaintenance
 
                 string interval = form.IntervalName;
 
-                if (_machine.Maintenance.ContainsKey(interval))
+
+                if (_machine.MaintenanceDateToCodeDesc != null)
                 {
-                    MessageBox.Show("This interval already exists.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    if (_machine.MaintenanceDateToCodeDesc.ContainsKey(interval))
+                    {
+
+                        MessageBox.Show("This interval already exists.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
                 }
 
-                _machine.Maintenance.Add(interval, new List<MaintenanceTest>());
+                _machine.MaintenanceDateToCodeDesc.Add(interval, new List<MaintenanceTest>());
                 _machine.MaintenanceSchedule.Add(interval, form.IntervalDays);
 
                 int insertIndex = treeTests.Nodes.Count;
@@ -191,8 +244,8 @@ namespace MachineMaintenance
                 return;
             }
 
-            if (_machine.Maintenance.ContainsKey(interval))
-                _machine.Maintenance.Remove(interval);
+            if (_machine.MaintenanceDateToCodeDesc.ContainsKey(interval))
+                _machine.MaintenanceDateToCodeDesc.Remove(interval);
 
             if (_machine.MaintenanceSchedule.ContainsKey(interval))
                 _machine.MaintenanceSchedule.Remove(interval);
@@ -229,10 +282,10 @@ namespace MachineMaintenance
                         Description = form.Description
                     };
 
-                    if (!_machine.Maintenance.ContainsKey(interval))
-                        _machine.Maintenance[interval] = new List<MaintenanceTest>();
+                    if (!_machine.MaintenanceDateToCodeDesc.ContainsKey(interval))
+                        _machine.MaintenanceDateToCodeDesc[interval] = new List<MaintenanceTest>();
 
-                    _machine.Maintenance[interval].Add(test);
+                    _machine.MaintenanceDateToCodeDesc[interval].Add(test);
                     intervalNode.Nodes.Add($"{test.Code} - {test.Description}");
                 }
             }
@@ -246,7 +299,7 @@ namespace MachineMaintenance
             string interval = treeTests.SelectedNode.Parent.Text;
             string code = treeTests.SelectedNode.Text.Split('-')[0].Trim();
 
-            var test = _machine.Maintenance[interval].FirstOrDefault(t => t.Code == code);
+            var test = _machine.MaintenanceDateToCodeDesc[interval].FirstOrDefault(t => t.Code == code);
             if (test == null)
                 return;
 
@@ -273,10 +326,10 @@ namespace MachineMaintenance
             _machine.MaintenanceSchedule.Clear();
             foreach (DataGridViewRow row in dgvSchedule.Rows)
             {
-                if (row.Cells[0].Value == null)
+                if (row.Cells[0].Value == null || row.Cells[1].Value == null)
                     continue;
 
-                string key = row.Cells[0].Value.ToString();
+                string key = row.Cells[0].Value.ToString()!;
                 int days = Convert.ToInt32(row.Cells[1].Value);
                 _machine.MaintenanceSchedule[key] = days;
             }
@@ -301,23 +354,32 @@ namespace MachineMaintenance
             string interval = treeTests.SelectedNode.Parent.Text;
             string code = treeTests.SelectedNode.Text.Split('-')[0].Trim();
 
-            if (_machine.Maintenance.ContainsKey(interval))
+            if (_machine.MaintenanceDateToCodeDesc.ContainsKey(interval))
             {
-                _machine.Maintenance[interval].RemoveAll(t => t.Code == code);
+                _machine.MaintenanceDateToCodeDesc[interval].RemoveAll(t => t.Code == code);
             }
             treeTests.SelectedNode.Remove();
         }
+
+
 
         private void cmbMachines_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (_isLoadingMachine || cmbMachines.SelectedItem == null)
                 return;
 
-            string machineName = cmbMachines.SelectedItem.ToString();
+            string machineName = cmbMachines.SelectedItem.ToString()!;
             if (string.IsNullOrEmpty(machineName))
                 return;
 
-            string folder = Path.Combine("..", "..", "..", @"SharedData\Machines");
+            var folder = GetSharedFolder();
+            if (!Directory.Exists(folder))
+            {
+                MessageBox.Show($"Shared folder not found: {folder}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _isLoadingMachine = false;
+                return;
+            }
+            
             string filePath = Path.Combine(folder, machineName + ".json");
 
             if (!File.Exists(filePath))
@@ -327,7 +389,13 @@ namespace MachineMaintenance
             }
 
             string json = File.ReadAllText(filePath, Encoding.UTF8);
-            _machine = JsonSerializer.Deserialize<MachineDefinition>(json, _jsonOptions);
+            var machine = JsonSerializer.Deserialize<MachineDefinition>(json, _jsonOptions);
+            if (machine == null)
+            {
+                MessageBox.Show("Failed to load machine definition from JSON.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            _machine = machine;
 
             PopulateUI();
         }
@@ -342,14 +410,22 @@ namespace MachineMaintenance
 
             UpdateMachineFromUI();
 
-            string machineName = cmbMachines.SelectedItem.ToString();
-            string folder = Path.Combine("..", "..", "..", @"SharedData\Machines");
+            string machineName = cmbMachines.SelectedItem.ToString()!;
+
+            var folder = GetSharedFolder();
+            if (!Directory.Exists(folder))
+            {
+                MessageBox.Show($"לא נמצאה תיקייה: {folder}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _isLoadingMachine = false;
+                return;
+            }
+           
             string filePath = Path.Combine(folder, machineName + ".json");
 
             string json = JsonSerializer.Serialize(_machine, _jsonOptions);
             File.WriteAllText(filePath, json, Encoding.UTF8);
 
-            MessageBox.Show("Machine JSON saved.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("המכונה נרשמה במערכת", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void OnAddMachine(object sender, EventArgs e)
@@ -360,7 +436,14 @@ namespace MachineMaintenance
                     return;
 
                 string newName = form.MachineName;
-                string folder = Path.Combine("..", "..", "..", @"SharedData\Machines");
+                var folder = GetSharedFolder();
+                if (!Directory.Exists(folder))
+                {
+                    MessageBox.Show($"Shared folder not found: {folder}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _isLoadingMachine = false;
+                    return;
+                }
+               
                 Directory.CreateDirectory(folder);
 
                 string filePath = Path.Combine(folder, newName + ".json");
@@ -376,7 +459,7 @@ namespace MachineMaintenance
                     SerialNumber = "",
                     LastInspectionDate = DateTime.Now,
                     LastInspectionType = "",
-                    Maintenance = new Dictionary<string, List<MaintenanceTest>>(),
+                    MaintenanceDateToCodeDesc = new Dictionary<string, List<MaintenanceTest>>(),
                     MaintenanceSchedule = new Dictionary<string, int>()
                 };
 
@@ -450,14 +533,14 @@ namespace MachineMaintenance
             foreach (TreeNode node in treeTests.Nodes)
             {
                 string interval = node.Text;
-                if (_machine.Maintenance.ContainsKey(interval))
-                    newMaintenance.Add(interval, _machine.Maintenance[interval]);
+                if (_machine.MaintenanceDateToCodeDesc.ContainsKey(interval))
+                    newMaintenance.Add(interval, _machine.MaintenanceDateToCodeDesc[interval]);
 
                 if (_machine.MaintenanceSchedule.ContainsKey(interval))
                     newSchedule.Add(interval, _machine.MaintenanceSchedule[interval]);
             }
 
-            _machine.Maintenance = newMaintenance;
+            _machine.MaintenanceDateToCodeDesc = newMaintenance;
             _machine.MaintenanceSchedule = newSchedule;
 
             dgvSchedule.Rows.Clear();

@@ -1,8 +1,17 @@
 ﻿{
-  "LastInspectionDate": "2026-01-03T00:00:00",
-  "LastInspectionType": "חצי-שנתי",
   "MachineName": "BOSCH BAR",
+  "SerialNumber": "C-AB553",
+
+  "LastInspectionDate": "2026-01-03",
+  "LastInspectionType": "חצי-שנתי",
+  "MaintenanceSchedule": {
+   
+    "חצי-שנתי": 180,
+    "שנתי": 365
+
+  },
   "MaintenanceDateToCodeDesc": {
+   
     "חצי-שנתי": [
       {
         "Code": "HY_B-TEMPT",
@@ -34,19 +43,6 @@
         "Code": "BOSCH-ANNUAL-CHECK",
         "Description": "בדיקה שנתית מלאה"
       }
-    ],
-    "רבעוני": [
-      {
-        "Code": "A-1",
-        "Description": "בדיקה רבעונית של מאוררים"
-      }
     ]
-  },
-  "MaintenanceSchedule": {
-    "חצי-שנתי": 180,
-    "שנתי": 365,
-    "רבעוני": 90
-  },
-  "InspectionTimeOverdue": null,
-  "SerialNumber": "C-AB553"
+  }
 }

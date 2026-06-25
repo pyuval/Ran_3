@@ -1,0 +1,13 @@
+﻿{
+  "LastInspectionDate": "2026-06-25T10:53:45.3861901+03:00",
+  "LastInspectionType": "",
+  "MachineName": "",
+  "MaintenanceDateToCodeDesc": {},
+  "MaintenanceSchedule": {
+    "חצי-שנתי": 180,
+    "שנתי": 365,
+    "רבעוני": 90
+  },
+  "InspectionTimeOverdue": null,
+  "SerialNumber": "C-AB553"
+}

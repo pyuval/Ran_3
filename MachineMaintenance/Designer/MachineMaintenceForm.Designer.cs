@@ -17,7 +17,8 @@ namespace MachineMaintenance
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
-        {if(disposing && (components != null))
+        {
+            if (disposing && (components != null))
             {
                 components.Dispose();
             }
@@ -52,6 +53,10 @@ namespace MachineMaintenance
             this.btnAddInterval = new System.Windows.Forms.Button();
             this.btnDeleteInterval = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+
+
+
+
             this.btnAddMachine = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSchedule)).BeginInit();
             this.SuspendLayout();
@@ -65,6 +70,27 @@ namespace MachineMaintenance
             this.lblSerial.Size = new System.Drawing.Size(64, 16);
             this.lblSerial.TabIndex = 2;
             this.lblSerial.Text = "מס סידורי";
+
+
+            this.grpIntervals = new GroupBox();
+
+            //this.grpIntervals.Margin = new Padding(0, 555, 0, 0);
+            this.grpIntervals.Location = new Point(50, 540);
+            this.grpIntervals.Size = new Size(460, 90);
+            this.grpIntervals.RightToLeft = RightToLeft.Yes;
+            this.grpIntervals.Text = "מועדים";
+
+
+            this.grpTests = new GroupBox();
+            this.grpTests.Text = "בדיקות";
+            this.grpTests.RightToLeft = RightToLeft.Yes;
+            //this.grpTests.Margin = new Padding(0, 5, 0, 0);
+            this.grpTests.Location = new Point(50, 650);
+            this.grpTests.Size = new Size(460, 80);
+
+            //this.grpTests.BringToFront();
+            //this.grpIntervals.BringToFront();
+
             //
             // txtSerial
             //
@@ -141,36 +167,7 @@ namespace MachineMaintenance
             this.treeTests.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeTests_DragEnter);
             this.treeTests.DragOver += new System.Windows.Forms.DragEventHandler(this.treeTests_DragOver);
             //
-            // btnAddTest
-            //
-            this.btnAddTest.Location = new System.Drawing.Point(377, 644);
-            this.btnAddTest.Margin = new System.Windows.Forms.Padding(4);
-            this.btnAddTest.Name = "btnAddTest";
-            this.btnAddTest.Size = new System.Drawing.Size(113, 28);
-            this.btnAddTest.TabIndex = 12;
-            this.btnAddTest.Text = "הוסף בדיקה";
-            this.btnAddTest.Click += new System.EventHandler(this.btnAddTest_Click);
-            //
-            // btnEditTest
-            //
-            this.btnEditTest.Location = new System.Drawing.Point(124, 644);
-            this.btnEditTest.Margin = new System.Windows.Forms.Padding(4);
-            this.btnEditTest.Name = "btnEditTest";
-            this.btnEditTest.Size = new System.Drawing.Size(107, 28);
-            this.btnEditTest.TabIndex = 13;
-            this.btnEditTest.Text = "ערוך בדיקה";
-            this.btnEditTest.Click += new System.EventHandler(this.btnEditTest_Click);
-            //
-            // btnDeleteTest
-            //
-            this.btnDeleteTest.Location = new System.Drawing.Point(256, 644);
-            this.btnDeleteTest.Margin = new System.Windows.Forms.Padding(4);
-            this.btnDeleteTest.Name = "btnDeleteTest";
-            this.btnDeleteTest.Size = new System.Drawing.Size(100, 28);
-            this.btnDeleteTest.TabIndex = 14;
-            this.btnDeleteTest.Text = "מחק בדיקה";
-            this.btnDeleteTest.Click += new System.EventHandler(this.btnDeleteTest_Click);
-            //
+
             // btnLoadJson
             //
             this.btnLoadJson.Location = new System.Drawing.Point(882, 506);
@@ -182,15 +179,7 @@ namespace MachineMaintenance
             this.btnLoadJson.Visible = false;
             this.btnLoadJson.Click += new System.EventHandler(this.btnLoadJson_Click);
             //
-            // btnSaveJson
-            //
-            this.btnSaveJson.Location = new System.Drawing.Point(324, 692);
-            this.btnSaveJson.Margin = new System.Windows.Forms.Padding(4);
-            this.btnSaveJson.Name = "btnSaveJson";
-            this.btnSaveJson.Size = new System.Drawing.Size(167, 28);
-            this.btnSaveJson.TabIndex = 16;
-            this.btnSaveJson.Text = "שמור נתונים";
-            this.btnSaveJson.Click += new System.EventHandler(this.btnSaveJson_Click);
+           
             //
             // lblSelectMachine
             //
@@ -212,22 +201,22 @@ namespace MachineMaintenance
             this.cmbMachines.Size = new System.Drawing.Size(269, 24);
             this.cmbMachines.TabIndex = 1;
             this.cmbMachines.SelectedIndexChanged += new System.EventHandler(this.cmbMachines_SelectedIndexChanged);
+
+            // ------------- INTERVALS -------------
+            //add interval label
             //
-            // label1
-            //
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(53, 537);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.label1.Size = new System.Drawing.Size(362, 16);
-            this.label1.TabIndex = 17;
-            this.label1.Text = "* בכדי להוסיף, למחוק, או לערוך בדיקה יש לעמוד על הענף בעץ";
-            //
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(145, 565);
+            this.label2.Name = "label2";
+            this.label2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.label2.Size = new System.Drawing.Size(285, 16);
+            this.label2.TabIndex = 19;
+            this.label2.Text = "* לאחר הוספת מועד ניתן לגרור אותו למקום הרצוי             ";
+
             // btnAddInterval
             //
-            this.btnAddInterval.Location = new System.Drawing.Point(395, 571);
-            this.btnAddInterval.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAddInterval.Location = new System.Drawing.Point(395, 590);
+            //this.btnAddInterval.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddInterval.Name = "btnAddInterval";
             this.btnAddInterval.Size = new System.Drawing.Size(100, 28);
             this.btnAddInterval.TabIndex = 0;
@@ -236,25 +225,80 @@ namespace MachineMaintenance
             //
             // btnDeleteInterval
             //
-            this.btnDeleteInterval.Location = new System.Drawing.Point(269, 571);
+            this.btnDeleteInterval.Location = new System.Drawing.Point(269, 590);
             this.btnDeleteInterval.Margin = new System.Windows.Forms.Padding(4);
             this.btnDeleteInterval.Name = "btnDeleteInterval";
             this.btnDeleteInterval.Size = new System.Drawing.Size(100, 28);
             this.btnDeleteInterval.TabIndex = 18;
             this.btnDeleteInterval.Text = "מחק מועד";
             this.btnDeleteInterval.Click += new System.EventHandler(this.btnDeleteInterval_Click);
+            // --- ADD CONTROLS INTO GROUPBOXES ---
+
+            this.grpIntervals.Controls.Add(this.label2);
+            this.grpIntervals.Controls.Add(this.btnAddInterval);
+            this.grpIntervals.Controls.Add(this.btnDeleteInterval);
+
+
+            // ------------------ Test label ----------------
             //
-            // label2
+            // add test label
             //
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(145, 607);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.label2.Size = new System.Drawing.Size(285, 16);
-            this.label2.TabIndex = 19;
-            this.label2.Text = "* לאחר הוספת מועד ניתן לגרור אותו למקום הרצוי";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(73, 670);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.label1.Size = new System.Drawing.Size(362, 16);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "            * בכדי להוסיף, למחוק, או לערוך בדיקה יש לעמוד על הענף בעץ             ";
             //
+            // btnAddTest
+            //
+            this.btnAddTest.Location = new System.Drawing.Point(377, 690);
+            this.btnAddTest.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAddTest.Name = "btnAddTest";
+            this.btnAddTest.Size = new System.Drawing.Size(113, 28);
+            this.btnAddTest.TabIndex = 12;
+            this.btnAddTest.Text = "הוסף בדיקה";
+            this.btnAddTest.Click += new System.EventHandler(this.btnAddTest_Click);
+            //
+            // btnEditTest
+            //
+            this.btnEditTest.Location = new System.Drawing.Point(124, 690);
+            this.btnEditTest.Margin = new System.Windows.Forms.Padding(4);
+            this.btnEditTest.Name = "btnEditTest";
+            this.btnEditTest.Size = new System.Drawing.Size(107, 28);
+            this.btnEditTest.TabIndex = 13;
+            this.btnEditTest.Text = "ערוך בדיקה";
+            this.btnEditTest.Click += new System.EventHandler(this.btnEditTest_Click);
+            //
+            // btnDeleteTest
+            //
+            this.btnDeleteTest.Location = new System.Drawing.Point(256, 690);
+            this.btnDeleteTest.Margin = new System.Windows.Forms.Padding(4);
+            this.btnDeleteTest.Name = "btnDeleteTest";
+            this.btnDeleteTest.Size = new System.Drawing.Size(100, 28);
+            this.btnDeleteTest.TabIndex = 14;
+            this.btnDeleteTest.Text = "מחק בדיקה";
+            this.btnDeleteTest.Click += new System.EventHandler(this.btnDeleteTest_Click);
+
+            this.grpTests.Controls.Add(this.label1);
+            this.grpTests.Controls.Add(this.btnAddTest);
+            this.grpTests.Controls.Add(this.btnEditTest);
+            this.grpTests.Controls.Add(this.btnDeleteTest);
+
+            //
+            // btnSaveJson
+            //
+            this.btnSaveJson.Location = new System.Drawing.Point(340, 740);
+            this.btnSaveJson.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSaveJson.Name = "btnSaveJson";
+            this.btnSaveJson.Size = new System.Drawing.Size(167, 28);
+            this.btnSaveJson.TabIndex = 16;
+            this.btnSaveJson.Text = "שמור נתונים";
+            this.btnSaveJson.Click += new System.EventHandler(this.btnSaveJson_Click);
+
+            // ---- Add Machine button ----
             // btnAddMachine
             //
             this.btnAddMachine.Location = new System.Drawing.Point(797, 451);
@@ -268,10 +312,11 @@ namespace MachineMaintenance
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1053, 779);
+            this.ClientSize = new System.Drawing.Size(1053, 800);
+
+
             this.Controls.Add(this.btnAddMachine);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.btnAddInterval);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblSelectMachine);
             this.Controls.Add(this.cmbMachines);
@@ -281,12 +326,26 @@ namespace MachineMaintenance
             this.Controls.Add(this.dgvSchedule);
             this.Controls.Add(this.lblTests);
             this.Controls.Add(this.treeTests);
+            this.Controls.Add(this.btnLoadJson);
+
+            //Add Interval
+            this.Controls.Add(this.btnAddInterval);
+            this.Controls.Add(this.btnDeleteInterval);
+
+            //Add Test
             this.Controls.Add(this.btnAddTest);
             this.Controls.Add(this.btnEditTest);
             this.Controls.Add(this.btnDeleteTest);
-            this.Controls.Add(this.btnLoadJson);
+
+
+            this.Controls.Add(this.grpIntervals);
+            this.Controls.Add(this.grpTests);
             this.Controls.Add(this.btnSaveJson);
-            this.Controls.Add(this.btnDeleteInterval);
+
+
+
+
+
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MachineMaintenenceForm";
             this.RightToLeftLayout = true;
@@ -335,5 +394,7 @@ namespace MachineMaintenance
         private Label label2;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private GroupBox grpTests; private GroupBox grpIntervals;
+
     }
 }
