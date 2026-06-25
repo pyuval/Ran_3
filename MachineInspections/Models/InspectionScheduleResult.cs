@@ -90,7 +90,7 @@ namespace MachineInspections
                     return "בדיקה שנתית";
 
                 default:
-                    return key;
+                    return key; 
             }
         }
     }
