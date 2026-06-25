@@ -27,7 +27,7 @@ namespace MachineInspections
         };
         private List<MachineDefinition> _machines = new List<MachineDefinition>();
 
-        public MachineInspectionForm(Inspector loggedInInspector)
+        public MachineInspectionForm(Inspector loggedInInspector, string machineName)
         {
             InitializeComponent();
             inspectionScheduleResult = new InspectionScheduleResult();

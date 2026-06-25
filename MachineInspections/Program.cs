@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using MachineInspections.Forms;
+using System.Windows.Forms;
 
 namespace MachineInspections
 {
@@ -8,12 +9,19 @@ namespace MachineInspections
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
+            var machines = new List<string>
+        {
+            "BOSCH BAR",
+            "PHILLIPS LASER",
+            "Siemens Bar",
+            "Lavazza"
+        };
             using (var login = new LoginForm())
             {
                 if (login.ShowDialog() == DialogResult.OK)
                 {
-                    Application.Run(new MachineInspectionForm(login.LoggedInInspector));
+                    Application.Run(new MachineSelectionForm(login.LoggedInInspector, machines));
+                    // Application.Run(new MachineInspectionForm(login.LoggedInInspector));
                 }
             }
         }
