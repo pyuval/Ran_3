@@ -15,6 +15,10 @@ namespace MachineInspections.Forms
 
         private List<string> _machines;
 
+        public MachineSelectionForm()
+        {
+        }
+
         public MachineSelectionForm(Inspector loggedInInspector, List<string> machines)
         {
             InitializeComponent();

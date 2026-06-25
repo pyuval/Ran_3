@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using MachineInspections.Forms;
+using System.Configuration;
 using System.Data;
 using System.Reflection.Emit;
 using System.Reflection.PortableExecutable;
@@ -52,6 +53,13 @@ namespace MachineInspections
 
             return folder;
 
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            var home = new MachineSelectionForm();
+            home.Show();
+            this.Close();
         }
 
         private void LoadMachines()

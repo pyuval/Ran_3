@@ -19,6 +19,7 @@ namespace MachineInspections
         private Panel panelRight;
         private Panel scrollPanel;
         private Panel panelOuter;
+        private Button btnBack;
 
 
         protected override void Dispose(bool disposing)
@@ -43,6 +44,7 @@ namespace MachineInspections
             this.tabIntervals = new System.Windows.Forms.TabControl();
             this.btnSaveInspection = new System.Windows.Forms.Button();
             this.lblInspectionStatus = new System.Windows.Forms.Label();
+            this.btnBack = new System.Windows.Forms.Button();
 
             this.lblDate.Location = new Point(0, 0);
           
@@ -164,12 +166,19 @@ namespace MachineInspections
             this.lblInspectionStatus.Location = new Point(260, 10);
             this.lblInspectionStatus.RightToLeft = RightToLeft.Yes;
 
+            this.btnBack.Location = new Point(1410, 10);
+            this.btnBack.Size = new Size(75, 23);
+            this.btnBack.Text = "חזור";
+            this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new EventHandler(this.btnBack_Click);
+
             // 
             // MachineInspectionForm
             // 
             this.ClientSize = new Size(1500, 703);
             
             this.Controls.Add(this.lblInspectionStatus);
+            this.Controls.Add(this.btnBack);
             //this.Controls.Add(this.panelRight);
             this.Controls.Add(this.panelOuter);
             this.Controls.Add(this.lstMachines);
