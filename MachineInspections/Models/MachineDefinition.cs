@@ -18,7 +18,7 @@ namespace MachineInspections
 
         //Map
         public Dictionary<string, bool>? InspectionTimeOverdue { get; set; }
-
+        public bool IsOperational { get; set; } = true;
         public string? SerialNumber { get; set; }
     }
 }

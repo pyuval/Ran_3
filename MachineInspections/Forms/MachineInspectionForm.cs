@@ -82,6 +82,9 @@ namespace MachineInspections
                             _machines.Add(machine);
                         }
                     }
+
+                  
+
                 }
                 catch (Exception ex)
                 {
@@ -102,7 +105,19 @@ namespace MachineInspections
             currentMachine = lstMachines.SelectedItem as MachineDefinition;
             if (currentMachine == null)
                 return;
+            if (currentMachine?.IsOperational == true)
+            {
 
+                this.btnSaveInspection.Enabled = true;
+                this.btnSaveInspection.Text = "שמור";
+
+            }
+            else
+            {
+
+                this.btnSaveInspection.Enabled = false;
+                this.btnSaveInspection.Text = "המכונה מושבתת";
+            }
             BuildIntervalTabs(currentMachine);
             ShowInspectionStatus(currentMachine);
         }
