@@ -144,6 +144,8 @@ namespace MachineInspections
             this.SignUpButton.Text = "הירשם";
             this.SignUpButton.UseVisualStyleBackColor = true;
             this.SignUpButton.Click += new System.EventHandler(this.SignUp);
+            this.SignUpButton.Visible = false;
+
             //
             // EntryFormLabel
             //

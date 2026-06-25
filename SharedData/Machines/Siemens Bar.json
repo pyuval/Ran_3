@@ -3,13 +3,14 @@
   "SerialNumber": "C-AB553",
 
   "LastInspectionDate": "2026-01-03",
-  "LastInspectionType": "Weekly",
+  "LastInspectionType": "שבועי",
+
+  "Remark": "MaintenanceSchedule intervalsmust correspond to MaintenanceDateToCodeDesc intervals",
   "MaintenanceSchedule": {
-    "Weekly": 7,
-    "Monthly": 30,
-    "MidYear": 180
+    "שבועי": 7,
+    "שנתי": 365
   },
-  "Maintenance": {
+  "MaintenanceDateToCodeDesc": {
     "שבועי": [
       {
         "Code": "A-A",
@@ -24,45 +25,10 @@
         "Description": "בדוק רעשים חריגים"
       }
     ],
-    "חודשי": [
-      {
-        "Code": "AIR",
-        "Description": "בדיקת פילטר אויר"
-      },
 
- {
-        "Code": "OIL",
-        "Description": "בדיקת פילטר שמן"
-      },
-      {
-        "Code": "COOLANT",
-        "Description": "בדיקת מערכת קירור"
-      }
-    ],
-    "דו-חודשי": [
-      {
-        "Code": "BM12",
-        "Description": "בדיקה דו־חודשית כללית"
-      }
-    ],
-    "רבעוני": [
-      {
-        "Code": "B-TEMPT",
-        "Description": "בדיקה של טמפרטורת  מעבד"
-      },
-      {
-        "Code": "B-MOTHERBOARD",
-        "Description": "בדיקה של טמפרטורת  לוח אם"
-      },
-      {
-        "Code": "B-AIR-VENT",
-        "Description": "בדיקה של טמפרטורת  מאורר"
-      }
-    ],
-   
     "שנתי": [
       {
-        "Code": "B-ANNUAL-CHECK",
+        "Code": "SIEMENS-ANNUAL-CHECK",
         "Description": "בדיקה שנתית מלאה"
       }
     ]

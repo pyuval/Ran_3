@@ -3,61 +3,65 @@
   "SerialNumber": "LASER-A34",
 
   "LastInspectionDate": "2026-01-01",
-  "LastInspectionType": "Weekly",
+  "LastInspectionType": "שבועי",
   "MaintenanceSchedule": {
-    "Weekly": 7,
-    "Monthly": 30,
-    "MidYear": 180
+    "שבועי": 7,
+    "חודשי": 30,
+    "דו-חודשי": 60,
+    "רבעוני": 90,
+    "חצי-שנתי": 180,
+    "שנתי": 365
   },
-  "Maintenance": {
+  "MaintenanceDateToCodeDesc": {
+
     "שבועי": [
       {
         "Code": "A",
-        "Description": "בדוק לחץ שמן"
+        "Description": "בדוק לחץ שמן שבועי"
       },
       {
         "Code": "B",
-        "Description": "בדוק רצועות"
+        "Description": "שבועי בדוק רצועות"
       },
       {
         "Code": "C",
-        "Description": "בדוק רעשים חריגים"
+        "Description": "בדוק רעשים חריגים שבועי "
       }
     ],
     "חודשי": [
       {
         "Code": "X",
-        "Description": "בדיקת פילטרים"
+        "Description": " חודשי בדיקת פילטרים"
       },
       {
         "Code": "Y",
-        "Description": "בדיקת מערכת קירור"
+        "Description": "בדיקת מערכת קירור חודשי "
       }
     ],
     "דו-חודשי": [
       {
         "Code": "BM1",
-        "Description": "בדיקה דו־חודשית כללית"
+        "Description": " בדיקה דו־חודשית כללית"
       }
     ],
     "רבעוני": [
       {
         "Code": "TM1",
-        "Description": "בדיקה של טמפרטורת  מעבד"
+        "Description": "בדיקה רבעונית של טמפרטורת  מעבד"
       },
       {
         "Code": "TM2",
-        "Description": "בדיקה של טמפרטורת  לוח אם"
+        "Description": "בדיקה רבעונית של טמפרטורת  לוח אם"
       },
       {
         "Code": "TM3",
-        "Description": "בדיקה של טמפרטורת  מאורר"
+        "Description": "בדיקה רבעונית של טמפרטורת  מאורר"
       }
     ],
-     
+
     "שנתי": [
       {
-        "Code": "AN1",
+        "Code": "PHILLIPS-ANNUAL-CHECK",
         "Description": "בדיקה שנתית מלאה"
       }
     ]

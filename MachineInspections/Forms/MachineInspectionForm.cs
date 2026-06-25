@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
+using System.Reflection.Emit;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Text.Json;
-using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace MachineInspections
 {
@@ -17,6 +14,7 @@ namespace MachineInspections
         private readonly Inspector m_loggedInInspector;
         private string _mostUrgentInterval;
         private bool _IsOverdue;
+        private MachineDefinition currentMachine;
 
         private Dictionary<string, Color> _intervalColors = new Dictionary<string, Color>
         {
@@ -27,7 +25,6 @@ namespace MachineInspections
             { "MidYear", Color.Orange },
             { "Annual", Color.LightCoral }
         };
-
         private List<MachineDefinition> _machines = new List<MachineDefinition>();
 
         public MachineInspectionForm(Inspector loggedInInspector)
@@ -35,7 +32,7 @@ namespace MachineInspections
             InitializeComponent();
             inspectionScheduleResult = new InspectionScheduleResult();
             m_loggedInInspector = loggedInInspector;
-            this.Date.Text = DateTime.Now.ToString("dd/MM/yyyy");
+
         }
 
         protected override void OnLoad(EventArgs e)
@@ -43,6 +40,7 @@ namespace MachineInspections
             base.OnLoad(e);
             LoadMachines();
             BindMachineList();
+            this.lblDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
         }
 
         private string GetSharedFolder()
@@ -70,13 +68,15 @@ namespace MachineInspections
                 try
                 {
                     var json = File.ReadAllText(file, Encoding.UTF8);
+                    using var doc = JsonDocument.Parse(json);
+                    var root = doc.RootElement;
+                    var pri = root.GetProperty("MaintenanceDateToCodeDesc");
+
                     var machine = JsonSerializer.Deserialize<MachineDefinition>(json, options);
 
                     if (machine != null)
                     {
-                        machine.Maintenance = new Dictionary<string, List<MaintenanceTest>>();
 
-                        machine.InspectionTimeOverdue = new Dictionary<string, bool>();
                         if (machine != null)
                         {
                             _machines.Add(machine);
@@ -99,31 +99,34 @@ namespace MachineInspections
 
         private void lstMachines_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var machine = lstMachines.SelectedItem as MachineDefinition;
-            if (machine == null)
+            currentMachine = lstMachines.SelectedItem as MachineDefinition;
+            if (currentMachine == null)
                 return;
 
-            ShowMachineDetails(machine);
-            ShowInspectionStatus(machine);
+            BuildIntervalTabs(currentMachine);
+            ShowInspectionStatus(currentMachine);
         }
 
-        private void ShowMachineDetails(MachineDefinition machine)
-        {
-            // lblMachineName.Text = machine.MachineName; 
-            // lblSerial.Text = machine.SerialNumber;
-            // TODO: compute next inspection and set lblNextInspection.Text
+        //private void ShowMachineDetails(MachineDefinition machine)
+        //{
+        //    // lblMachineName.Text = machine.MachineName; 
+        //    // lblSerial.Text = machine.SerialNumber;
+        //    // TODO: compute next inspection and set lblNextInspection.Text
 
-            BuildIntervalTabs(machine);
-        }
+        //    BuildIntervalTabs(machine);
+        //}
 
         private void BuildIntervalTabs(MachineDefinition machine)
         {
             tabIntervals.TabPages.Clear();
 
-            if (machine?.Maintenance == null)
+            if (machine?.MaintenanceDateToCodeDesc == null)
                 return;
 
-            foreach (var interval in machine.Maintenance)
+
+
+
+            foreach (var interval in machine.MaintenanceDateToCodeDesc)
             {
                 string key = interval.Key;
                 var tests = interval.Value;
@@ -133,6 +136,8 @@ namespace MachineInspections
                 var tab = new TabPage(GetIntervalDisplayName(key))
                 {
                     Tag = key,
+                    Width = 9000
+
 
                 };
 
@@ -144,8 +149,15 @@ namespace MachineInspections
                     WrapContents = false
                 };
 
-                foreach (var test in tests)
+
+
+                foreach (var test in machine.MaintenanceDateToCodeDesc[key])
+
+
                 {
+                    // var inspections = test.Codealue;
+                    //foreach (var inspection in inspections)
+                    //{
                     var chk = new CheckBox
                     {
                         AutoSize = true,
@@ -153,9 +165,11 @@ namespace MachineInspections
                         Tag = test
                     };
                     panel.Controls.Add(chk);
+                    //}
                 }
 
                 tab.Controls.Add(panel);
+                tab.Width = 400;
 
                 tabIntervals.TabPages.Add(tab);
             }
@@ -205,7 +219,7 @@ namespace MachineInspections
                     return "בדיקה דו־חודשית";
 
                 case "TriMonthly":
-                    return "בדיקה תלת־חודשית";
+                    return "בדיקה רבעונית";
 
                 case "MidYear":
                     return "בדיקה חצי־שנתית";
@@ -398,7 +412,7 @@ namespace MachineInspections
                 case "בדיקה דו־חודשית":
                     return "BiMonthly";
 
-                case "בדיקה תלת־חודשית":
+                case "בדיקה רבעונית":
                     return "TriMonthly";
 
                 case "בדיקה חצי־שנתית":
@@ -419,6 +433,7 @@ namespace MachineInspections
 
             TabControl tc = (TabControl)sender;
             TabPage tab = tabIntervals.TabPages[e.Index];
+
             Rectangle tabRect = tc.GetTabRect(e.Index);
             string? intervalKey = tab.Tag as string;
             Color backgroundColor = Color.White;
@@ -427,50 +442,29 @@ namespace MachineInspections
             //bool isUrgent = intervalKey == _IsOverdue;
             bool isSelected = e.Index == tabIntervals.SelectedIndex;
 
-
+            //result.InspectionTimeIsOverdue[intervalKey];
             using (Brush bgBrush = new SolidBrush(backgroundColor))
             {
                 // e.Graphics.FillRectangle(bgBrush, tabRect);
             }
 
+
+           var  inspectionSchedules=  currentMachineInspectionScheduleResult[currentMachine.MachineName];
+           var  inspectionOverdue = inspectionSchedules.InspectionTimeIsOverdue[intervalKey];
+           
+
             isSelected = true;
             using (Font font = new Font(tab.Font, isSelected ? (FontStyle.Bold | FontStyle.Underline) : FontStyle.Bold))
             {
                 Color color = GetIntervalColor(intervalKey);
-                if (_IsOverdue)
-                {
-                    color = Color.Red;
-                }
-                else
+                if (!inspectionOverdue)
                 {
                     color = Color.DarkGreen;
                 }
-
-                TextRenderer.DrawText(
-                    e.Graphics,
-                    tab.Text,
-                    font,
-                    e.Bounds,
-                    color,
-                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
-                );
-            }
-        }
-
-        private void tabIntervals_DrawItem1(object sender, DrawItemEventArgs e)
-        {
-            if (e.Index < 0 || e.Index >= tabIntervals.TabPages.Count)
-                return;
-
-            TabPage tab = tabIntervals.TabPages[e.Index];
-            string intervalKey = tab.Tag as string;
-            bool isSelected = (e.Index == tabIntervals.SelectedIndex);
-
-            //_machines.
-
-            using (Font font = new Font(tab.Font, isSelected ? (FontStyle.Bold | FontStyle.Underline) : FontStyle.Bold))
-            {
-                Color color = GetIntervalColor(intervalKey);
+                else
+                {
+                    color = Color.Red;
+                }
 
                 TextRenderer.DrawText(
                     e.Graphics,
@@ -484,33 +478,47 @@ namespace MachineInspections
         }
 
 
-
+        Dictionary<string, InspectionScheduleResult> currentMachineInspectionScheduleResult = new Dictionary<string, InspectionScheduleResult>();
         private void ShowInspectionStatus(MachineDefinition machine)
         {
             var inspectionSchedules = inspectionScheduleResult.CalculateSchedule(machine);
+            currentMachineInspectionScheduleResult[machine.MachineName] = inspectionSchedules;
+            currentMachine = machine;
+            
 
             if (inspectionSchedules?.StatusMessages == null)
                 return;
 
             var machineToUpdate = _machines.Find(m => m.MachineName == machine.MachineName);
 
-            foreach (var statusMessage in inspectionSchedules.StatusMessages)
-            {
-                machineToUpdate!.InspectionTimeOverdue![statusMessage.Key] = inspectionSchedules.InspectionTimeIsOverdue[statusMessage.Key];
-            }
 
+            if (machineToUpdate?.MaintenanceDateToCodeDesc == null)
+                return;
+ 
+            scrollPanel.Controls.Clear();
             StringBuilder sb = new StringBuilder();
             foreach (var msg in inspectionSchedules.StatusMessages.Values)
             {
-                sb.AppendLine(msg);
+                    sb.AppendLine(msg);
             }
 
-            lblInspectionStatus.Text = sb.ToString().Trim();
-            lblInspectionStatus.TextAlign = ContentAlignment.TopLeft;
-            lblInspectionStatus.RightToLeft = RightToLeft.Yes;
+            System.Windows.Forms.Label label = new System.Windows.Forms.Label
+            {
+                AutoSize = true,
+                Text = sb.ToString(),
+                TextAlign = ContentAlignment.TopLeft,
+                RightToLeft = RightToLeft.Yes,
+
+                Padding = new Padding(950, 0, 0, 0),
+
+            };
+            scrollPanel.Controls.Add(label);
+
+
 
             _IsOverdue = inspectionSchedules.IsOverdue;
-
+            
+            
             tabIntervals.Invalidate(); // Triggers re-rendering of layout elements with current alerts
         }
     }

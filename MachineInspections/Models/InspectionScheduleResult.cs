@@ -81,9 +81,9 @@ namespace MachineInspections
                     return "בדיקה דו־חודשית";
 
                 case "רבעוני":
-                    return "בדיקה תלת־חודשית";
+                    return "בדיקה רבעונית";
 
-                case "חצי שנתי":
+                case "חצי-שנתי":
                     return "בדיקה חצי־שנתית";
 
                 case "שנתי":

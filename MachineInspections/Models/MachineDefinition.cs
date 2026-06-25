@@ -11,10 +11,10 @@ namespace MachineInspections
         public string MachineName { get; set; }
 
         //Code - Definition
-        public Dictionary<string, List<MaintenanceTest>>? Maintenance { get; set; }
+        public Dictionary<string, List<MaintenanceTest>>? MaintenanceDateToCodeDesc { get; set; } = new Dictionary<string, List<MaintenanceTest>>();
 
         //Read from config all the maintenance interval e.g monthly, quarterly, yearly and their values in days : monthly - 30, weekly-7
-        public Dictionary<string, int>? MaintenanceSchedule { get; set; }
+        public Dictionary<string, int>? MaintenanceSchedule { get; set; } = new Dictionary<string, int>();
 
         //Map
         public Dictionary<string, bool>? InspectionTimeOverdue { get; set; }

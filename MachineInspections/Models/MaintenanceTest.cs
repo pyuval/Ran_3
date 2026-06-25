@@ -7,5 +7,9 @@ namespace MachineInspections
     {
         public string? Code { get; set; }
         public string? Description { get; set; }
+
+        public bool IsOverdue { get; set; }
+
+        
     }
 }
