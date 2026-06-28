@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 namespace MachineInspections.Designer
 {
     public class ModernButton : Button
- public class MaterialButton : Button
     {
-        private Color _defaultColor = Color.White;
+       private Color _defaultColor = Color.White;
         private Color _hoverColor = Color.FromArgb(240, 240, 240);
         private Color _borderColor = Color.FromArgb(33, 150, 243); // Material Blue 500
 
-        public MaterialButton()
+        public ModernButton()
         {
             this.FlatStyle = FlatStyle.Flat;
             this.FlatAppearance.BorderSize = 2;
