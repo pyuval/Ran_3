@@ -38,6 +38,7 @@ namespace MachineInspections
             { "Annual", Color.LightCoral }
         };
         private System.Windows.Forms.Label DataLabel;
+        private System.Windows.Forms.Label label1;
         private List<MachineDefinition> _machines = new List<MachineDefinition>();
 
         public MachineInspectionForm(Inspector loggedInInspector, string machineName)
@@ -66,12 +67,14 @@ namespace MachineInspections
             btnSaveInspection = new Button();
             panelOuter = new Panel();
             lblInspectionStatus = new System.Windows.Forms.Label();
+            label1 = new System.Windows.Forms.Label();
             panelRight.SuspendLayout();
             panelOuter.SuspendLayout();
             SuspendLayout();
             // 
             // panelRight
             // 
+            panelRight.Controls.Add(label1);
             panelRight.Controls.Add(lblSerial);
             panelRight.Controls.Add(lblMachineName);
             panelRight.Controls.Add(DataLabel);
@@ -89,11 +92,12 @@ namespace MachineInspections
             // lblSerial
             // 
             lblSerial.AutoSize = true;
-            lblSerial.Font = new Font("Segoe UI", 11F);
-            lblSerial.Location = new Point(875, 15);
+            lblSerial.Font = new Font("Segoe UI", 14F);
+            lblSerial.ForeColor = Color.Red;
+            lblSerial.Location = new Point(1114, 15);
             lblSerial.Name = "lblSerial";
             lblSerial.RightToLeft = RightToLeft.Yes;
-            lblSerial.Size = new Size(46, 20);
+            lblSerial.Size = new Size(59, 25);
             lblSerial.TabIndex = 1;
             lblSerial.Text = "Serial";
             // 
@@ -102,7 +106,7 @@ namespace MachineInspections
             lblMachineName.AutoSize = true;
             lblMachineName.Font = new Font("Segoe UI", 14F);
             lblMachineName.ForeColor = Color.Red;
-            lblMachineName.Location = new Point(955, 10);
+            lblMachineName.Location = new Point(953, 15);
             lblMachineName.Name = "lblMachineName";
             lblMachineName.RightToLeft = RightToLeft.Yes;
             lblMachineName.Size = new Size(135, 25);
@@ -128,6 +132,7 @@ namespace MachineInspections
             tabIntervals.Location = new Point(56, 220);
             tabIntervals.MaximumSize = new Size(1370, 400);
             tabIntervals.MinimumSize = new Size(1370, 400);
+            tabIntervals.Multiline = true;
             tabIntervals.Name = "tabIntervals";
             tabIntervals.RightToLeft = RightToLeft.Yes;
             tabIntervals.RightToLeftLayout = true;
@@ -190,6 +195,15 @@ namespace MachineInspections
             lblInspectionStatus.Size = new Size(20, 41);
             lblInspectionStatus.TabIndex = 0;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(1094, 20);
+            label1.Name = "label1";
+            label1.Size = new Size(12, 19);
+            label1.TabIndex = 5;
+            label1.Text = ":";
+            // 
             // MachineInspectionForm
             // 
             ClientSize = new Size(1500, 703);
@@ -230,7 +244,7 @@ namespace MachineInspections
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-            var home = new MachineSelectionForm();
+            var home = new MachineSelectionForm(m_loggedInInspector);
             home.Show();
             this.Close();
         }
