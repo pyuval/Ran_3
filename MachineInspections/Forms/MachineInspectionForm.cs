@@ -13,6 +13,7 @@ namespace MachineInspections
     {
         private InspectionScheduleResult inspectionScheduleResult;
         private readonly Inspector m_loggedInInspector;
+        private string m_currentMachineName;
         private string _mostUrgentInterval;
         private bool _IsOverdue;
         private MachineDefinition currentMachine;
@@ -45,6 +46,8 @@ namespace MachineInspections
             InitializeComponent();
             inspectionScheduleResult = new InspectionScheduleResult();
             m_loggedInInspector = loggedInInspector;
+            m_currentMachineName = machineName;
+            lblMachineName.Text = machineName;
 
         }
         private void InitializeComponent()
@@ -208,9 +211,10 @@ namespace MachineInspections
 
         protected override void OnLoad(EventArgs e)
         {
+          
             base.OnLoad(e);
-            LoadMachines();
-            BindMachineList();
+            LoadMachine();
+         // BindMachineList();
             this.lblDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
         }
 
@@ -232,7 +236,7 @@ namespace MachineInspections
             this.Close();
         }
 
-        private void LoadMachines()
+        private void LoadMachine()
         {
             var folder = GetSharedFolder();
 
@@ -241,7 +245,7 @@ namespace MachineInspections
 
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-            foreach (var file in Directory.GetFiles(folder, "*.json"))
+            foreach (var file in Directory.GetFiles(folder, m_currentMachineName+".json"))
             {
                 try
                 {
@@ -250,18 +254,38 @@ namespace MachineInspections
                     var root = doc.RootElement;
                     var pri = root.GetProperty("MaintenanceDateToCodeDesc");
 
-                    var machine = JsonSerializer.Deserialize<MachineDefinition>(json, options);
+                     currentMachine = JsonSerializer.Deserialize<MachineDefinition>(json, options);
 
-                    if (machine != null)
+                
+                    if (currentMachine == null)
+                        return;
+                    if (currentMachine?.IsOperational == true)
                     {
 
-                        if (machine != null)
-                        {
-                            _machines.Add(machine);
-                        }
-                    }
+                        this.btnSaveInspection.Enabled = true;
+                        this.btnSaveInspection.Text = "שמור";
 
-                  
+                    }
+                    else
+                    {
+
+                        this.btnSaveInspection.Enabled = false;
+                        this.btnSaveInspection.Text = "המכונה מושבתת";
+                    }
+                    BuildIntervalTabs(currentMachine);
+                    ShowInspectionStatus(currentMachine);
+
+
+                    //if (machine != null)
+                    //{
+
+                    //    if (machine != null)
+                    //    {
+                    //        _machines.Add(machine);
+                    //    }
+                    //}
+
+
 
                 }
                 catch (Exception ex)
