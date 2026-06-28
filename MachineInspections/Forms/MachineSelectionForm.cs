@@ -2,10 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,19 +17,77 @@ namespace MachineInspections.Forms
     public partial class MachineSelectionForm : Form
     {
 
-        private List<string> _machines;
+        private List<string> _machineNames;
+        private List<MachineDefinition> _machines = new List<MachineDefinition>();
+
         int colorIndex = 0;
 
         public MachineSelectionForm()
         {
         }
 
-        public MachineSelectionForm(Inspector loggedInInspector, List<string> machines)
+        public MachineSelectionForm(Inspector loggedInInspector)
         {
             InitializeComponent();
-            _machines = machines;
+            LoadMachines();
             this.BackColor = Color.Black;
             CreateMachineButtons(loggedInInspector);
+        }
+
+        private void LoadMachines()
+        {
+            var folder = GetSharedFolder();
+
+            if (!Directory.Exists(folder))
+                return;
+
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            foreach (var file in Directory.GetFiles(folder, "*.json"))
+            {
+                try
+                {
+                    var json = File.ReadAllText(file, Encoding.UTF8);
+                    using var doc = JsonDocument.Parse(json);
+                    var root = doc.RootElement;
+                    var pri = root.GetProperty("MaintenanceDateToCodeDesc");
+
+                    var machine = JsonSerializer.Deserialize<MachineDefinition>(json, options);
+
+                    if (machine != null)
+                    {
+
+                        if (machine != null)
+                        {
+                            _machines.Add(machine);
+                        }
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error reading machine definition file {Path.GetFileName(file)}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+
+
+        private string GetSetting(string key, string defaultValue)
+        {
+            return ConfigurationManager.AppSettings[key] ?? defaultValue;
+        }
+
+        private string GetSharedFolder()
+        {
+
+            string folder = GetSetting("Machines", "Machines");
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            folder = @Path.GetFullPath(Path.Combine(baseDir, folder));
+
+            return folder;
+
         }
 
         private readonly Color[] machineColors = new Color[]
@@ -47,7 +108,7 @@ namespace MachineInspections.Forms
             foreach (var machine in _machines)
             {
                 var btn = new MaterialCircleButton();
-                btn.Text = machine;
+                btn.Text = machine.MachineName;
                 btn.BackColor = machineColors[colorIndex % machineColors.Length];
                 //btn.HoverColor = ControlPaint.Light(btn.BackColor, 0.2f);
                 btn.RightToLeft = RightToLeft.Yes;
@@ -58,7 +119,7 @@ namespace MachineInspections.Forms
 
                 btn.Click += (s, e) =>
                 {
-                    var form = new MachineInspectionForm(loggedInInspector, machine);
+                    var form = new MachineInspectionForm(loggedInInspector, machine.MachineName);
                     form.Show();
                     this.Hide();
                 };

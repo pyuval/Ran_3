@@ -17,12 +17,10 @@ namespace MachineInspections
         private string _mostUrgentInterval;
         private bool _IsOverdue;
         private MachineDefinition currentMachine;
-        private ListBox lstMachines;
+        //private ListBox lstMachines;
         private TabControl tabIntervals;
         private System.Windows.Forms.Label lblMachineName;
         private System.Windows.Forms.Label lblSerial;
-        private System.Windows.Forms.Label lblNextInspection;
-        private System.Windows.Forms.Label lblDate;
         private System.Windows.Forms.Label lblInspectionStatus;
         private System.Windows.Forms.Button btnSaveInspection;
         private System.Windows.Forms.Panel panelRight;
@@ -39,6 +37,7 @@ namespace MachineInspections
             { "MidYear", Color.Orange },
             { "Annual", Color.LightCoral }
         };
+        private System.Windows.Forms.Label DataLabel;
         private List<MachineDefinition> _machines = new List<MachineDefinition>();
 
         public MachineInspectionForm(Inspector loggedInInspector, string machineName)
@@ -47,175 +46,175 @@ namespace MachineInspections
             inspectionScheduleResult = new InspectionScheduleResult();
             m_loggedInInspector = loggedInInspector;
             m_currentMachineName = machineName;
-            lblMachineName.Text = machineName;
-
+            if (!string.IsNullOrEmpty(machineName))
+            {
+                if (lblMachineName != null)
+                {
+                    lblMachineName.Text = machineName;
+                }
+            }
         }
         private void InitializeComponent()
         {
-            this.lstMachines = new System.Windows.Forms.ListBox();
-            this.panelRight = new System.Windows.Forms.Panel();
-            this.scrollPanel = new System.Windows.Forms.Panel();
-            this.lblMachineName = new System.Windows.Forms.Label();
-            this.lblSerial = new System.Windows.Forms.Label();
-            this.lblNextInspection = new System.Windows.Forms.Label();
-            this.lblDate = new System.Windows.Forms.Label();
-            this.panelOuter = new System.Windows.Forms.Panel();
-
-            this.tabIntervals = new System.Windows.Forms.TabControl();
-            this.btnSaveInspection = new System.Windows.Forms.Button();
-            this.lblInspectionStatus = new System.Windows.Forms.Label();
-            this.btnBack = new System.Windows.Forms.Button();
-
-            this.lblDate.Location = new Point(0, 0);
-
-
-            // panelOuter (LTR container)
-
-            this.panelOuter.Dock = DockStyle.Fill;
-            this.panelOuter.RightToLeft = RightToLeft.Yes;   // stops RTL flipping
-            this.panelOuter.Padding = new Padding(0);
-
-            this.panelOuter.Controls.Add(this.panelRight);
-
-            // 
-            // lstMachines
-            // 
-            this.lstMachines.Dock = DockStyle.Left;
-            this.lstMachines.Font = new Font("Segoe UI", 11F);
-            this.lstMachines.ItemHeight = 25;
-            this.lstMachines.Width = 250;
-            this.lstMachines.RightToLeft = RightToLeft.Yes;
-            this.lstMachines.SelectedIndexChanged += new EventHandler(this.lstMachines_SelectedIndexChanged);
-
+            panelRight = new Panel();
+            lblSerial = new System.Windows.Forms.Label();
+            lblMachineName = new System.Windows.Forms.Label();
+            DataLabel = new System.Windows.Forms.Label();
+            tabIntervals = new TabControl();
+            btnBack = new Button();
+            scrollPanel = new Panel();
+            btnSaveInspection = new Button();
+            panelOuter = new Panel();
+            lblInspectionStatus = new System.Windows.Forms.Label();
+            panelRight.SuspendLayout();
+            panelOuter.SuspendLayout();
+            SuspendLayout();
             // 
             // panelRight
             // 
-            // panelRight
-            this.panelRight.Dock = DockStyle.Fill;
-            this.panelRight.Padding = new Padding(10, 20, 0, 0);
-
-            // RTL FIX — must be BEFORE adding controls
-            //this.panelRight.RightToLeft = RightToLeft.Yes;
-            //this.panelRight.RightToLeftLayout = false;
-
-            // Now add controls
-            this.panelRight.Controls.Add(this.tabIntervals);
-            this.panelRight.Controls.Add(this.scrollPanel);
-            this.panelRight.Controls.Add(this.btnSaveInspection);
-            //this.panelRight.Controls.Add(this.lblDate);
-
-
-
-
-            // 
-            // scrollPanel
-            // 
-            this.scrollPanel.Dock = DockStyle.Top;
-            this.scrollPanel.Height = 100;
-            this.scrollPanel.AutoScroll = true;
-            //this.scrollPanel.Padding = new Padding(200, 20, 0, 0);
-            this.scrollPanel.RightToLeft = RightToLeft.No;
-
-
-
-            // Add labels to scrollPanel
-            //this.scrollPanel.Controls.Add(this.lblMachineName);
-            //this.scrollPanel.Controls.Add(this.lblSerial);
-            //this.scrollPanel.Controls.Add(this.lblNextInspection);
-            //this.scrollPanel.Controls.Add(this.lblDate);
-
-            // 
-            // lblMachineName
-            // 
-            this.lblMachineName.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            this.lblMachineName.AutoSize = true;
-            this.lblMachineName.Location = new Point(10, 10);
-            this.lblMachineName.RightToLeft = RightToLeft.Yes;
-
+            panelRight.Controls.Add(lblSerial);
+            panelRight.Controls.Add(lblMachineName);
+            panelRight.Controls.Add(DataLabel);
+            panelRight.Controls.Add(tabIntervals);
+            panelRight.Controls.Add(btnBack);
+            panelRight.Controls.Add(scrollPanel);
+            panelRight.Controls.Add(btnSaveInspection);
+            panelRight.Dock = DockStyle.Fill;
+            panelRight.Location = new Point(0, 0);
+            panelRight.Name = "panelRight";
+            panelRight.Padding = new Padding(10, 20, 0, 0);
+            panelRight.Size = new Size(1500, 703);
+            panelRight.TabIndex = 0;
             // 
             // lblSerial
             // 
-            this.lblSerial.Font = new Font("Segoe UI", 11F);
-            this.lblSerial.AutoSize = true;
-            this.lblSerial.Location = new Point(10, 50);
-            this.lblSerial.RightToLeft = RightToLeft.Yes;
-
+            lblSerial.AutoSize = true;
+            lblSerial.Font = new Font("Segoe UI", 11F);
+            lblSerial.Location = new Point(875, 15);
+            lblSerial.Name = "lblSerial";
+            lblSerial.RightToLeft = RightToLeft.Yes;
+            lblSerial.Size = new Size(46, 20);
+            lblSerial.TabIndex = 1;
+            lblSerial.Text = "Serial";
             // 
-            // lblNextInspection
+            // lblMachineName
             // 
-            this.lblNextInspection.Font = new Font("Segoe UI", 11F);
-            this.lblNextInspection.AutoSize = true;
-            this.lblNextInspection.Location = new Point(10, 80);
-            this.lblNextInspection.RightToLeft = RightToLeft.Yes;
-
+            lblMachineName.AutoSize = true;
+            lblMachineName.Font = new Font("Segoe UI", 14F);
+            lblMachineName.ForeColor = Color.Red;
+            lblMachineName.Location = new Point(955, 10);
+            lblMachineName.Name = "lblMachineName";
+            lblMachineName.RightToLeft = RightToLeft.Yes;
+            lblMachineName.Size = new Size(135, 25);
+            lblMachineName.TabIndex = 0;
+            lblMachineName.Text = "MachineName";
             // 
-            // lblDate
+            // DataLabel
             // 
-            this.lblDate.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            this.lblDate.AutoSize = true;
-            this.lblDate.Location = new Point(0, 0);
-            this.lblDate.RightToLeft = RightToLeft.Yes;
-
+            DataLabel.AutoSize = true;
+            DataLabel.Location = new Point(60, 10);
+            DataLabel.Name = "DataLabel";
+            DataLabel.Size = new Size(38, 19);
+            DataLabel.TabIndex = 4;
+            DataLabel.Text = "Date";
             // 
             // tabIntervals
             // 
-            this.tabIntervals.Dock = DockStyle.Fill;
-            this.tabIntervals.DrawMode = TabDrawMode.OwnerDrawFixed;
-            this.tabIntervals.ItemSize = new Size(150, 40);
-            this.tabIntervals.Font = new Font("Segoe UI", 11F);
-            this.tabIntervals.RightToLeft = RightToLeft.Yes;
-            this.tabIntervals.RightToLeftLayout = true;
-            this.tabIntervals.DrawItem += new DrawItemEventHandler(this.tabIntervals_DrawItem);
-
+            tabIntervals.Anchor = AnchorStyles.None;
+            tabIntervals.Appearance = TabAppearance.Buttons;
+            tabIntervals.DrawMode = TabDrawMode.OwnerDrawFixed;
+            tabIntervals.Font = new Font("Segoe UI", 11F);
+            tabIntervals.ItemSize = new Size(150, 40);
+            tabIntervals.Location = new Point(56, 220);
+            tabIntervals.MaximumSize = new Size(1370, 400);
+            tabIntervals.MinimumSize = new Size(1370, 400);
+            tabIntervals.Name = "tabIntervals";
+            tabIntervals.RightToLeft = RightToLeft.Yes;
+            tabIntervals.RightToLeftLayout = true;
+            tabIntervals.SelectedIndex = 0;
+            tabIntervals.Size = new Size(1370, 400);
+            tabIntervals.TabIndex = 0;
+            tabIntervals.DrawItem += tabIntervals_DrawItem;
+            // 
+            // btnBack
+            // 
+            btnBack.Location = new Point(1413, 10);
+            btnBack.Name = "btnBack";
+            btnBack.RightToLeft = RightToLeft.Yes;
+            btnBack.Size = new Size(75, 23);
+            btnBack.TabIndex = 1;
+            btnBack.Text = "חזור";
+            btnBack.UseVisualStyleBackColor = true;
+            btnBack.Click += btnBack_Click;
+            // 
+            // scrollPanel
+            // 
+            scrollPanel.AutoScroll = true;
+            scrollPanel.BorderStyle = BorderStyle.Fixed3D;
+            scrollPanel.Location = new Point(56, 68);
+            scrollPanel.Name = "scrollPanel";
+            scrollPanel.RightToLeft = RightToLeft.Yes;
+            scrollPanel.Size = new Size(1372, 146);
+            scrollPanel.TabIndex = 1;
             // 
             // btnSaveInspection
             // 
-            this.btnSaveInspection.Dock = DockStyle.Bottom;
-            this.btnSaveInspection.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            this.btnSaveInspection.Height = 50;
-            this.btnSaveInspection.Text = "חתום בדיקה";
-            this.btnSaveInspection.Click += new EventHandler(this.btnSaveInspection_Click);
-
+            btnSaveInspection.Anchor = AnchorStyles.None;
+            btnSaveInspection.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnSaveInspection.Location = new Point(56, 653);
+            btnSaveInspection.Name = "btnSaveInspection";
+            btnSaveInspection.Size = new Size(1370, 50);
+            btnSaveInspection.TabIndex = 2;
+            btnSaveInspection.Text = "חתום בדיקה";
+            btnSaveInspection.Click += btnSaveInspection_Click;
+            // 
+            // panelOuter
+            // 
+            panelOuter.Controls.Add(panelRight);
+            panelOuter.Dock = DockStyle.Fill;
+            panelOuter.Location = new Point(0, 0);
+            panelOuter.Name = "panelOuter";
+            panelOuter.RightToLeft = RightToLeft.Yes;
+            panelOuter.Size = new Size(1500, 703);
+            panelOuter.TabIndex = 2;
             // 
             // lblInspectionStatus
             // 
-            this.lblInspectionStatus.AutoSize = true;
-            this.lblInspectionStatus.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            this.lblInspectionStatus.BackColor = Color.WhiteSmoke;
-            this.lblInspectionStatus.Padding = new Padding(10);
-            this.lblInspectionStatus.Location = new Point(260, 10);
-            this.lblInspectionStatus.RightToLeft = RightToLeft.Yes;
-
-            this.btnBack.Location = new Point(1410, 10);
-            this.btnBack.Size = new Size(75, 23);
-            this.btnBack.Text = "חזור";
-            this.btnBack.UseVisualStyleBackColor = true;
-            this.btnBack.Click += new EventHandler(this.btnBack_Click);
-
+            lblInspectionStatus.AutoSize = true;
+            lblInspectionStatus.BackColor = Color.WhiteSmoke;
+            lblInspectionStatus.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblInspectionStatus.Location = new Point(260, 10);
+            lblInspectionStatus.Name = "lblInspectionStatus";
+            lblInspectionStatus.Padding = new Padding(10);
+            lblInspectionStatus.RightToLeft = RightToLeft.Yes;
+            lblInspectionStatus.Size = new Size(20, 41);
+            lblInspectionStatus.TabIndex = 0;
             // 
             // MachineInspectionForm
             // 
-            this.ClientSize = new Size(1500, 703);
-
-            this.Controls.Add(this.lblInspectionStatus);
-            this.Controls.Add(this.btnBack);
-            //this.Controls.Add(this.panelRight);
-            this.Controls.Add(this.panelOuter);
-            this.Controls.Add(this.lstMachines);
-            this.Font = new Font("Segoe UI", 10F);
-            this.RightToLeft = RightToLeft.Yes;
-            this.RightToLeftLayout = true;
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.Text = "מערכת בדיקות מכונות";
+            ClientSize = new Size(1500, 703);
+            Controls.Add(lblInspectionStatus);
+            Controls.Add(panelOuter);
+            Font = new Font("Segoe UI", 10F);
+            Name = "MachineInspectionForm";
+            RightToLeft = RightToLeft.Yes;
+            RightToLeftLayout = true;
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "מערכת בדיקות מכונות";
+            panelRight.ResumeLayout(false);
+            panelRight.PerformLayout();
+            panelOuter.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         protected override void OnLoad(EventArgs e)
         {
-          
+
             base.OnLoad(e);
             LoadMachine();
-         // BindMachineList();
-            this.lblDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            
+            this.DataLabel.Text = DateTime.Now.ToString("dd/MM/yyyy");
         }
 
         private string GetSharedFolder()
@@ -245,7 +244,7 @@ namespace MachineInspections
 
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-            foreach (var file in Directory.GetFiles(folder, m_currentMachineName+".json"))
+            foreach (var file in Directory.GetFiles(folder, m_currentMachineName + ".json"))
             {
                 try
                 {
@@ -254,9 +253,10 @@ namespace MachineInspections
                     var root = doc.RootElement;
                     var pri = root.GetProperty("MaintenanceDateToCodeDesc");
 
-                     currentMachine = JsonSerializer.Deserialize<MachineDefinition>(json, options);
+                    currentMachine = JsonSerializer.Deserialize<MachineDefinition>(json, options);
 
-                
+                   
+
                     if (currentMachine == null)
                         return;
                     if (currentMachine?.IsOperational == true)
@@ -271,21 +271,11 @@ namespace MachineInspections
 
                         this.btnSaveInspection.Enabled = false;
                         this.btnSaveInspection.Text = "המכונה מושבתת";
+
                     }
+                    this.lblSerial.Text = currentMachine?.SerialNumber;
                     BuildIntervalTabs(currentMachine);
                     ShowInspectionStatus(currentMachine);
-
-
-                    //if (machine != null)
-                    //{
-
-                    //    if (machine != null)
-                    //    {
-                    //        _machines.Add(machine);
-                    //    }
-                    //}
-
-
 
                 }
                 catch (Exception ex)
@@ -297,32 +287,32 @@ namespace MachineInspections
 
         private void BindMachineList()
         {
-            lstMachines.DisplayMember = "MachineName";
-            lstMachines.ValueMember = "SerialNumber";
-            lstMachines.DataSource = _machines;
+            //lstMachines.DisplayMember = "MachineName";
+            //lstMachines.ValueMember = "SerialNumber";
+            //lstMachines.DataSource = _machines;
         }
 
-        private void lstMachines_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            currentMachine = lstMachines.SelectedItem as MachineDefinition;
-            if (currentMachine == null)
-                return;
-            if (currentMachine?.IsOperational == true)
-            {
+        //private void lstMachines_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    currentMachine = lstMachines.SelectedItem as MachineDefinition;
+        //    if (currentMachine == null)
+        //        return;
+        //    if (currentMachine?.IsOperational == true)
+        //    {
 
-                this.btnSaveInspection.Enabled = true;
-                this.btnSaveInspection.Text = "שמור";
+        //        this.btnSaveInspection.Enabled = true;
+        //        this.btnSaveInspection.Text = "שמור";
 
-            }
-            else
-            {
+        //    }
+        //    else
+        //    {
 
-                this.btnSaveInspection.Enabled = false;
-                this.btnSaveInspection.Text = "המכונה מושבתת";
-            }
-            BuildIntervalTabs(currentMachine);
-            ShowInspectionStatus(currentMachine);
-        }
+        //        this.btnSaveInspection.Enabled = false;
+        //        this.btnSaveInspection.Text = "המכונה מושבתת";
+        //    }
+        //    BuildIntervalTabs(currentMachine);
+        //    ShowInspectionStatus(currentMachine);
+        //}
 
         //private void ShowMachineDetails(MachineDefinition machine)
         //{
@@ -452,7 +442,7 @@ namespace MachineInspections
 
         private void btnSaveInspection_Click(object sender, EventArgs e)
         {
-            var machine = lstMachines.SelectedItem as MachineDefinition;
+            var machine = currentMachine;
             if (machine == null)
                 return;
 
@@ -708,17 +698,14 @@ namespace MachineInspections
             if (inspectionSchedules?.StatusMessages == null)
                 return;
 
-            var machineToUpdate = _machines.Find(m => m.MachineName == machine.MachineName);
-
-
-            if (machineToUpdate?.MaintenanceDateToCodeDesc == null)
-                return;
-
+                    
             scrollPanel.Controls.Clear();
             StringBuilder sb = new StringBuilder();
             foreach (var msg in inspectionSchedules.StatusMessages.Values)
             {
-                sb.AppendLine(msg);
+                sb.Append(msg + "                                                                                                                                  ");
+                sb.Append("                                                                          ");
+                sb.AppendLine("                                                                             ");
             }
 
             System.Windows.Forms.Label label = new System.Windows.Forms.Label
@@ -726,9 +713,7 @@ namespace MachineInspections
                 AutoSize = true,
                 Text = sb.ToString(),
                 TextAlign = ContentAlignment.TopLeft,
-                RightToLeft = RightToLeft.Yes,
-
-                Padding = new Padding(950, 0, 0, 0),
+                
 
             };
             scrollPanel.Controls.Add(label);

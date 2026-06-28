@@ -22,6 +22,7 @@ namespace MachineInspections
         {
             InitializeComponent();
             LoadInspectors();
+
             DialogResult = DialogResult.None;
             FillSignIn();
         }

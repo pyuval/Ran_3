@@ -20,7 +20,7 @@ namespace MachineInspections
             {
                 if (login.ShowDialog() == DialogResult.OK)
                 {
-                    Application.Run(new MachineSelectionForm(login.LoggedInInspector, machines));
+                    Application.Run(new MachineSelectionForm(login.LoggedInInspector));
                     // Application.Run(new MachineInspectionForm(login.LoggedInInspector));
                 }
             }
