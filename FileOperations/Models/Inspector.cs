@@ -11,5 +11,7 @@ namespace FileOperationsNS.Models
         public string? ID { get; set; }
 
         public string? Password { get; set; } // NEW
+
+        public bool IsAdmin { get; set; } // NEW
     }
 }

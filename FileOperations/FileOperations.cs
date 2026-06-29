@@ -63,8 +63,9 @@ namespace FileOperationsNS
             
         }
 
-        public static void AppendInspectionToCsv(Inspector inspector, MachineDefinition machine, string intervalKey, List<(string Code, bool Done)> results)
+        public static string AppendInspectionToCsv(Inspector inspector, MachineDefinition machine, string intervalKey, List<(string Code, bool Done)> results)
         {
+            string respond = string.Empty;
             try
             {
                 string filePath = GetActiveCsvFile(machine);
@@ -88,19 +89,20 @@ namespace FileOperationsNS
             }
             catch (Exception ex)
             {
-               // MessageBox.Show("Error writing CSV: " + ex.Message, "IO Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
+                respond = ex.Message;
             }
+
+            return respond;
         }
 
         private static string GetActiveCsvFile(MachineDefinition machine)
         {
-            string folder = FileOperationsNS.FileOperations.GetSharedFolder("Machines");
+            string folder = FileOperations.GetSharedFolder("MachineResults");
             Directory.CreateDirectory(folder);
 
-            string baseName = FileOperationsNS.FileOperations.GetSetting("CsvBaseName", "Results");
-            int maxSizeMB = FileOperationsNS.FileOperations.GetSettingInt("CsvMaxSizeMB", 2);
-            int maxFiles = FileOperationsNS.FileOperations.GetSettingInt("CsvMaxFiles", 50);
+            string baseName = FileOperations.GetSetting("CsvBaseName", "Results");
+            int maxSizeMB = FileOperations.GetSettingInt("CsvMaxSizeMB", 2);
+            int maxFiles = FileOperations.GetSettingInt("CsvMaxFiles", 50);
 
             // Find existing target logs matching patterns
             var files = Directory.GetFiles(folder, $"{machine.MachineName}*.csv")

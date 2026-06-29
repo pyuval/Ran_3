@@ -56,7 +56,7 @@
     "רבעוני": 90
   },
   "InspectionTimeOverdue": null,
-  "IsOperational": true,
+  "IsOperational": false,
   "SerialNumber": "C-AB553",
-  "DefectExplanation": "שבר בגלגל"
+  "DefectExplanation": "תקול 2"
 }

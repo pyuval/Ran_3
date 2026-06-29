@@ -1,11 +1,69 @@
 ﻿{
-  "MachineName": "LAVAZZA",
-  "SerialNumber": "COFFE MAKER-A34",
-
-  "LastInspectionDate": "2026-01-01",
+  "LastInspectionDate": "2026-01-01T00:00:00",
   "LastInspectionType": "שבועי",
-  "IsOperational": true,
-    "DefectExplanation": "",
+  "MachineName": "LAVAZZA",
+  "MaintenanceDateToCodeDesc": {
+    "שבועי": [
+      {
+        "Code": "A",
+        "Description": "בדוק לחץ שמן שבועי",
+        "IsOverdue": false
+      },
+      {
+        "Code": "B",
+        "Description": "שבועי בדוק רצועות",
+        "IsOverdue": false
+      },
+      {
+        "Code": "C",
+        "Description": "בדוק רעשים חריגים שבועי ",
+        "IsOverdue": false
+      }
+    ],
+    "חודשי": [
+      {
+        "Code": "X",
+        "Description": " חודשי בדיקת פילטרים",
+        "IsOverdue": false
+      },
+      {
+        "Code": "Y",
+        "Description": "בדיקת מערכת קירור חודשי ",
+        "IsOverdue": false
+      }
+    ],
+    "דו-חודשי": [
+      {
+        "Code": "BM1",
+        "Description": " בדיקה דו־חודשית כללית",
+        "IsOverdue": false
+      }
+    ],
+    "רבעוני": [
+      {
+        "Code": "TM1",
+        "Description": "בדיקה רבעונית של טמפרטורת  מעבד",
+        "IsOverdue": false
+      },
+      {
+        "Code": "TM2",
+        "Description": "בדיקה רבעונית של טמפרטורת  לוח אם",
+        "IsOverdue": false
+      },
+      {
+        "Code": "TM3",
+        "Description": "בדיקה רבעונית של טמפרטורת  מאורר",
+        "IsOverdue": false
+      }
+    ],
+    "שנתי": [
+      {
+        "Code": "PHILLIPS-ANNUAL-CHECK",
+        "Description": "בדיקה שנתית מלאה",
+        "IsOverdue": false
+      }
+    ]
+  },
   "MaintenanceSchedule": {
     "שבועי": 7,
     "חודשי": 30,
@@ -14,58 +72,8 @@
     "חצי-שנתי": 180,
     "שנתי": 365
   },
-  "MaintenanceDateToCodeDesc": {
-
-    "שבועי": [
-      {
-        "Code": "A",
-        "Description": "בדוק לחץ שמן שבועי"
-      },
-      {
-        "Code": "B",
-        "Description": "שבועי בדוק רצועות"
-      },
-      {
-        "Code": "C",
-        "Description": "בדוק רעשים חריגים שבועי "
-      }
-    ],
-    "חודשי": [
-      {
-        "Code": "X",
-        "Description": " חודשי בדיקת פילטרים"
-      },
-      {
-        "Code": "Y",
-        "Description": "בדיקת מערכת קירור חודשי "
-      }
-    ],
-    "דו-חודשי": [
-      {
-        "Code": "BM1",
-        "Description": " בדיקה דו־חודשית כללית"
-      }
-    ],
-    "רבעוני": [
-      {
-        "Code": "TM1",
-        "Description": "בדיקה רבעונית של טמפרטורת  מעבד"
-      },
-      {
-        "Code": "TM2",
-        "Description": "בדיקה רבעונית של טמפרטורת  לוח אם"
-      },
-      {
-        "Code": "TM3",
-        "Description": "בדיקה רבעונית של טמפרטורת  מאורר"
-      }
-    ],
-
-    "שנתי": [
-      {
-        "Code": "PHILLIPS-ANNUAL-CHECK",
-        "Description": "בדיקה שנתית מלאה"
-      }
-    ]
-  }
+  "InspectionTimeOverdue": null,
+  "IsOperational": false,
+  "SerialNumber": "COFFE MAKER-A34",
+  "DefectExplanation": "תקול 3"
 }

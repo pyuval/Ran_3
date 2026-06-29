@@ -32,17 +32,7 @@ namespace MachineInspections
         private Label label1;
         private Label DataLabel;
 
-        //private Dictionary<string, Color> _intervalColors = new Dictionary<string, Color>
-        //{
-        //    { "Weekly", Color.LightGreen },
-        //    { "Monthly", Color.LightBlue },
-        //    { "BiMonthly", Color.Khaki },
-        //    { "TriMonthly", Color.Gold },
-        //    { "MidYear", Color.Orange },
-        //    { "Annual", Color.LightCoral }
-        //};
-
-        // private List<MachineDefinition> _machines = new List<MachineDefinition>();
+       
 
         public MachineInspectionForm(Inspector loggedInInspector, string machineName)
         {
@@ -61,6 +51,7 @@ namespace MachineInspections
         private void InitializeComponent()
         {
             InnerPanel = new Panel();
+            SavedResultLabel = new Label();
             lblSerial = new Label();
             lblMachineName = new Label();
             DataLabel = new Label();
@@ -73,8 +64,6 @@ namespace MachineInspections
             DefectiveExplanationTextBox = new TextBox();
             panelOuter = new Panel();
             lblInspectionStatus = new Label();
-            label1 = new Label();
-            SavedResultLabel = new Label();
             InnerPanel.SuspendLayout();
             DefectiveGroupBox.SuspendLayout();
             panelOuter.SuspendLayout();
@@ -97,6 +86,16 @@ namespace MachineInspections
             InnerPanel.Padding = new Padding(10, 20, 0, 0);
             InnerPanel.Size = new Size(1500, 703);
             InnerPanel.TabIndex = 0;
+            // 
+            // SavedResultLabel
+            // 
+            SavedResultLabel.AutoSize = true;
+            SavedResultLabel.Location = new Point(925, 649);
+            SavedResultLabel.MinimumSize = new Size(250, 28);
+            SavedResultLabel.Name = "SavedResultLabel";
+            SavedResultLabel.Size = new Size(250, 28);
+            SavedResultLabel.TabIndex = 6;
+            SavedResultLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblSerial
             // 
@@ -236,30 +235,9 @@ namespace MachineInspections
             lblInspectionStatus.Size = new Size(20, 41);
             lblInspectionStatus.TabIndex = 0;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(0, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(45, 19);
-            label1.TabIndex = 3;
-            label1.Text = "label1";
-            // 
-            // SavedResultLabel
-            // 
-            SavedResultLabel.AutoSize = true;
-            SavedResultLabel.Location = new Point(925, 649);
-            SavedResultLabel.MinimumSize = new Size(250, 28);
-            SavedResultLabel.Name = "SavedResultLabel";
-            SavedResultLabel.Size = new Size(250, 28);
-            SavedResultLabel.TabIndex = 6;
-            SavedResultLabel.Text = "";
-            SavedResultLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
             // MachineInspectionForm
             // 
             ClientSize = new Size(1500, 703);
-            Controls.Add(label1);
             Controls.Add(lblInspectionStatus);
             Controls.Add(panelOuter);
             Font = new Font("Segoe UI", 10F);
@@ -285,7 +263,7 @@ namespace MachineInspections
 
             this.DataLabel.Text = DateTime.Now.ToString("dd/MM/yyyy");
         }
- 
+
         private void btnBack_Click(object sender, EventArgs e)
         {
             var home = new MachineSelectionForm(m_loggedInInspector);
@@ -317,6 +295,7 @@ namespace MachineInspections
 
                     if (currentMachine == null)
                         return;
+
                     if (currentMachine?.IsOperational == true)
                     {
 
@@ -329,8 +308,11 @@ namespace MachineInspections
 
                         this.btnSaveInspection.Enabled = false;
                         this.btnSaveInspection.Text = "המכונה מושבתת";
+                        this.DefectiveExplanationTextBox.Text = currentMachine.DefectExplanation;
 
                     }
+
+                    
 
                     if (lblMachineName != null)
                     {
@@ -489,12 +471,38 @@ namespace MachineInspections
 
                 // VALIDATION
                 bool allChecked = panel.Controls.OfType<CheckBox>().All(c => c.Checked);
+
+
                 machine.DefectExplanation = DefectiveExplanationTextBox.Text.Trim();
-                machine.IsOperational = false;
+                machine.IsOperational = true;
                 if (!string.IsNullOrEmpty(machine.DefectExplanation))
                 {
-                    SaveToJsonResultFile(machine);
-                    return;
+                    if (allChecked)
+                    {
+                        var msg = MessageBox.Show(
+                             this,
+                             $" הבדיקות עברו בהצלחה. האם עדיין יש סיבה להשבית את המכונה? '{tab.Text}'.",
+                             "שגיאה",
+                             MessageBoxButtons.OK,
+                             MessageBoxIcon.Warning,
+                             MessageBoxDefaultButton.Button1,
+                             MessageBoxOptions.RightAlign | MessageBoxOptions.RtlReading
+                         );
+
+                        if (msg == DialogResult.OK)
+                        {
+                            machine.IsOperational = false;
+                            SaveToJsonResultFile(machine);
+                            return;
+                        }
+                        else if (msg == DialogResult.Cancel)
+                        {
+                            // User clicked Cancel
+                        }
+
+                    }
+
+
                 }
 
 
@@ -524,18 +532,11 @@ namespace MachineInspections
                 }
 
                 // Append runtime persistence metrics per configured maintenance unit
-                FileOperationsNS.FileOperations.AppendInspectionToCsv(m_loggedInInspector, machine, intervalKey, results);
+                var response = FileOperations.AppendInspectionToCsv(m_loggedInInspector, machine, intervalKey, results);
+                this.SavedResultLabel.Text = string.IsNullOrWhiteSpace(response) ? "הבדיקות נשמרו." : response;
             }
 
-            MessageBox.Show(
-                this,
-                "הבדיקות נשמרו.",
-                "",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.RightAlign | MessageBoxOptions.RtlReading
-            );
+
         }
 
         private void SaveToJsonResultFile(MachineDefinition machine)
@@ -562,7 +563,7 @@ namespace MachineInspections
             }
         }
 
-       
+
 
         private string GetIntervalKeyFromTab(string displayName)
         {

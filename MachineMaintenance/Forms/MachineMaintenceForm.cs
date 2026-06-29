@@ -33,342 +33,309 @@ namespace MachineMaintenance
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             lblSerial = new Label();
-            this.txtSerial = new TextBox();
-            this.lblSchedule = new Label();
-            this.dgvSchedule = new DataGridView();
-            this.dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
-            this.lblTests = new Label();
-            this.treeTests = new TreeView();
-            this.btnAddTest = new Button();
-            this.btnEditTest = new Button();
-            this.btnDeleteTest = new Button();
-            this.btnLoadJson = new Button();
-            this.btnSaveJson = new Button();
-            this.lblSelectMachine = new Label();
-            this.cmbMachines = new ComboBox();
-            this.label1 = new Label();
-            this.btnAddInterval = new Button();
-            this.btnDeleteInterval = new Button();
-            this.label2 = new Label();
-            this.btnMachineInoperative = new Button();
-            this.lblMachineOperational = new Label();
-
-            this.btnAddMachine = new Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSchedule)).BeginInit();
-            this.SuspendLayout();
-            //
+            txtSerial = new TextBox();
+            lblSchedule = new Label();
+            dgvSchedule = new DataGridView();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            lblTests = new Label();
+            treeTests = new TreeView();
+            btnAddTest = new Button();
+            btnEditTest = new Button();
+            btnDeleteTest = new Button();
+            btnLoadJson = new Button();
+            btnSaveJson = new Button();
+            lblSelectMachine = new Label();
+            cmbMachines = new ComboBox();
+            label1 = new Label();
+            btnAddInterval = new Button();
+            btnDeleteInterval = new Button();
+            label2 = new Label();
+            btnMachineInoperative = new Button();
+            lblMachineOperational = new Label();
+            btnAddMachine = new Button();
+            grpIntervals = new GroupBox();
+            grpTests = new GroupBox();
+            ((System.ComponentModel.ISupportInitialize)dgvSchedule).BeginInit();
+            SuspendLayout();
+            // 
             // lblSerial
-            //
-            this.lblSerial.AutoSize = true;
-            this.lblSerial.Location = new System.Drawing.Point(918, 98);
-            this.lblSerial.Margin = new Padding(4, 0, 4, 0);
-            this.lblSerial.Name = "lblSerial";
-            this.lblSerial.Size = new System.Drawing.Size(64, 16);
-            this.lblSerial.TabIndex = 2;
-            this.lblSerial.Text = "מס סידורי";
-
-
-            this.grpIntervals = new GroupBox();
-
-            //this.grpIntervals.Margin = new Padding(0, 555, 0, 0);
-            this.grpIntervals.Location = new Point(50, 540);
-            this.grpIntervals.Size = new Size(460, 90);
-            this.grpIntervals.RightToLeft = RightToLeft.Yes;
-            this.grpIntervals.Text = "מועדים";
-
-
-            this.grpTests = new GroupBox();
-            this.grpTests.Text = "בדיקות";
-            this.grpTests.RightToLeft = RightToLeft.Yes;
-            //this.grpTests.Margin = new Padding(0, 5, 0, 0);
-            this.grpTests.Location = new Point(50, 650);
-            this.grpTests.Size = new Size(460, 80);
-
-            //this.grpTests.BringToFront();
-            //this.grpIntervals.BringToFront();
-
-            //
+            // 
+            lblSerial.AutoSize = true;
+            lblSerial.Location = new Point(803, 92);
+            lblSerial.Margin = new Padding(4, 0, 4, 0);
+            lblSerial.Name = "lblSerial";
+            lblSerial.Size = new Size(56, 15);
+            lblSerial.TabIndex = 2;
+            lblSerial.Text = "מס סידורי";
+            // 
             // txtSerial
-            //
-            this.txtSerial.Location = new System.Drawing.Point(564, 95);
-            this.txtSerial.Margin = new Padding(4);
-            this.txtSerial.Name = "txtSerial";
-            this.txtSerial.Size = new System.Drawing.Size(265, 22);
-            this.txtSerial.TabIndex = 3;
-            //
+            // 
+            txtSerial.Location = new Point(494, 89);
+            txtSerial.Margin = new Padding(4);
+            txtSerial.Name = "txtSerial";
+            txtSerial.Size = new Size(232, 23);
+            txtSerial.TabIndex = 3;
+            // 
             // lblSchedule
-            //
-            this.lblSchedule.AutoSize = true;
-            this.lblSchedule.Location = new System.Drawing.Point(887, 145);
-            this.lblSchedule.Margin = new Padding(4, 0, 4, 0);
-            this.lblSchedule.Name = "lblSchedule";
-            this.lblSchedule.Size = new System.Drawing.Size(95, 16);
-            this.lblSchedule.TabIndex = 8;
-            this.lblSchedule.Text = "תדירות בדיקות";
-            //
+            // 
+            lblSchedule.AutoSize = true;
+            lblSchedule.Location = new Point(776, 136);
+            lblSchedule.Margin = new Padding(4, 0, 4, 0);
+            lblSchedule.Name = "lblSchedule";
+            lblSchedule.Size = new Size(83, 15);
+            lblSchedule.TabIndex = 8;
+            lblSchedule.Text = "תדירות בדיקות";
+            // 
             // dgvSchedule
-            //
-            this.dgvSchedule.ColumnHeadersHeight = 29;
-            this.dgvSchedule.Columns.AddRange(new DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2});
-            this.dgvSchedule.Location = new System.Drawing.Point(600, 175);
-            this.dgvSchedule.Margin = new Padding(4);
-            this.dgvSchedule.Name = "dgvSchedule";
-            this.dgvSchedule.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.dgvSchedule.RowHeadersWidth = 51;
-            this.dgvSchedule.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.dgvSchedule.Size = new System.Drawing.Size(378, 246);
-            this.dgvSchedule.TabIndex = 9;
-            //
+            // 
+            dgvSchedule.ColumnHeadersHeight = 29;
+            dgvSchedule.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2 });
+            dgvSchedule.Location = new Point(525, 164);
+            dgvSchedule.Margin = new Padding(4);
+            dgvSchedule.Name = "dgvSchedule";
+            dgvSchedule.RightToLeft = RightToLeft.Yes;
+            dgvSchedule.RowHeadersWidth = 51;
+            dgvSchedule.ScrollBars = ScrollBars.None;
+            dgvSchedule.Size = new Size(331, 231);
+            dgvSchedule.TabIndex = 9;
+            // 
             // dataGridViewTextBoxColumn1
-            //
-            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridViewTextBoxColumn1.HeaderText = "שם הבדיקה";
-            this.dataGridViewTextBoxColumn1.MinimumWidth = 180;
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            //
+            // 
+            dataGridViewTextBoxColumn1.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewTextBoxColumn1.HeaderText = "שם הבדיקה";
+            dataGridViewTextBoxColumn1.MinimumWidth = 180;
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            // 
             // dataGridViewTextBoxColumn2
-            //
-            this.dataGridViewTextBoxColumn2.HeaderText = "תדירות";
-            this.dataGridViewTextBoxColumn2.MinimumWidth = 80;
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.Width = 125;
-            //
+            // 
+            dataGridViewTextBoxColumn2.HeaderText = "תדירות";
+            dataGridViewTextBoxColumn2.MinimumWidth = 80;
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.Width = 125;
+            // 
             // lblTests
-            //
-            this.lblTests.AutoSize = true;
-            this.lblTests.Location = new System.Drawing.Point(439, 31);
-            this.lblTests.Margin = new Padding(4, 0, 4, 0);
-            this.lblTests.Name = "lblTests";
-            this.lblTests.Size = new System.Drawing.Size(49, 16);
-            this.lblTests.TabIndex = 10;
-            this.lblTests.Text = "בדיקות";
-            //
+            // 
+            lblTests.AutoSize = true;
+            lblTests.Location = new Point(384, 29);
+            lblTests.Margin = new Padding(4, 0, 4, 0);
+            lblTests.Name = "lblTests";
+            lblTests.Size = new Size(43, 15);
+            lblTests.TabIndex = 10;
+            lblTests.Text = "בדיקות";
+            // 
             // treeTests
-            //
-            this.treeTests.AllowDrop = true;
-            this.treeTests.HideSelection = false;
-            this.treeTests.Location = new System.Drawing.Point(32, 63);
-            this.treeTests.Margin = new Padding(4);
-            this.treeTests.Name = "treeTests";
-            this.treeTests.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.treeTests.RightToLeftLayout = true;
-            this.treeTests.Size = new System.Drawing.Size(465, 454);
-            this.treeTests.TabIndex = 11;
-            this.treeTests.ItemDrag += new ItemDragEventHandler(this.treeTests_ItemDrag);
-            this.treeTests.DragDrop += new DragEventHandler(this.treeTests_DragDrop);
-            this.treeTests.DragEnter += new DragEventHandler(this.treeTests_DragEnter);
-            this.treeTests.DragOver += new DragEventHandler(this.treeTests_DragOver);
-            //
-
-            // btnLoadJson
-            //
-            this.btnLoadJson.Location = new System.Drawing.Point(882, 506);
-            this.btnLoadJson.Margin = new Padding(4);
-            this.btnLoadJson.Name = "btnLoadJson";
-            this.btnLoadJson.Size = new System.Drawing.Size(100, 28);
-            this.btnLoadJson.TabIndex = 15;
-            this.btnLoadJson.Text = "טען נתונים";
-            this.btnLoadJson.Visible = false;
-            this.btnLoadJson.Click += new System.EventHandler(this.btnLoadJson_Click);
-            //
-
-            //
-            // lblSelectMachine
-            //
-            this.lblSelectMachine.AutoSize = true;
-            this.lblSelectMachine.Location = new System.Drawing.Point(919, 63);
-            this.lblSelectMachine.Margin = new Padding(4, 0, 4, 0);
-            this.lblSelectMachine.Name = "lblSelectMachine";
-            this.lblSelectMachine.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.lblSelectMachine.Size = new System.Drawing.Size(66, 16);
-            this.lblSelectMachine.TabIndex = 0;
-            this.lblSelectMachine.Text = "בחר מכונה";
-            //
-            // cmbMachines
-            //
-            this.cmbMachines.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbMachines.Location = new System.Drawing.Point(560, 59);
-            this.cmbMachines.Margin = new Padding(4);
-            this.cmbMachines.Name = "cmbMachines";
-            this.cmbMachines.Size = new System.Drawing.Size(269, 24);
-            this.cmbMachines.TabIndex = 1;
-            this.cmbMachines.SelectedIndexChanged += new System.EventHandler(this.cmbMachines_SelectedIndexChanged);
-
-            // ------------- INTERVALS -------------
-            //add interval label
-            //
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(145, 565);
-            this.label2.Name = "label2";
-            this.label2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.label2.Size = new System.Drawing.Size(285, 16);
-            this.label2.TabIndex = 19;
-            this.label2.Text = "* לאחר הוספת מועד ניתן לגרור אותו למקום הרצוי             ";
-
-            // btnAddInterval
-            //
-            this.btnAddInterval.Location = new System.Drawing.Point(395, 590);
-            //this.btnAddInterval.Margin = new System.Windows.Forms.Padding(4);
-            this.btnAddInterval.Name = "btnAddInterval";
-            this.btnAddInterval.Size = new System.Drawing.Size(100, 28);
-            this.btnAddInterval.TabIndex = 0;
-            this.btnAddInterval.Text = "הוסף מועד";
-            this.btnAddInterval.Click += new System.EventHandler(this.btnAddInterval_Click);
-            //
-            // btnDeleteInterval
-            //
-            this.btnDeleteInterval.Location = new System.Drawing.Point(269, 590);
-            this.btnDeleteInterval.Margin = new Padding(4);
-            this.btnDeleteInterval.Name = "btnDeleteInterval";
-            this.btnDeleteInterval.Size = new System.Drawing.Size(100, 28);
-            this.btnDeleteInterval.TabIndex = 18;
-            this.btnDeleteInterval.Text = "מחק מועד";
-            this.btnDeleteInterval.Click += new System.EventHandler(this.btnDeleteInterval_Click);
-            // --- ADD CONTROLS INTO GROUPBOXES ---
-
-            this.grpIntervals.Controls.Add(this.label2);
-            this.grpIntervals.Controls.Add(this.btnAddInterval);
-            this.grpIntervals.Controls.Add(this.btnDeleteInterval);
-
-
-            // ------------------ Test label ----------------
-            //
-            // add test label
-            //
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(73, 670);
-            this.label1.Margin = new Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.label1.Size = new System.Drawing.Size(362, 16);
-            this.label1.TabIndex = 17;
-            this.label1.Text = "            * בכדי להוסיף, למחוק, או לערוך בדיקה יש לעמוד על הענף בעץ             ";
-            //
+            // 
+            treeTests.AllowDrop = true;
+            treeTests.HideSelection = false;
+            treeTests.Location = new Point(28, 59);
+            treeTests.Margin = new Padding(4);
+            treeTests.Name = "treeTests";
+            treeTests.RightToLeft = RightToLeft.Yes;
+            treeTests.RightToLeftLayout = true;
+            treeTests.Size = new Size(407, 426);
+            treeTests.TabIndex = 11;
+            treeTests.ItemDrag += treeTests_ItemDrag;
+            treeTests.DragDrop += treeTests_DragDrop;
+            treeTests.DragEnter += treeTests_DragEnter;
+            treeTests.DragOver += treeTests_DragOver;
+            // 
             // btnAddTest
-            //
-            this.btnAddTest.Location = new System.Drawing.Point(377, 690);
-            this.btnAddTest.Margin = new Padding(4);
-            this.btnAddTest.Name = "btnAddTest";
-            this.btnAddTest.Size = new System.Drawing.Size(113, 28);
-            this.btnAddTest.TabIndex = 12;
-            this.btnAddTest.Text = "הוסף בדיקה";
-            this.btnAddTest.Click += new System.EventHandler(this.btnAddTest_Click);
-            //
+            // 
+            btnAddTest.Location = new Point(330, 647);
+            btnAddTest.Margin = new Padding(4);
+            btnAddTest.Name = "btnAddTest";
+            btnAddTest.Size = new Size(99, 26);
+            btnAddTest.TabIndex = 12;
+            btnAddTest.Text = "הוסף בדיקה";
+            btnAddTest.Click += btnAddTest_Click;
+            // 
             // btnEditTest
-            //
-            this.btnEditTest.Location = new System.Drawing.Point(124, 690);
-            this.btnEditTest.Margin = new Padding(4);
-            this.btnEditTest.Name = "btnEditTest";
-            this.btnEditTest.Size = new System.Drawing.Size(107, 28);
-            this.btnEditTest.TabIndex = 13;
-            this.btnEditTest.Text = "ערוך בדיקה";
-            this.btnEditTest.Click += new System.EventHandler(this.btnEditTest_Click);
-            //
+            // 
+            btnEditTest.Location = new Point(108, 647);
+            btnEditTest.Margin = new Padding(4);
+            btnEditTest.Name = "btnEditTest";
+            btnEditTest.Size = new Size(94, 26);
+            btnEditTest.TabIndex = 13;
+            btnEditTest.Text = "ערוך בדיקה";
+            btnEditTest.Click += btnEditTest_Click;
+            // 
             // btnDeleteTest
-            //
-            this.btnDeleteTest.Location = new System.Drawing.Point(256, 690);
-            this.btnDeleteTest.Margin = new Padding(4);
-            this.btnDeleteTest.Name = "btnDeleteTest";
-            this.btnDeleteTest.Size = new System.Drawing.Size(100, 28);
-            this.btnDeleteTest.TabIndex = 14;
-            this.btnDeleteTest.Text = "מחק בדיקה";
-            this.btnDeleteTest.Click += new System.EventHandler(this.btnDeleteTest_Click);
-
-            this.grpTests.Controls.Add(this.label1);
-            this.grpTests.Controls.Add(this.btnAddTest);
-            this.grpTests.Controls.Add(this.btnEditTest);
-            this.grpTests.Controls.Add(this.btnDeleteTest);
-
-            //
+            // 
+            btnDeleteTest.Location = new Point(224, 647);
+            btnDeleteTest.Margin = new Padding(4);
+            btnDeleteTest.Name = "btnDeleteTest";
+            btnDeleteTest.Size = new Size(88, 26);
+            btnDeleteTest.TabIndex = 14;
+            btnDeleteTest.Text = "מחק בדיקה";
+            btnDeleteTest.Click += btnDeleteTest_Click;
+            // 
+            // btnLoadJson
+            // 
+            btnLoadJson.Location = new Point(772, 474);
+            btnLoadJson.Margin = new Padding(4);
+            btnLoadJson.Name = "btnLoadJson";
+            btnLoadJson.Size = new Size(88, 26);
+            btnLoadJson.TabIndex = 15;
+            btnLoadJson.Text = "טען נתונים";
+            btnLoadJson.Visible = false;
+            btnLoadJson.Click += btnLoadJson_Click;
+            // 
             // btnSaveJson
-            //
-            this.btnSaveJson.Location = new System.Drawing.Point(340, 740);
-            this.btnSaveJson.Margin = new Padding(4);
-            this.btnSaveJson.Name = "btnSaveJson";
-            this.btnSaveJson.Size = new System.Drawing.Size(167, 28);
-            this.btnSaveJson.TabIndex = 16;
-            this.btnSaveJson.Text = "שמור נתונים";
-            this.btnSaveJson.Click += new System.EventHandler(this.btnSaveJson_Click);
-
-            // ---- Add Machine button ----
+            // 
+            btnSaveJson.Location = new Point(298, 694);
+            btnSaveJson.Margin = new Padding(4);
+            btnSaveJson.Name = "btnSaveJson";
+            btnSaveJson.Size = new Size(146, 26);
+            btnSaveJson.TabIndex = 16;
+            btnSaveJson.Text = "שמור נתונים";
+            btnSaveJson.Click += btnSaveJson_Click;
+            // 
+            // lblSelectMachine
+            // 
+            lblSelectMachine.AutoSize = true;
+            lblSelectMachine.Location = new Point(804, 59);
+            lblSelectMachine.Margin = new Padding(4, 0, 4, 0);
+            lblSelectMachine.Name = "lblSelectMachine";
+            lblSelectMachine.RightToLeft = RightToLeft.Yes;
+            lblSelectMachine.Size = new Size(63, 15);
+            lblSelectMachine.TabIndex = 0;
+            lblSelectMachine.Text = "בחר מכונה";
+            // 
+            // cmbMachines
+            // 
+            cmbMachines.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbMachines.Location = new Point(490, 55);
+            cmbMachines.Margin = new Padding(4);
+            cmbMachines.Name = "cmbMachines";
+            cmbMachines.Size = new Size(236, 23);
+            cmbMachines.TabIndex = 1;
+            cmbMachines.SelectedIndexChanged += cmbMachines_SelectedIndexChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(64, 628);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.RightToLeft = RightToLeft.Yes;
+            label1.Size = new Size(398, 15);
+            label1.TabIndex = 17;
+            label1.Text = "            * בכדי להוסיף, למחוק, או לערוך בדיקה יש לעמוד על הענף בעץ             ";
+            // 
+            // btnAddInterval
+            // 
+            btnAddInterval.Location = new Point(346, 553);
+            btnAddInterval.Name = "btnAddInterval";
+            btnAddInterval.Size = new Size(88, 26);
+            btnAddInterval.TabIndex = 0;
+            btnAddInterval.Text = "הוסף מועד";
+            btnAddInterval.Click += btnAddInterval_Click;
+            // 
+            // btnDeleteInterval
+            // 
+            btnDeleteInterval.Location = new Point(235, 553);
+            btnDeleteInterval.Margin = new Padding(4);
+            btnDeleteInterval.Name = "btnDeleteInterval";
+            btnDeleteInterval.Size = new Size(88, 26);
+            btnDeleteInterval.TabIndex = 18;
+            btnDeleteInterval.Text = "מחק מועד";
+            btnDeleteInterval.Click += btnDeleteInterval_Click;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(127, 530);
+            label2.Name = "label2";
+            label2.RightToLeft = RightToLeft.Yes;
+            label2.Size = new Size(299, 15);
+            label2.TabIndex = 19;
+            label2.Text = "* לאחר הוספת מועד ניתן לגרור אותו למקום הרצוי             ";
+            // 
+            // btnMachineInoperative
+            // 
+            btnMachineInoperative.Location = new Point(525, 423);
+            btnMachineInoperative.Name = "btnMachineInoperative";
+            btnMachineInoperative.Size = new Size(162, 22);
+            btnMachineInoperative.TabIndex = 0;
+            btnMachineInoperative.Text = "השבת מכונה";
+            btnMachineInoperative.Click += OnDisableMachine;
+            // 
+            // lblMachineOperational
+            // 
+            lblMachineOperational.Location = new Point(637, 399);
+            lblMachineOperational.Name = "lblMachineOperational";
+            lblMachineOperational.Size = new Size(219, 22);
+            lblMachineOperational.TabIndex = 0;
+            // 
             // btnAddMachine
-            //
-            this.btnAddMachine.Location = new System.Drawing.Point(797, 451);
-            this.btnAddMachine.Name = "btnAddMachine";
-            this.btnAddMachine.Size = new System.Drawing.Size(185, 23);
-            this.btnAddMachine.TabIndex = 0;
-            this.btnAddMachine.Text = "הוסף מכונה";
-            this.btnAddMachine.Click += new System.EventHandler(this.OnAddMachine);
-
-            this.btnMachineInoperative.Location = new System.Drawing.Point(600, 451);
-            this.btnMachineInoperative.Name = "btnMachineInoperative";
-            this.btnMachineInoperative.Size = new System.Drawing.Size(185, 23);
-            this.btnMachineInoperative.TabIndex = 0;
-            this.btnMachineInoperative.Text = "השבת מכונה";
-            this.btnMachineInoperative.Click += new System.EventHandler(this.OnDisableMachine);
-
-            this.lblMachineOperational.Location = new System.Drawing.Point(890, 425);
-            this.lblMachineOperational.Name = "lblMachineOperational";
-            this.lblMachineOperational.Size = new System.Drawing.Size(250, 23);
-            this.lblMachineOperational.TabIndex = 0;
-            this.lblMachineOperational.Text = "";
-
-            //
+            // 
+            btnAddMachine.Location = new Point(697, 423);
+            btnAddMachine.Name = "btnAddMachine";
+            btnAddMachine.Size = new Size(162, 22);
+            btnAddMachine.TabIndex = 0;
+            btnAddMachine.Text = "הוסף מכונה";
+            btnAddMachine.Click += OnAddMachine;
+            // 
+            // grpIntervals
+            // 
+            grpIntervals.Location = new Point(44, 506);
+            grpIntervals.Name = "grpIntervals";
+            grpIntervals.RightToLeft = RightToLeft.Yes;
+            grpIntervals.Size = new Size(402, 84);
+            grpIntervals.TabIndex = 20;
+            grpIntervals.TabStop = false;
+            grpIntervals.Text = "מועדים";
+            // 
+            // grpTests
+            // 
+            grpTests.Location = new Point(44, 609);
+            grpTests.Name = "grpTests";
+            grpTests.RightToLeft = RightToLeft.Yes;
+            grpTests.Size = new Size(402, 75);
+            grpTests.TabIndex = 21;
+            grpTests.TabStop = false;
+            grpTests.Text = "בדיקות";
+            // 
             // MachineMaintenenceForm
-            //
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1053, 800);
-
-
-            this.Controls.Add(this.btnAddMachine);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.lblSelectMachine);
-            this.Controls.Add(this.cmbMachines);
-            this.Controls.Add(this.lblSerial);
-            this.Controls.Add(this.txtSerial);
-            this.Controls.Add(this.lblSchedule);
-            this.Controls.Add(this.dgvSchedule);
-            this.Controls.Add(this.lblTests);
-            this.Controls.Add(this.treeTests);
-            this.Controls.Add(this.btnLoadJson);
-            this.Controls.Add(this.btnMachineInoperative);
-            this.Controls.Add(this.lblMachineOperational);
-
-            //Add Interval
-            this.Controls.Add(this.btnAddInterval);
-            this.Controls.Add(this.btnDeleteInterval);
-
-            //Add Test
-            this.Controls.Add(this.btnAddTest);
-            this.Controls.Add(this.btnEditTest);
-            this.Controls.Add(this.btnDeleteTest);
-
-
-            this.Controls.Add(this.grpIntervals);
-            this.Controls.Add(this.grpTests);
-            this.Controls.Add(this.btnSaveJson);
-
-
-
-
-
-            this.Margin = new Padding(4);
-            this.Name = "MachineMaintenenceForm";
-            this.RightToLeftLayout = true;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "טופס מכונות";
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSchedule)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(921, 750);
+            Controls.Add(btnAddMachine);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(lblSelectMachine);
+            Controls.Add(cmbMachines);
+            Controls.Add(lblSerial);
+            Controls.Add(txtSerial);
+            Controls.Add(lblSchedule);
+            Controls.Add(dgvSchedule);
+            Controls.Add(lblTests);
+            Controls.Add(treeTests);
+            Controls.Add(btnLoadJson);
+            Controls.Add(btnMachineInoperative);
+            Controls.Add(lblMachineOperational);
+            Controls.Add(btnAddInterval);
+            Controls.Add(btnDeleteInterval);
+            Controls.Add(btnAddTest);
+            Controls.Add(btnEditTest);
+            Controls.Add(btnDeleteTest);
+            Controls.Add(grpIntervals);
+            Controls.Add(grpTests);
+            Controls.Add(btnSaveJson);
+            Margin = new Padding(4);
+            Name = "MachineMaintenenceForm";
+            RightToLeftLayout = true;
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "טופס מכונות";
+            ((System.ComponentModel.ISupportInitialize)dgvSchedule).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
@@ -538,8 +505,23 @@ namespace MachineMaintenance
                 }
             }
 
+            if(_machine.IsOperational)
+            {
+                lblMachineOperational.Text = "המכונה תקינה";
+                lblMachineOperational.ForeColor = Color.Green;
+            }
+            else
+            {
+                lblMachineOperational.Text =   "המכונה מושבתת";
+                lblMachineOperational.Font = new Font(lblMachineOperational.Font, FontStyle.Bold);
+                lblMachineOperational.ForeColor = Color.Red;
 
-            lblMachineOperational.Text = _machine.IsOperational ? "המכונה תקינה" : "המכונה מושבתת";
+
+
+            }
+
+
+        
             this.btnMachineInoperative.Text = _machine.IsOperational ? "השבת מכונה" : "מכונה תקינה";
 
             treeTests.ExpandAll();
