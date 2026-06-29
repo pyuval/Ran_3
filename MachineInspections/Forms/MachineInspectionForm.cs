@@ -88,12 +88,11 @@ namespace MachineInspections
             lblSerial.AutoSize = true;
             lblSerial.Font = new Font("Segoe UI", 14F);
             lblSerial.ForeColor = Color.Red;
-            lblSerial.Location = new Point(395, 26);
-            // lblSerial.MaximumSize = new Size(90, 25);
+            lblSerial.Location = new Point(396, 26);
             lblSerial.MinimumSize = new Size(150, 25);
             lblSerial.Name = "lblSerial";
             lblSerial.RightToLeft = RightToLeft.Yes;
-            lblSerial.Size = new Size(150, 25);
+            lblSerial.Size = new Size(150, 31);
             lblSerial.TabIndex = 1;
             lblSerial.Text = "Serial";
             lblSerial.TextAlign = ContentAlignment.MiddleRight;
