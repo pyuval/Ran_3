@@ -1,0 +1,62 @@
+﻿{
+  "LastInspectionDate": "2026-01-03T00:00:00",
+  "LastInspectionType": "\u05D7\u05E6\u05D9-\u05E9\u05E0\u05EA\u05D9",
+  "MachineName": "BOSCH BAR",
+  "MaintenanceDateToCodeDesc": {
+    "\u05D7\u05E6\u05D9-\u05E9\u05E0\u05EA\u05D9": [
+      {
+        "Code": "HY_B-TEMPT",
+        "Description": "\u05D1\u05D3\u05D9\u05E7\u05D4 \u05E9\u05DC \u05D8\u05DE\u05E4\u05E8\u05D8\u05D5\u05E8\u05EA  \u05DE\u05E2\u05D1\u05D3",
+        "IsOverdue": false
+      },
+      {
+        "Code": "HY-B-MOTHERBOARD",
+        "Description": "\u05D1\u05D3\u05D9\u05E7\u05D4 \u05E9\u05DC \u05D8\u05DE\u05E4\u05E8\u05D8\u05D5\u05E8\u05EA  \u05DC\u05D5\u05D7 \u05D0\u05DD",
+        "IsOverdue": false
+      },
+      {
+        "Code": "HY_B-AIR-VENT",
+        "Description": "\u05D1\u05D3\u05D9\u05E7\u05D4 \u05E9\u05DC \u05D8\u05DE\u05E4\u05E8\u05D8\u05D5\u05E8\u05EA  \u05DE\u05D0\u05D5\u05E8\u05E8",
+        "IsOverdue": false
+      }
+    ],
+    "\u05E9\u05E0\u05EA\u05D9": [
+      {
+        "Code": "B-TEMPT",
+        "Description": "\u05D1\u05D3\u05D9\u05E7\u05D4 \u05E9\u05DC \u05D8\u05DE\u05E4\u05E8\u05D8\u05D5\u05E8\u05EA  \u05DE\u05E2\u05D1\u05D3 \u05E9\u05E0\u05EA\u05D9 ",
+        "IsOverdue": false
+      },
+      {
+        "Code": "B-MOTHERBOARD",
+        "Description": " \u05E9\u05E0\u05EA\u05D9 \u05D1\u05D3\u05D9\u05E7\u05D4 \u05E9\u05DC \u05D8\u05DE\u05E4\u05E8\u05D8\u05D5\u05E8\u05EA  \u05DC\u05D5\u05D7 \u05D0\u05DD",
+        "IsOverdue": false
+      },
+      {
+        "Code": "B-AIR-VENT",
+        "Description": "\u05D1\u05D3\u05D9\u05E7\u05D4 \u05E9\u05E0\u05EA\u05D9\u05EA \u05E9\u05DC \u05D8\u05DE\u05E4\u05E8\u05D8\u05D5\u05E8\u05EA  \u05DE\u05D0\u05D5\u05E8\u05E8",
+        "IsOverdue": false
+      },
+      {
+        "Code": "BOSCH-ANNUAL-CHECK",
+        "Description": "\u05D1\u05D3\u05D9\u05E7\u05D4 \u05E9\u05E0\u05EA\u05D9\u05EA \u05DE\u05DC\u05D0\u05D4",
+        "IsOverdue": false
+      }
+    ],
+    "\u05E8\u05D1\u05E2\u05D5\u05E0\u05D9": [
+      {
+        "Code": "A-1",
+        "Description": "\u05D1\u05D3\u05D9\u05E7\u05D4 \u05E8\u05D1\u05E2\u05D5\u05E0\u05D9\u05EA \u05E9\u05DC \u05DE\u05D0\u05D5\u05E8\u05E8\u05D9\u05DD",
+        "IsOverdue": false
+      }
+    ]
+  },
+  "MaintenanceSchedule": {
+    "\u05D7\u05E6\u05D9-\u05E9\u05E0\u05EA\u05D9": 180,
+    "\u05E9\u05E0\u05EA\u05D9": 365,
+    "\u05E8\u05D1\u05E2\u05D5\u05E0\u05D9": 90
+  },
+  "InspectionTimeOverdue": null,
+  "IsOperational": true,
+  "SerialNumber": "C-AB553",
+  "DefectExplanation": "\u05EA\u05E7\u05D5\u05DC"
+}

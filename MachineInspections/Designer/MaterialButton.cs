@@ -10,12 +10,12 @@ namespace MachineInspections.Designer
         public class MaterialButton : Button
         {
             private Color _defaultColor = Color.White;
-            private Color _hoverColor = Color.FromArgb(240, 240, 240);
+           
             private Color _borderColor = Color.FromArgb(33, 150, 243); // Material Blue 500
 
             public MaterialButton()
             {
-                this.FlatStyle = FlatStyle.Flat;
+                this.FlatStyle = FlatStyle.Popup;
                 this.FlatAppearance.BorderSize = 2;
                 this.FlatAppearance.BorderColor = _borderColor;
 
@@ -24,7 +24,7 @@ namespace MachineInspections.Designer
 
                 this.Font = new Font("Segoe UI", 14, FontStyle.Bold);
                 this.Height = 80;
-                this.Width = 350;
+                this.Width = 150;
                 this.Margin = new Padding(15);
                 this.Cursor = Cursors.Hand;
 

@@ -5,6 +5,7 @@
     <File Path="SharedData/Machines/PHILLIPS LASER.json" />
     <File Path="SharedData/Machines/Siemens Bar.json" />
   </Folder>
+  <Project Path="FileOperations/FileAndModelsOperations.csproj" Id="8bef57f8-2ffc-4c53-a355-9a1e024c21b7" />
   <Project Path="FormInspectionHistoryViewerNS/FormInspectionHistoryViewerNS.csproj" />
   <Project Path="MachineInspections/MachineInspections.csproj" />
   <Project Path="MachineMaintenance/MachineMaintenance.csproj" />

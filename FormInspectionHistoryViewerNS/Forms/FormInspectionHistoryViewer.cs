@@ -22,10 +22,7 @@ namespace FormInspectionHistoryViewerNS
 
         private string GetSharedFolder()
         {
-
-            string folder = GetSetting("SharedData", "InspectionLogs");
-            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-            folder = @Path.GetFullPath(Path.Combine(baseDir, folder));
+            string folder = FileOperationsNS.FileOperations.GetSharedFolder("InspectionLogs");
 
             return folder;
         }
@@ -61,7 +58,10 @@ namespace FormInspectionHistoryViewerNS
                 if (lstFiles.SelectedItem == null)
                     return;
 
-                string folder = GetSetting("SharedData", "InspectionLogs");
+
+                string folder = FileOperationsNS.FileOperations.GetSharedFolder("InspectionLogs");
+
+
                 string? fileName = lstFiles.SelectedItem as string;
                 if (string.IsNullOrEmpty(fileName))
                     return;
@@ -130,10 +130,10 @@ namespace FormInspectionHistoryViewerNS
             using var _ = Process.Start(zipFolder);
         }
 
-        private string GetSetting(string key, string defaultValue)
-        {
+        //private string GetSetting(string key, string defaultValue)
+        //{
 
-            return ConfigurationManager.AppSettings[key] ?? defaultValue;
-        }
+        //    return ConfigurationManager.AppSettings[key] ?? defaultValue;
+        //}
     }
 }

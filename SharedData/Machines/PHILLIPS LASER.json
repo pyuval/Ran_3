@@ -5,6 +5,7 @@
   "LastInspectionDate": "2026-01-01",
   "LastInspectionType": "שבועי",
   "IsOperational": true,
+    "DefectExplanation": "",
   "MaintenanceSchedule": {
     "שבועי": 7,
     "חודשי": 30,
@@ -17,21 +18,21 @@
 
     "שבועי": [
       {
-        "Code": "A",
+        "Code": "P-1",
         "Description": "בדוק לחץ שמן שבועי"
       },
       {
-        "Code": "B",
+        "Code": "P-2",
         "Description": "שבועי בדוק רצועות"
       },
       {
-        "Code": "C",
+        "Code": "P-3",
         "Description": "בדוק רעשים חריגים שבועי "
       }
     ],
     "חודשי": [
       {
-        "Code": "X",
+        "Code": "P-21",
         "Description": " חודשי בדיקת פילטרים"
       },
       {
@@ -41,28 +42,28 @@
     ],
     "דו-חודשי": [
       {
-        "Code": "BM1",
+        "Code": "P-31",
         "Description": " בדיקה דו־חודשית כללית"
       }
     ],
     "רבעוני": [
       {
-        "Code": "TM1",
+        "Code": "P-41",
         "Description": "בדיקה רבעונית של טמפרטורת  מעבד"
       },
       {
-        "Code": "TM2",
+        "Code": "P-42",
         "Description": "בדיקה רבעונית של טמפרטורת  לוח אם"
       },
       {
-        "Code": "TM3",
+        "Code": "P-43",
         "Description": "בדיקה רבעונית של טמפרטורת  מאורר"
       }
     ],
 
     "שנתי": [
       {
-        "Code": "PHILLIPS-ANNUAL-CHECK",
+        "Code": "P-50 PHILLIPS-ANNUAL-CHECK",
         "Description": "בדיקה שנתית מלאה"
       }
     ]

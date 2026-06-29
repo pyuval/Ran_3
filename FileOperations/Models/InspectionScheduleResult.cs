@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MachineInspections
+namespace FileOperationsNS.Models
 {
     public class InspectionScheduleResult
     {
@@ -12,7 +12,7 @@ namespace MachineInspections
         public Dictionary<string, string> StatusMessages { get; set; } = new Dictionary<string, string>();
 
         public Dictionary<string, bool> InspectionTimeIsOverdue { get; set; } = new Dictionary<string, bool>();
-        public string MostUrgentInterval { get; set; }
+        public string? MostUrgentInterval { get; set; }
         public bool IsOverdue { get; set; }
 
 

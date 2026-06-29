@@ -1,4 +1,6 @@
-﻿using MachineInspections.Forms;
+﻿using FileOperationsNS;
+using FileOperationsNS.Models;
+using MachineInspections.Forms;
 using System.Configuration;
 using System.Data;
 using System.Text;
@@ -9,7 +11,7 @@ namespace MachineInspections
     public partial class MachineInspectionForm : Form
     {
         private InspectionScheduleResult inspectionScheduleResult;
-        private readonly Inspector m_loggedInInspector;
+        private readonly FileOperationsNS.Models.Inspector m_loggedInInspector;
         private string m_currentMachineName;
         private bool _IsOverdue;
         private MachineDefinition currentMachine;
@@ -19,10 +21,15 @@ namespace MachineInspections
         private Label lblSerial;
         private Label lblInspectionStatus;
         private Button btnSaveInspection;
-        private Panel panelRight;
+        private Panel InnerPanel;
         private Panel scrollPanel;
         private Panel panelOuter;
         private Button btnBack;
+        private GroupBox DefectiveGroupBox;
+        private Label DefectiveLabel;
+        private TextBox DefectiveExplanationTextBox;
+        private Label SavedResultLabel;
+        private Label label1;
         private Label DataLabel;
 
         //private Dictionary<string, Color> _intervalColors = new Dictionary<string, Color>
@@ -53,7 +60,7 @@ namespace MachineInspections
         }
         private void InitializeComponent()
         {
-            panelRight = new Panel();
+            InnerPanel = new Panel();
             lblSerial = new Label();
             lblMachineName = new Label();
             DataLabel = new Label();
@@ -61,27 +68,35 @@ namespace MachineInspections
             btnBack = new Button();
             scrollPanel = new Panel();
             btnSaveInspection = new Button();
+            DefectiveGroupBox = new GroupBox();
+            DefectiveLabel = new Label();
+            DefectiveExplanationTextBox = new TextBox();
             panelOuter = new Panel();
             lblInspectionStatus = new Label();
-            panelRight.SuspendLayout();
+            label1 = new Label();
+            SavedResultLabel = new Label();
+            InnerPanel.SuspendLayout();
+            DefectiveGroupBox.SuspendLayout();
             panelOuter.SuspendLayout();
             SuspendLayout();
             // 
-            // panelRight
+            // InnerPanel
             // 
-            panelRight.Controls.Add(lblSerial);
-            panelRight.Controls.Add(lblMachineName);
-            panelRight.Controls.Add(DataLabel);
-            panelRight.Controls.Add(tabIntervals);
-            panelRight.Controls.Add(btnBack);
-            panelRight.Controls.Add(scrollPanel);
-            panelRight.Controls.Add(btnSaveInspection);
-            panelRight.Dock = DockStyle.Fill;
-            panelRight.Location = new Point(0, 0);
-            panelRight.Name = "panelRight";
-            panelRight.Padding = new Padding(10, 20, 0, 0);
-            panelRight.Size = new Size(1500, 703);
-            panelRight.TabIndex = 0;
+            InnerPanel.Controls.Add(SavedResultLabel);
+            InnerPanel.Controls.Add(lblSerial);
+            InnerPanel.Controls.Add(lblMachineName);
+            InnerPanel.Controls.Add(DataLabel);
+            InnerPanel.Controls.Add(tabIntervals);
+            InnerPanel.Controls.Add(btnBack);
+            InnerPanel.Controls.Add(scrollPanel);
+            InnerPanel.Controls.Add(btnSaveInspection);
+            InnerPanel.Controls.Add(DefectiveGroupBox);
+            InnerPanel.Dock = DockStyle.Fill;
+            InnerPanel.Location = new Point(0, 0);
+            InnerPanel.Name = "InnerPanel";
+            InnerPanel.Padding = new Padding(10, 20, 0, 0);
+            InnerPanel.Size = new Size(1500, 703);
+            InnerPanel.TabIndex = 0;
             // 
             // lblSerial
             // 
@@ -128,22 +143,23 @@ namespace MachineInspections
             tabIntervals.ItemSize = new Size(150, 40);
             tabIntervals.Location = new Point(56, 220);
             tabIntervals.MaximumSize = new Size(1370, 400);
-            tabIntervals.MinimumSize = new Size(1370, 400);
+            tabIntervals.MinimumSize = new Size(1370, 300);
             tabIntervals.Multiline = true;
             tabIntervals.Name = "tabIntervals";
             tabIntervals.RightToLeft = RightToLeft.Yes;
             tabIntervals.RightToLeftLayout = true;
             tabIntervals.SelectedIndex = 0;
-            tabIntervals.Size = new Size(1370, 400);
+            tabIntervals.Size = new Size(1370, 300);
             tabIntervals.TabIndex = 0;
             tabIntervals.DrawItem += tabIntervals_DrawItem;
             // 
             // btnBack
             // 
-            btnBack.Location = new Point(1413, 10);
+            btnBack.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnBack.Location = new Point(1307, 10);
             btnBack.Name = "btnBack";
             btnBack.RightToLeft = RightToLeft.Yes;
-            btnBack.Size = new Size(75, 23);
+            btnBack.Size = new Size(119, 50);
             btnBack.TabIndex = 1;
             btnBack.Text = "חזור";
             btnBack.UseVisualStyleBackColor = true;
@@ -152,7 +168,7 @@ namespace MachineInspections
             // scrollPanel
             // 
             scrollPanel.AutoScroll = true;
-            scrollPanel.BorderStyle = BorderStyle.Fixed3D;
+            scrollPanel.BorderStyle = BorderStyle.FixedSingle;
             scrollPanel.Location = new Point(56, 68);
             scrollPanel.Name = "scrollPanel";
             scrollPanel.RightToLeft = RightToLeft.Yes;
@@ -163,16 +179,44 @@ namespace MachineInspections
             // 
             btnSaveInspection.Anchor = AnchorStyles.None;
             btnSaveInspection.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            btnSaveInspection.Location = new Point(1220, 653);
+            btnSaveInspection.Location = new Point(1222, 649);
             btnSaveInspection.Name = "btnSaveInspection";
-            btnSaveInspection.Size = new Size(206, 50);
+            btnSaveInspection.Size = new Size(206, 28);
             btnSaveInspection.TabIndex = 2;
             btnSaveInspection.Text = "חתום בדיקה";
             btnSaveInspection.Click += btnSaveInspection_Click;
             // 
+            // DefectiveGroupBox
+            // 
+            DefectiveGroupBox.Controls.Add(DefectiveLabel);
+            DefectiveGroupBox.Controls.Add(DefectiveExplanationTextBox);
+            DefectiveGroupBox.Location = new Point(60, 526);
+            DefectiveGroupBox.Name = "DefectiveGroupBox";
+            DefectiveGroupBox.Size = new Size(1368, 100);
+            DefectiveGroupBox.TabIndex = 5;
+            DefectiveGroupBox.TabStop = false;
+            DefectiveGroupBox.Text = "מכונה לא שמישה";
+            // 
+            // DefectiveLabel
+            // 
+            DefectiveLabel.AutoSize = true;
+            DefectiveLabel.Location = new Point(1272, 29);
+            DefectiveLabel.MinimumSize = new Size(90, 20);
+            DefectiveLabel.Name = "DefectiveLabel";
+            DefectiveLabel.Size = new Size(90, 20);
+            DefectiveLabel.TabIndex = 1;
+            DefectiveLabel.Text = "הסבר ופרט";
+            // 
+            // DefectiveExplanationTextBox
+            // 
+            DefectiveExplanationTextBox.Location = new Point(120, 24);
+            DefectiveExplanationTextBox.Name = "DefectiveExplanationTextBox";
+            DefectiveExplanationTextBox.Size = new Size(1127, 25);
+            DefectiveExplanationTextBox.TabIndex = 0;
+            // 
             // panelOuter
             // 
-            panelOuter.Controls.Add(panelRight);
+            panelOuter.Controls.Add(InnerPanel);
             panelOuter.Dock = DockStyle.Fill;
             panelOuter.Location = new Point(0, 0);
             panelOuter.Name = "panelOuter";
@@ -192,9 +236,30 @@ namespace MachineInspections
             lblInspectionStatus.Size = new Size(20, 41);
             lblInspectionStatus.TabIndex = 0;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(0, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(45, 19);
+            label1.TabIndex = 3;
+            label1.Text = "label1";
+            // 
+            // SavedResultLabel
+            // 
+            SavedResultLabel.AutoSize = true;
+            SavedResultLabel.Location = new Point(925, 649);
+            SavedResultLabel.MinimumSize = new Size(250, 28);
+            SavedResultLabel.Name = "SavedResultLabel";
+            SavedResultLabel.Size = new Size(250, 28);
+            SavedResultLabel.TabIndex = 6;
+            SavedResultLabel.Text = "";
+            SavedResultLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // MachineInspectionForm
             // 
             ClientSize = new Size(1500, 703);
+            Controls.Add(label1);
             Controls.Add(lblInspectionStatus);
             Controls.Add(panelOuter);
             Font = new Font("Segoe UI", 10F);
@@ -203,8 +268,10 @@ namespace MachineInspections
             RightToLeftLayout = true;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "מערכת בדיקות מכונות";
-            panelRight.ResumeLayout(false);
-            panelRight.PerformLayout();
+            InnerPanel.ResumeLayout(false);
+            InnerPanel.PerformLayout();
+            DefectiveGroupBox.ResumeLayout(false);
+            DefectiveGroupBox.PerformLayout();
             panelOuter.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
@@ -215,21 +282,10 @@ namespace MachineInspections
 
             base.OnLoad(e);
             LoadMachine();
-            
+
             this.DataLabel.Text = DateTime.Now.ToString("dd/MM/yyyy");
         }
-
-        private string GetSharedFolder()
-        {
-
-            string folder = GetSetting("Machines", "Machines");
-            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-            folder = @Path.GetFullPath(Path.Combine(baseDir, folder));
-
-            return folder;
-
-        }
-
+ 
         private void btnBack_Click(object sender, EventArgs e)
         {
             var home = new MachineSelectionForm(m_loggedInInspector);
@@ -239,7 +295,7 @@ namespace MachineInspections
 
         private void LoadMachine()
         {
-            var folder = GetSharedFolder();
+            var folder = FileOperations.GetSharedFolder("Machines");
 
             if (!Directory.Exists(folder))
                 return;
@@ -257,7 +313,7 @@ namespace MachineInspections
 
                     currentMachine = JsonSerializer.Deserialize<MachineDefinition>(json, options);
 
-                   
+
 
                     if (currentMachine == null)
                         return;
@@ -295,8 +351,8 @@ namespace MachineInspections
                 }
             }
         }
-         
-         private void BuildIntervalTabs(MachineDefinition machine)
+
+        private void BuildIntervalTabs(MachineDefinition machine)
         {
             tabIntervals.TabPages.Clear();
 
@@ -419,7 +475,7 @@ namespace MachineInspections
             if (machine == null)
                 return;
 
-            string folder = GetSharedFolder();
+            string folder = FileOperationsNS.FileOperations.GetSharedFolder("Machines");
             Directory.CreateDirectory(folder);
 
             // Loop through ALL tabs
@@ -433,6 +489,15 @@ namespace MachineInspections
 
                 // VALIDATION
                 bool allChecked = panel.Controls.OfType<CheckBox>().All(c => c.Checked);
+                machine.DefectExplanation = DefectiveExplanationTextBox.Text.Trim();
+                machine.IsOperational = false;
+                if (!string.IsNullOrEmpty(machine.DefectExplanation))
+                {
+                    SaveToJsonResultFile(machine);
+                    return;
+                }
+
+
                 if (!allChecked)
                 {
                     MessageBox.Show(
@@ -459,7 +524,7 @@ namespace MachineInspections
                 }
 
                 // Append runtime persistence metrics per configured maintenance unit
-                AppendInspectionToCsv(machine, intervalKey, results);
+                FileOperationsNS.FileOperations.AppendInspectionToCsv(m_loggedInInspector, machine, intervalKey, results);
             }
 
             MessageBox.Show(
@@ -473,113 +538,31 @@ namespace MachineInspections
             );
         }
 
-        #region CSV FILE HANDLING
-
-        private void AppendInspectionToCsv(MachineDefinition machine, string intervalKey, List<(string Code, bool Done)> results)
+        private void SaveToJsonResultFile(MachineDefinition machine)
         {
             try
             {
-                string filePath = GetActiveCsvFile(machine);
 
-                using (var writer = new StreamWriter(filePath, append: true, new UTF8Encoding(true)))
+                string folder = FileOperations.GetSharedFolder("Machines");
+                var result = FileOperations.SaveToJsonResultFile(machine, folder);
+                if (string.IsNullOrEmpty(result))
                 {
-                    foreach (var r in results)
-                    {
-                        string result = r.Done ? "עבר" : "נכשל";
-
-                        writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}," +
-                                         $"{m_loggedInInspector.FirstName} {m_loggedInInspector.LastName}," +
-                                         $"{m_loggedInInspector.ID}," +
-                                         $"{machine.MachineName}," +
-                                         $"{machine.SerialNumber}," +
-                                         $"{intervalKey}," +
-                                         $"{r.Code}," +
-                                         $"{result}");
-                    }
+                    SavedResultLabel.Text = $"הבדיקה נשמרה בהצלחה";
                 }
+                else
+                {
+                    SavedResultLabel.Text = result;
+                }
+
+
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error writing CSV: " + ex.Message, "IO Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
+                MessageBox.Show($"Error saving machine definition file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private string GetActiveCsvFile(MachineDefinition machine)
-        {
-            string folder = GetSharedFolder();
-            Directory.CreateDirectory(folder);
-
-            string baseName = GetSetting("CsvBaseName", "Results");
-            int maxSizeMB = GetSettingInt("CsvMaxSizeMB", 2);
-            int maxFiles = GetSettingInt("CsvMaxFiles", 50);
-
-            // Find existing target logs matching patterns
-            var files = Directory.GetFiles(folder, $"{machine.MachineName}*.csv")
-                                 .OrderBy(f => f)
-                                 .ToList();
-
-            if (files.Count == 0)
-                return CreateNewCsvFile(machine, folder, baseName);
-
-            string latest = files.Last();
-
-            // Perform rolling-file dimension check limits
-            long sizeMB = new FileInfo(latest).Length / (1024 * 1024);
-            if (sizeMB >= maxSizeMB)
-            {
-                latest = CreateNewCsvFile(machine, folder, baseName);
-                files.Add(latest);
-            }
-
-            // Evict overflow historical log sets if criteria bounds are exceeded
-            if (files.Count > maxFiles)
-            {
-                int toDelete = files.Count - maxFiles;
-                foreach (var old in files.Take(toDelete))
-                {
-                    try
-                    {
-                        File.Delete(old);
-                    }
-                    catch
-                    {
-                        // Fail silently or log background diagnostic details if file lock exists
-                    }
-                }
-            }
-
-            return latest;
-        }
-
-        private string CreateNewCsvFile(MachineDefinition machine, string folder, string baseName)
-        {
-            string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-            string filePath = Path.Combine(folder, $"{machine.MachineName}.{baseName}_{timestamp}.csv");
-
-            using (var writer = new StreamWriter(filePath, false, new UTF8Encoding(true)))
-            {
-                writer.WriteLine("תאריך,שם הבודק,מספר אישי,מכונה,מס סיריאלי,תדירות,סוג הבדיקה,תוצאות הבדיקה");
-            }
-
-            return filePath;
-        }
-
-
-        private string GetSetting(string key, string defaultValue)
-        {
-            return ConfigurationManager.AppSettings[key] ?? defaultValue;
-        }
-
-
-        private int GetSettingInt(string key, int defaultValue)
-        {
-            if (int.TryParse(ConfigurationManager.AppSettings[key], out int value))
-                return value;
-            return defaultValue;
-        }
-
-        #endregion CSV FILE HANDLING
+       
 
         private string GetIntervalKeyFromTab(string displayName)
         {
@@ -619,7 +602,7 @@ namespace MachineInspections
             Rectangle tabRect = tc.GetTabRect(e.Index);
             string? intervalKey = tab.Tag as string;
             Color backgroundColor = Color.White;
-            
+
 
             //bool isUrgent = intervalKey == _IsOverdue;
             bool isSelected = e.Index == tabIntervals.SelectedIndex;
@@ -671,7 +654,7 @@ namespace MachineInspections
             if (inspectionSchedules?.StatusMessages == null)
                 return;
 
-                    
+
             scrollPanel.Controls.Clear();
             StringBuilder sb = new StringBuilder();
             foreach (var msg in inspectionSchedules.StatusMessages.Values)
@@ -686,7 +669,7 @@ namespace MachineInspections
                 AutoSize = true,
                 Text = sb.ToString(),
                 TextAlign = ContentAlignment.TopLeft,
-                
+
 
             };
             scrollPanel.Controls.Add(label);

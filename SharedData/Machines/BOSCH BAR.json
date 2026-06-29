@@ -6,39 +6,47 @@
     "חצי-שנתי": [
       {
         "Code": "HY_B-TEMPT",
-        "Description": "בדיקה של טמפרטורת  מעבד"
+        "Description": "בדיקה של טמפרטורת  מעבד",
+        "IsOverdue": false
       },
       {
         "Code": "HY-B-MOTHERBOARD",
-        "Description": "בדיקה של טמפרטורת  לוח אם"
+        "Description": "בדיקה של טמפרטורת  לוח אם",
+        "IsOverdue": false
       },
       {
         "Code": "HY_B-AIR-VENT",
-        "Description": "בדיקה של טמפרטורת  מאורר"
+        "Description": "בדיקה של טמפרטורת  מאורר",
+        "IsOverdue": false
       }
     ],
     "שנתי": [
       {
         "Code": "B-TEMPT",
-        "Description": "בדיקה של טמפרטורת  מעבד שנתי "
+        "Description": "בדיקה של טמפרטורת  מעבד שנתי ",
+        "IsOverdue": false
       },
       {
         "Code": "B-MOTHERBOARD",
-        "Description": " שנתי בדיקה של טמפרטורת  לוח אם"
+        "Description": " שנתי בדיקה של טמפרטורת  לוח אם",
+        "IsOverdue": false
       },
       {
         "Code": "B-AIR-VENT",
-        "Description": "בדיקה שנתית של טמפרטורת  מאורר"
+        "Description": "בדיקה שנתית של טמפרטורת  מאורר",
+        "IsOverdue": false
       },
       {
         "Code": "BOSCH-ANNUAL-CHECK",
-        "Description": "בדיקה שנתית מלאה"
+        "Description": "בדיקה שנתית מלאה",
+        "IsOverdue": false
       }
     ],
     "רבעוני": [
       {
         "Code": "A-1",
-        "Description": "בדיקה רבעונית של מאוררים"
+        "Description": "בדיקה רבעונית של מאוררים",
+        "IsOverdue": false
       }
     ]
   },
@@ -48,6 +56,7 @@
     "רבעוני": 90
   },
   "InspectionTimeOverdue": null,
+  "IsOperational": true,
   "SerialNumber": "C-AB553",
-  "IsOperational": true
+  "DefectExplanation": "שבר בגלגל"
 }

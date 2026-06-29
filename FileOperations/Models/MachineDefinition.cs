@@ -1,8 +1,9 @@
-﻿using System;
+﻿ 
+using System;
 
 using System.Collections.Generic;
 
-namespace MachineInspections
+namespace FileOperationsNS.Models
 {
     public class MachineDefinition
     {
@@ -20,5 +21,7 @@ namespace MachineInspections
         public Dictionary<string, bool>? InspectionTimeOverdue { get; set; }
         public bool IsOperational { get; set; } = true;
         public string? SerialNumber { get; set; }
+
+        public string? DefectExplanation { get; set; }
     }
 }

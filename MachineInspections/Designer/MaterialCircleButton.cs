@@ -23,8 +23,7 @@ namespace MachineInspections.Designer
 
             this._originalColor = this.BackColor;
 
-            //this.MouseEnter += (s, e) => this.BackColor = HoverColor;
-            //this.MouseLeave += (s, e) => this.BackColor = _originalColor;
+           
 
             this.Paint += MaterialCircleButton_Paint;
         }

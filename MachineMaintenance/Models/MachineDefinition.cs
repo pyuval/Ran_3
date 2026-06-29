@@ -24,6 +24,7 @@ namespace MachineMaintenance.Models
 
         public bool IsOperational { get; set; } = true;
 
+        public string? DefectExplanation { get; set; }
         public MachineDefinition() { }
     }
 }

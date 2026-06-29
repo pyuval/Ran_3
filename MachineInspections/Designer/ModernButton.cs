@@ -14,7 +14,7 @@ namespace MachineInspections.Designer
 
         public ModernButton()
         {
-            this.FlatStyle = FlatStyle.Flat;
+            this.FlatStyle = FlatStyle.Popup;
             this.FlatAppearance.BorderSize = 2;
             this.FlatAppearance.BorderColor = _borderColor;
 
@@ -23,7 +23,7 @@ namespace MachineInspections.Designer
 
             this.Font = new Font("Segoe UI", 14, FontStyle.Bold);
             this.Height = 80;
-            this.Width = 350;
+            this.Width = 200;
             this.Margin = new Padding(15);
             this.Cursor = Cursors.Hand;
 
@@ -31,8 +31,7 @@ namespace MachineInspections.Designer
                 CreateRoundRectRgn(0, 0, Width, Height, 20, 20)
             );
 
-            this.MouseEnter += (s, e) => this.BackColor = _hoverColor;
-            this.MouseLeave += (s, e) => this.BackColor = _defaultColor;
+          
         }
 
         [System.Runtime.InteropServices.DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]

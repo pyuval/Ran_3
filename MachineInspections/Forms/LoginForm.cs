@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FileOperationsNS.Models;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -12,6 +13,7 @@ namespace MachineInspections
     public partial class LoginForm : Form
     {
         private List<Inspector> inspectors = new List<Inspector>();
+        public Inspector LoggedInInspector { get; private set; }
 
         public class UserContainer
         {
@@ -391,19 +393,14 @@ namespace MachineInspections
         private string GetSharedFolder()
         {
 
-            string folder = GetSetting("Users", "Users");
-            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-            folder = @Path.GetFullPath(Path.Combine(baseDir, folder));
 
+            string folder = FileOperationsNS.FileOperations.GetSharedFolder("Users");
+          
             return folder;
 
         }
 
-        private string GetSetting(string key, string defaultValue)
-        {
-
-            return ConfigurationManager.AppSettings[key] ?? defaultValue;
-        }
-        public Inspector LoggedInInspector { get; private set; }
+      
+      
     }
 }

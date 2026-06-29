@@ -1,34 +1,68 @@
-﻿{
-  "LastInspectionDate": "2026-01-03T00:00:00",
-  "LastInspectionType": "שבועי",
-  "MachineName": "Siemens Bar",
-  "MaintenanceDateToCodeDesc": {
-    "שבועי": [
-      {
-        "Code": "A-A",
-        "Description": "בדוק לחץ מים"
-      },
-      {
-        "Code": "B",
-        "Description": "בדוק חוזק מכסה בסיס"
-      },
-      {
-        "Code": "C",
-        "Description": "בדוק רעשים חריגים"
-      }
-    ],
-    "שנתי": [
-      {
-        "Code": "SIEMENS-ANNUAL-CHECK",
-        "Description": "בדיקה שנתית מלאה"
-      }
-    ]
-  },
-  "MaintenanceSchedule": {
-    "שבועי": 7,
-    "שנתי": 365
-  },
-  "InspectionTimeOverdue": null,
-  "SerialNumber": "C-AB553",
-  "IsOperational": false
+﻿ {
+   "MachineName":"SIEMENS",
+   "SerialNumber":"PCB 11-2",
+   "LastInspectionDate":"2026-01-01",
+   "LastInspectionType":"חודשי",
+   "IsOperational":true,
+     "DefectExplanation": "",
+   "MaintenanceSchedule":{
+      "שבועי":7,
+      "חודשי":30,
+      "דו-חודשי":60,
+      "רבעוני":90,
+      "חצי-שנתי":180,
+      "שנתי":365
+   },
+   "MaintenanceDateToCodeDesc":{
+      "שבועי":[
+         {
+            "Code":"41",
+            "Description":"בדוק  מגעים "
+         },
+         {
+            "Code":"42",
+            "Description":"בדוק חוטים שבועי"
+         },
+         {
+            "Code":"43",
+            "Description":"בדוק ויברציות שבועי "
+         }
+      ],
+      "חודשי":[
+         {
+            "Code":"80",
+            "Description":" חודשי בדיקת פילטרים"
+         },
+         {
+            "Code":"81",
+            "Description":"בדיקת מערכת קירור חודשי "
+         }
+      ],
+      "דו-חודשי":[
+         {
+            "Code":"100",
+            "Description":" בדיקה דו־חודשית כללית"
+         }
+      ],
+      "רבעוני":[
+         {
+            "Code":"200",
+            "Description":"בדיקה רבעונית של טמפרטורת  מעבד"
+         },
+         {
+            "Code":"TM2",
+            "Description":"בדיקה רבעונית של טמפרטורת  לוח אם"
+         },
+         {
+            "Code":"TM3",
+            "Description":"בדיקה רבעונית של טמפרטורת  מאורר"
+         }
+      ],
+      "שנתי":[
+         {
+            "Code":"400",
+            "Description":"בדיקה שנתית מלאה"
+         }
+      ]
+   }
 }

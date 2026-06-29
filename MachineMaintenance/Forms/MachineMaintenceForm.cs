@@ -1,15 +1,7 @@
 ﻿using MachineMaintenance.Models;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Windows.Forms;
 
 namespace MachineMaintenance
 {
@@ -41,30 +33,30 @@ namespace MachineMaintenance
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.lblSerial = new System.Windows.Forms.Label();
-            this.txtSerial = new System.Windows.Forms.TextBox();
-            this.lblSchedule = new System.Windows.Forms.Label();
-            this.dgvSchedule = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lblTests = new System.Windows.Forms.Label();
-            this.treeTests = new System.Windows.Forms.TreeView();
-            this.btnAddTest = new System.Windows.Forms.Button();
-            this.btnEditTest = new System.Windows.Forms.Button();
-            this.btnDeleteTest = new System.Windows.Forms.Button();
-            this.btnLoadJson = new System.Windows.Forms.Button();
-            this.btnSaveJson = new System.Windows.Forms.Button();
-            this.lblSelectMachine = new System.Windows.Forms.Label();
-            this.cmbMachines = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnAddInterval = new System.Windows.Forms.Button();
-            this.btnDeleteInterval = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.btnMachineInoperative = new System.Windows.Forms.Button();
-            this.lblMachineOperational = new System.Windows.Forms.Label();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            lblSerial = new Label();
+            this.txtSerial = new TextBox();
+            this.lblSchedule = new Label();
+            this.dgvSchedule = new DataGridView();
+            this.dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            this.lblTests = new Label();
+            this.treeTests = new TreeView();
+            this.btnAddTest = new Button();
+            this.btnEditTest = new Button();
+            this.btnDeleteTest = new Button();
+            this.btnLoadJson = new Button();
+            this.btnSaveJson = new Button();
+            this.lblSelectMachine = new Label();
+            this.cmbMachines = new ComboBox();
+            this.label1 = new Label();
+            this.btnAddInterval = new Button();
+            this.btnDeleteInterval = new Button();
+            this.label2 = new Label();
+            this.btnMachineInoperative = new Button();
+            this.lblMachineOperational = new Label();
 
-            this.btnAddMachine = new System.Windows.Forms.Button();
+            this.btnAddMachine = new Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSchedule)).BeginInit();
             this.SuspendLayout();
             //
@@ -72,7 +64,7 @@ namespace MachineMaintenance
             //
             this.lblSerial.AutoSize = true;
             this.lblSerial.Location = new System.Drawing.Point(918, 98);
-            this.lblSerial.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSerial.Margin = new Padding(4, 0, 4, 0);
             this.lblSerial.Name = "lblSerial";
             this.lblSerial.Size = new System.Drawing.Size(64, 16);
             this.lblSerial.TabIndex = 2;
@@ -102,7 +94,7 @@ namespace MachineMaintenance
             // txtSerial
             //
             this.txtSerial.Location = new System.Drawing.Point(564, 95);
-            this.txtSerial.Margin = new System.Windows.Forms.Padding(4);
+            this.txtSerial.Margin = new Padding(4);
             this.txtSerial.Name = "txtSerial";
             this.txtSerial.Size = new System.Drawing.Size(265, 22);
             this.txtSerial.TabIndex = 3;
@@ -111,7 +103,7 @@ namespace MachineMaintenance
             //
             this.lblSchedule.AutoSize = true;
             this.lblSchedule.Location = new System.Drawing.Point(887, 145);
-            this.lblSchedule.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSchedule.Margin = new Padding(4, 0, 4, 0);
             this.lblSchedule.Name = "lblSchedule";
             this.lblSchedule.Size = new System.Drawing.Size(95, 16);
             this.lblSchedule.TabIndex = 8;
@@ -120,11 +112,11 @@ namespace MachineMaintenance
             // dgvSchedule
             //
             this.dgvSchedule.ColumnHeadersHeight = 29;
-            this.dgvSchedule.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvSchedule.Columns.AddRange(new DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2});
             this.dgvSchedule.Location = new System.Drawing.Point(600, 175);
-            this.dgvSchedule.Margin = new System.Windows.Forms.Padding(4);
+            this.dgvSchedule.Margin = new Padding(4);
             this.dgvSchedule.Name = "dgvSchedule";
             this.dgvSchedule.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.dgvSchedule.RowHeadersWidth = 51;
@@ -152,7 +144,7 @@ namespace MachineMaintenance
             //
             this.lblTests.AutoSize = true;
             this.lblTests.Location = new System.Drawing.Point(439, 31);
-            this.lblTests.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTests.Margin = new Padding(4, 0, 4, 0);
             this.lblTests.Name = "lblTests";
             this.lblTests.Size = new System.Drawing.Size(49, 16);
             this.lblTests.TabIndex = 10;
@@ -163,22 +155,22 @@ namespace MachineMaintenance
             this.treeTests.AllowDrop = true;
             this.treeTests.HideSelection = false;
             this.treeTests.Location = new System.Drawing.Point(32, 63);
-            this.treeTests.Margin = new System.Windows.Forms.Padding(4);
+            this.treeTests.Margin = new Padding(4);
             this.treeTests.Name = "treeTests";
             this.treeTests.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.treeTests.RightToLeftLayout = true;
             this.treeTests.Size = new System.Drawing.Size(465, 454);
             this.treeTests.TabIndex = 11;
-            this.treeTests.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeTests_ItemDrag);
-            this.treeTests.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeTests_DragDrop);
-            this.treeTests.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeTests_DragEnter);
-            this.treeTests.DragOver += new System.Windows.Forms.DragEventHandler(this.treeTests_DragOver);
+            this.treeTests.ItemDrag += new ItemDragEventHandler(this.treeTests_ItemDrag);
+            this.treeTests.DragDrop += new DragEventHandler(this.treeTests_DragDrop);
+            this.treeTests.DragEnter += new DragEventHandler(this.treeTests_DragEnter);
+            this.treeTests.DragOver += new DragEventHandler(this.treeTests_DragOver);
             //
 
             // btnLoadJson
             //
             this.btnLoadJson.Location = new System.Drawing.Point(882, 506);
-            this.btnLoadJson.Margin = new System.Windows.Forms.Padding(4);
+            this.btnLoadJson.Margin = new Padding(4);
             this.btnLoadJson.Name = "btnLoadJson";
             this.btnLoadJson.Size = new System.Drawing.Size(100, 28);
             this.btnLoadJson.TabIndex = 15;
@@ -192,7 +184,7 @@ namespace MachineMaintenance
             //
             this.lblSelectMachine.AutoSize = true;
             this.lblSelectMachine.Location = new System.Drawing.Point(919, 63);
-            this.lblSelectMachine.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSelectMachine.Margin = new Padding(4, 0, 4, 0);
             this.lblSelectMachine.Name = "lblSelectMachine";
             this.lblSelectMachine.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.lblSelectMachine.Size = new System.Drawing.Size(66, 16);
@@ -203,7 +195,7 @@ namespace MachineMaintenance
             //
             this.cmbMachines.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbMachines.Location = new System.Drawing.Point(560, 59);
-            this.cmbMachines.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbMachines.Margin = new Padding(4);
             this.cmbMachines.Name = "cmbMachines";
             this.cmbMachines.Size = new System.Drawing.Size(269, 24);
             this.cmbMachines.TabIndex = 1;
@@ -233,7 +225,7 @@ namespace MachineMaintenance
             // btnDeleteInterval
             //
             this.btnDeleteInterval.Location = new System.Drawing.Point(269, 590);
-            this.btnDeleteInterval.Margin = new System.Windows.Forms.Padding(4);
+            this.btnDeleteInterval.Margin = new Padding(4);
             this.btnDeleteInterval.Name = "btnDeleteInterval";
             this.btnDeleteInterval.Size = new System.Drawing.Size(100, 28);
             this.btnDeleteInterval.TabIndex = 18;
@@ -252,7 +244,7 @@ namespace MachineMaintenance
             //
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(73, 670);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Margin = new Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.label1.Size = new System.Drawing.Size(362, 16);
@@ -262,7 +254,7 @@ namespace MachineMaintenance
             // btnAddTest
             //
             this.btnAddTest.Location = new System.Drawing.Point(377, 690);
-            this.btnAddTest.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAddTest.Margin = new Padding(4);
             this.btnAddTest.Name = "btnAddTest";
             this.btnAddTest.Size = new System.Drawing.Size(113, 28);
             this.btnAddTest.TabIndex = 12;
@@ -272,7 +264,7 @@ namespace MachineMaintenance
             // btnEditTest
             //
             this.btnEditTest.Location = new System.Drawing.Point(124, 690);
-            this.btnEditTest.Margin = new System.Windows.Forms.Padding(4);
+            this.btnEditTest.Margin = new Padding(4);
             this.btnEditTest.Name = "btnEditTest";
             this.btnEditTest.Size = new System.Drawing.Size(107, 28);
             this.btnEditTest.TabIndex = 13;
@@ -282,7 +274,7 @@ namespace MachineMaintenance
             // btnDeleteTest
             //
             this.btnDeleteTest.Location = new System.Drawing.Point(256, 690);
-            this.btnDeleteTest.Margin = new System.Windows.Forms.Padding(4);
+            this.btnDeleteTest.Margin = new Padding(4);
             this.btnDeleteTest.Name = "btnDeleteTest";
             this.btnDeleteTest.Size = new System.Drawing.Size(100, 28);
             this.btnDeleteTest.TabIndex = 14;
@@ -298,7 +290,7 @@ namespace MachineMaintenance
             // btnSaveJson
             //
             this.btnSaveJson.Location = new System.Drawing.Point(340, 740);
-            this.btnSaveJson.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSaveJson.Margin = new Padding(4);
             this.btnSaveJson.Name = "btnSaveJson";
             this.btnSaveJson.Size = new System.Drawing.Size(167, 28);
             this.btnSaveJson.TabIndex = 16;
@@ -369,7 +361,7 @@ namespace MachineMaintenance
 
 
 
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new Padding(4);
             this.Name = "MachineMaintenenceForm";
             this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -385,38 +377,30 @@ namespace MachineMaintenance
         #endregion
 
         #region UI Controls
-        private System.Windows.Forms.TextBox txtSerial;
-
-        private System.Windows.Forms.DataGridView dgvSchedule;
-
-        private System.Windows.Forms.TreeView treeTests;
-
-        private System.Windows.Forms.Button btnAddTest;
-        private System.Windows.Forms.Button btnEditTest;
-        private System.Windows.Forms.Button btnDeleteTest;
-
-        private System.Windows.Forms.Button btnLoadJson;
-        private System.Windows.Forms.Button btnSaveJson;
-        private System.Windows.Forms.Label lblSerial;
-        private System.Windows.Forms.Label lblSchedule;
-        private System.Windows.Forms.Label lblTests;
+        private TextBox txtSerial;
+        private DataGridView dgvSchedule;
+        private TreeView treeTests;
+        private Button btnAddTest;
+        private Button btnEditTest;
+        private Button btnDeleteTest;
+        private Button btnLoadJson;
+        private Button btnSaveJson;
+        public Label lblSerial;
+        private Label lblSchedule;
+        private Label lblTests;
         private Button btnAddInterval;
         private Button btnAddMachine;
-
-
         private ComboBox cmbMachines;
         private Label lblSelectMachine;
         private Button btnDeleteInterval;
         private Button btnMachineInoperative;
         private Label lblMachineOperational;
 
-
-
         //load json
 
 
         #endregion
-        private Label label1;
+        public Label label1;
         private Label label2;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
@@ -455,18 +439,10 @@ namespace MachineMaintenance
         private string GetSharedFolder()
         {
 
-            string folder = GetSetting("Machines", "Machines");
-            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-            folder = @Path.GetFullPath(Path.Combine(baseDir, folder));
+            string folder = FileOperationsNS.FileOperations.GetSharedFolder("Machines");
 
             return folder;
 
-        }
-
-
-        private string GetSetting(string key, string defaultValue)
-        {
-            return ConfigurationManager.AppSettings[key] ?? defaultValue;
         }
 
 
@@ -692,6 +668,7 @@ namespace MachineMaintenance
             string interval = treeTests.SelectedNode.Parent.Text;
             string code = treeTests.SelectedNode.Text.Split('-')[0].Trim();
 
+
             var test = _machine.MaintenanceDateToCodeDesc[interval].FirstOrDefault(t => t.Code == code);
             if (test == null)
                 return;
@@ -747,11 +724,14 @@ namespace MachineMaintenance
             string interval = treeTests.SelectedNode.Parent.Text;
             string code = treeTests.SelectedNode.Text.Split('-')[0].Trim();
 
-            if (_machine.MaintenanceDateToCodeDesc.ContainsKey(interval))
+            if (_machine.MaintenanceDateToCodeDesc != null)
             {
-                _machine.MaintenanceDateToCodeDesc[interval].RemoveAll(t => t.Code == code);
+                if (_machine.MaintenanceDateToCodeDesc.ContainsKey(interval))
+                {
+                    _machine.MaintenanceDateToCodeDesc[interval].RemoveAll(t => t.Code == code);
+                }
+                treeTests.SelectedNode.Remove();
             }
-            treeTests.SelectedNode.Remove();
         }
 
         private void cmbMachines_SelectedIndexChanged(object sender, EventArgs e)
@@ -964,7 +944,9 @@ namespace MachineMaintenance
             {
                 string interval = node.Text;
                 if (_machine.MaintenanceDateToCodeDesc.ContainsKey(interval))
+                {
                     newMaintenance.Add(interval, _machine.MaintenanceDateToCodeDesc[interval]);
+                }
 
                 if (_machine.MaintenanceSchedule.ContainsKey(interval))
                     newSchedule.Add(interval, _machine.MaintenanceSchedule[interval]);

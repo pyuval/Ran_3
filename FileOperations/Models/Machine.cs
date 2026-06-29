@@ -2,12 +2,12 @@
 
 using System.Linq;
 
-namespace MachineInspections
+namespace FileOperationsNS.Models
 {
     public class Machine
     {
-        public string Serial { get; set; }
-        public string Name { get; set; }
+        public string? Serial { get; set; }
+        public string? Name { get; set; }
         public bool Daily { get; set; }
         public bool Weekly { get; set; }
         public bool Monthly { get; set; }

@@ -6,4 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FileOperations\FileAndModelsOperations.csproj" />
+  </ItemGroup>
 </Project>
