@@ -1,0 +1,70 @@
+﻿{
+  "MachineName": "LAVAZZA",
+  "SerialNumber": "COFFE MAKER-A34",
+
+  "LastInspectionDate": "2026-01-01",
+  "LastInspectionType": "שבועי",
+  "IsOperational": true,
+  "MaintenanceSchedule": {
+    "שבועי": 7,
+    "חודשי": 30,
+    "דו-חודשי": 60,
+    "רבעוני": 90,
+    "חצי-שנתי": 180,
+    "שנתי": 365
+  },
+  "MaintenanceDateToCodeDesc": {
+
+    "שבועי": [
+      {
+        "Code": "A",
+        "Description": "בדוק לחץ שמן שבועי"
+      },
+      {
+        "Code": "B",
+        "Description": "שבועי בדוק רצועות"
+      },
+      {
+        "Code": "C",
+        "Description": "בדוק רעשים חריגים שבועי "
+      }
+    ],
+    "חודשי": [
+      {
+        "Code": "X",
+        "Description": " חודשי בדיקת פילטרים"
+      },
+      {
+        "Code": "Y",
+        "Description": "בדיקת מערכת קירור חודשי "
+      }
+    ],
+    "דו-חודשי": [
+      {
+        "Code": "BM1",
+        "Description": " בדיקה דו־חודשית כללית"
+      }
+    ],
+    "רבעוני": [
+      {
+        "Code": "TM1",
+        "Description": "בדיקה רבעונית של טמפרטורת  מעבד"
+      },
+      {
+        "Code": "TM2",
+        "Description": "בדיקה רבעונית של טמפרטורת  לוח אם"
+      },
+      {
+        "Code": "TM3",
+        "Description": "בדיקה רבעונית של טמפרטורת  מאורר"
+      }
+    ],
+
+    "שנתי": [
+      {
+        "Code": "PHILLIPS-ANNUAL-CHECK",
+        "Description": "בדיקה שנתית מלאה"
+      }
+    ]
+  }
+}

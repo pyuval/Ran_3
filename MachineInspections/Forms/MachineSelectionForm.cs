@@ -17,7 +17,7 @@ namespace MachineInspections.Forms
     public partial class MachineSelectionForm : Form
     {
 
-        private List<string> _machineNames;
+       // private List<string> _machineNames;
         private List<MachineDefinition> _machines = new List<MachineDefinition>();
 
         int colorIndex = 0;

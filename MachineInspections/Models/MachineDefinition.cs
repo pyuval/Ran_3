@@ -7,8 +7,8 @@ namespace MachineInspections
     public class MachineDefinition
     {
         public DateTime LastInspectionDate { get; set; }
-        public string LastInspectionType { get; set; }
-        public string MachineName { get; set; }
+        public string? LastInspectionType { get; set; }
+        public string? MachineName { get; set; }
 
         //Code - Definition
         public Dictionary<string, List<MaintenanceTest>>? MaintenanceDateToCodeDesc { get; set; } = new Dictionary<string, List<MaintenanceTest>>();

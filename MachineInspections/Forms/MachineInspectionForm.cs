@@ -1,11 +1,8 @@
 ﻿using MachineInspections.Forms;
 using System.Configuration;
 using System.Data;
-using System.Reflection.Emit;
-using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Text.Json;
-using System.Xml.Linq;
 
 namespace MachineInspections
 {
@@ -14,32 +11,31 @@ namespace MachineInspections
         private InspectionScheduleResult inspectionScheduleResult;
         private readonly Inspector m_loggedInInspector;
         private string m_currentMachineName;
-        private string _mostUrgentInterval;
         private bool _IsOverdue;
         private MachineDefinition currentMachine;
         //private ListBox lstMachines;
         private TabControl tabIntervals;
-        private System.Windows.Forms.Label lblMachineName;
-        private System.Windows.Forms.Label lblSerial;
-        private System.Windows.Forms.Label lblInspectionStatus;
-        private System.Windows.Forms.Button btnSaveInspection;
-        private System.Windows.Forms.Panel panelRight;
+        private Label lblMachineName;
+        private Label lblSerial;
+        private Label lblInspectionStatus;
+        private Button btnSaveInspection;
+        private Panel panelRight;
         private Panel scrollPanel;
         private Panel panelOuter;
         private Button btnBack;
+        private Label DataLabel;
 
-        private Dictionary<string, Color> _intervalColors = new Dictionary<string, Color>
-        {
-            { "Weekly", Color.LightGreen },
-            { "Monthly", Color.LightBlue },
-            { "BiMonthly", Color.Khaki },
-            { "TriMonthly", Color.Gold },
-            { "MidYear", Color.Orange },
-            { "Annual", Color.LightCoral }
-        };
-        private System.Windows.Forms.Label DataLabel;
-        private System.Windows.Forms.Label label1;
-        private List<MachineDefinition> _machines = new List<MachineDefinition>();
+        //private Dictionary<string, Color> _intervalColors = new Dictionary<string, Color>
+        //{
+        //    { "Weekly", Color.LightGreen },
+        //    { "Monthly", Color.LightBlue },
+        //    { "BiMonthly", Color.Khaki },
+        //    { "TriMonthly", Color.Gold },
+        //    { "MidYear", Color.Orange },
+        //    { "Annual", Color.LightCoral }
+        //};
+
+        // private List<MachineDefinition> _machines = new List<MachineDefinition>();
 
         public MachineInspectionForm(Inspector loggedInInspector, string machineName)
         {
@@ -58,23 +54,21 @@ namespace MachineInspections
         private void InitializeComponent()
         {
             panelRight = new Panel();
-            lblSerial = new System.Windows.Forms.Label();
-            lblMachineName = new System.Windows.Forms.Label();
-            DataLabel = new System.Windows.Forms.Label();
+            lblSerial = new Label();
+            lblMachineName = new Label();
+            DataLabel = new Label();
             tabIntervals = new TabControl();
             btnBack = new Button();
             scrollPanel = new Panel();
             btnSaveInspection = new Button();
             panelOuter = new Panel();
-            lblInspectionStatus = new System.Windows.Forms.Label();
-            label1 = new System.Windows.Forms.Label();
+            lblInspectionStatus = new Label();
             panelRight.SuspendLayout();
             panelOuter.SuspendLayout();
             SuspendLayout();
             // 
             // panelRight
             // 
-            panelRight.Controls.Add(label1);
             panelRight.Controls.Add(lblSerial);
             panelRight.Controls.Add(lblMachineName);
             panelRight.Controls.Add(DataLabel);
@@ -94,19 +88,23 @@ namespace MachineInspections
             lblSerial.AutoSize = true;
             lblSerial.Font = new Font("Segoe UI", 14F);
             lblSerial.ForeColor = Color.Red;
-            lblSerial.Location = new Point(1114, 15);
+            lblSerial.Location = new Point(395, 26);
+            // lblSerial.MaximumSize = new Size(90, 25);
+            lblSerial.MinimumSize = new Size(150, 25);
             lblSerial.Name = "lblSerial";
             lblSerial.RightToLeft = RightToLeft.Yes;
-            lblSerial.Size = new Size(59, 25);
+            lblSerial.Size = new Size(150, 25);
             lblSerial.TabIndex = 1;
             lblSerial.Text = "Serial";
+            lblSerial.TextAlign = ContentAlignment.MiddleRight;
+            lblSerial.UseCompatibleTextRendering = true;
             // 
             // lblMachineName
             // 
             lblMachineName.AutoSize = true;
             lblMachineName.Font = new Font("Segoe UI", 14F);
             lblMachineName.ForeColor = Color.Red;
-            lblMachineName.Location = new Point(953, 15);
+            lblMachineName.Location = new Point(225, 26);
             lblMachineName.Name = "lblMachineName";
             lblMachineName.RightToLeft = RightToLeft.Yes;
             lblMachineName.Size = new Size(135, 25);
@@ -166,9 +164,9 @@ namespace MachineInspections
             // 
             btnSaveInspection.Anchor = AnchorStyles.None;
             btnSaveInspection.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            btnSaveInspection.Location = new Point(56, 653);
+            btnSaveInspection.Location = new Point(1220, 653);
             btnSaveInspection.Name = "btnSaveInspection";
-            btnSaveInspection.Size = new Size(1370, 50);
+            btnSaveInspection.Size = new Size(206, 50);
             btnSaveInspection.TabIndex = 2;
             btnSaveInspection.Text = "חתום בדיקה";
             btnSaveInspection.Click += btnSaveInspection_Click;
@@ -194,15 +192,6 @@ namespace MachineInspections
             lblInspectionStatus.RightToLeft = RightToLeft.Yes;
             lblInspectionStatus.Size = new Size(20, 41);
             lblInspectionStatus.TabIndex = 0;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(1094, 20);
-            label1.Name = "label1";
-            label1.Size = new Size(12, 19);
-            label1.TabIndex = 5;
-            label1.Text = ":";
             // 
             // MachineInspectionForm
             // 
@@ -277,7 +266,7 @@ namespace MachineInspections
                     {
 
                         this.btnSaveInspection.Enabled = true;
-                        this.btnSaveInspection.Text = "שמור";
+                        this.btnSaveInspection.Text = "חתום בדיקה";
 
                     }
                     else
@@ -287,10 +276,19 @@ namespace MachineInspections
                         this.btnSaveInspection.Text = "המכונה מושבתת";
 
                     }
-                    this.lblSerial.Text = currentMachine?.SerialNumber;
-                    BuildIntervalTabs(currentMachine);
-                    ShowInspectionStatus(currentMachine);
 
+                    if (lblMachineName != null)
+                    {
+                        lblMachineName.Text = currentMachine?.MachineName;
+
+                        this.lblSerial.Text = currentMachine?.SerialNumber;
+                    }
+
+                    if (currentMachine != null)
+                    {
+                        BuildIntervalTabs(currentMachine);
+                        ShowInspectionStatus(currentMachine);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -298,46 +296,8 @@ namespace MachineInspections
                 }
             }
         }
-
-        private void BindMachineList()
-        {
-            //lstMachines.DisplayMember = "MachineName";
-            //lstMachines.ValueMember = "SerialNumber";
-            //lstMachines.DataSource = _machines;
-        }
-
-        //private void lstMachines_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    currentMachine = lstMachines.SelectedItem as MachineDefinition;
-        //    if (currentMachine == null)
-        //        return;
-        //    if (currentMachine?.IsOperational == true)
-        //    {
-
-        //        this.btnSaveInspection.Enabled = true;
-        //        this.btnSaveInspection.Text = "שמור";
-
-        //    }
-        //    else
-        //    {
-
-        //        this.btnSaveInspection.Enabled = false;
-        //        this.btnSaveInspection.Text = "המכונה מושבתת";
-        //    }
-        //    BuildIntervalTabs(currentMachine);
-        //    ShowInspectionStatus(currentMachine);
-        //}
-
-        //private void ShowMachineDetails(MachineDefinition machine)
-        //{
-        //    // lblMachineName.Text = machine.MachineName; 
-        //    // lblSerial.Text = machine.SerialNumber;
-        //    // TODO: compute next inspection and set lblNextInspection.Text
-
-        //    BuildIntervalTabs(machine);
-        //}
-
-        private void BuildIntervalTabs(MachineDefinition machine)
+         
+         private void BuildIntervalTabs(MachineDefinition machine)
         {
             tabIntervals.TabPages.Clear();
 
@@ -660,7 +620,7 @@ namespace MachineInspections
             Rectangle tabRect = tc.GetTabRect(e.Index);
             string? intervalKey = tab.Tag as string;
             Color backgroundColor = Color.White;
-            Color textColor;
+            
 
             //bool isUrgent = intervalKey == _IsOverdue;
             bool isSelected = e.Index == tabIntervals.SelectedIndex;
@@ -672,8 +632,8 @@ namespace MachineInspections
             }
 
 
-            var inspectionSchedules = currentMachineInspectionScheduleResult[currentMachine.MachineName];
-            var inspectionOverdue = inspectionSchedules.InspectionTimeIsOverdue[intervalKey];
+            var inspectionSchedules = currentMachineInspectionScheduleResult[key: currentMachine.MachineName!];
+            var inspectionOverdue = inspectionSchedules.InspectionTimeIsOverdue[key: intervalKey];
 
 
             isSelected = true;
@@ -705,7 +665,7 @@ namespace MachineInspections
         private void ShowInspectionStatus(MachineDefinition machine)
         {
             var inspectionSchedules = inspectionScheduleResult.CalculateSchedule(machine);
-            currentMachineInspectionScheduleResult[machine.MachineName] = inspectionSchedules;
+            currentMachineInspectionScheduleResult[key: machine.MachineName!] = inspectionSchedules;
             currentMachine = machine;
 
 
