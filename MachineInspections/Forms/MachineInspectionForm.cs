@@ -10,30 +10,6 @@ namespace MachineInspections
 {
     public partial class MachineInspectionForm : Form
     {
-        private InspectionScheduleResult inspectionScheduleResult;
-        private readonly FileOperationsNS.Models.Inspector m_loggedInInspector;
-        private string m_currentMachineName;
-        private bool _IsOverdue;
-        private MachineDefinition currentMachine;
-        //private ListBox lstMachines;
-        private TabControl tabIntervals;
-        private Label lblMachineName;
-        private Label lblSerial;
-        private Label lblInspectionStatus;
-        private Button btnSaveInspection;
-        private Panel InnerPanel;
-        private Panel scrollPanel;
-        private Panel panelOuter;
-        private Button btnBack;
-        private GroupBox DefectiveGroupBox;
-        private Label DefectiveLabel;
-        private TextBox DefectiveExplanationTextBox;
-        private Label SavedResultLabel;
-        private Label label1;
-        private Label DataLabel;
-
-       
-
         public MachineInspectionForm(Inspector loggedInInspector, string machineName)
         {
             InitializeComponent();
@@ -48,221 +24,138 @@ namespace MachineInspections
                 }
             }
         }
-        private void InitializeComponent()
-        {
-            InnerPanel = new Panel();
-            SavedResultLabel = new Label();
-            lblSerial = new Label();
-            lblMachineName = new Label();
-            DataLabel = new Label();
-            tabIntervals = new TabControl();
-            btnBack = new Button();
-            scrollPanel = new Panel();
-            btnSaveInspection = new Button();
-            DefectiveGroupBox = new GroupBox();
-            DefectiveLabel = new Label();
-            DefectiveExplanationTextBox = new TextBox();
-            panelOuter = new Panel();
-            lblInspectionStatus = new Label();
-            InnerPanel.SuspendLayout();
-            DefectiveGroupBox.SuspendLayout();
-            panelOuter.SuspendLayout();
-            SuspendLayout();
-            // 
-            // InnerPanel
-            // 
-            InnerPanel.Controls.Add(SavedResultLabel);
-            InnerPanel.Controls.Add(lblSerial);
-            InnerPanel.Controls.Add(lblMachineName);
-            InnerPanel.Controls.Add(DataLabel);
-            InnerPanel.Controls.Add(tabIntervals);
-            InnerPanel.Controls.Add(btnBack);
-            InnerPanel.Controls.Add(scrollPanel);
-            InnerPanel.Controls.Add(btnSaveInspection);
-            InnerPanel.Controls.Add(DefectiveGroupBox);
-            InnerPanel.Dock = DockStyle.Fill;
-            InnerPanel.Location = new Point(0, 0);
-            InnerPanel.Name = "InnerPanel";
-            InnerPanel.Padding = new Padding(10, 20, 0, 0);
-            InnerPanel.Size = new Size(1500, 703);
-            InnerPanel.TabIndex = 0;
-            // 
-            // SavedResultLabel
-            // 
-            SavedResultLabel.AutoSize = true;
-            SavedResultLabel.Location = new Point(925, 649);
-            SavedResultLabel.MinimumSize = new Size(250, 28);
-            SavedResultLabel.Name = "SavedResultLabel";
-            SavedResultLabel.Size = new Size(250, 28);
-            SavedResultLabel.TabIndex = 6;
-            SavedResultLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // lblSerial
-            // 
-            lblSerial.AutoSize = true;
-            lblSerial.Font = new Font("Segoe UI", 14F);
-            lblSerial.ForeColor = Color.Red;
-            lblSerial.Location = new Point(396, 26);
-            lblSerial.MinimumSize = new Size(150, 25);
-            lblSerial.Name = "lblSerial";
-            lblSerial.RightToLeft = RightToLeft.Yes;
-            lblSerial.Size = new Size(150, 31);
-            lblSerial.TabIndex = 1;
-            lblSerial.Text = "Serial";
-            lblSerial.TextAlign = ContentAlignment.MiddleRight;
-            lblSerial.UseCompatibleTextRendering = true;
-            // 
-            // lblMachineName
-            // 
-            lblMachineName.AutoSize = true;
-            lblMachineName.Font = new Font("Segoe UI", 14F);
-            lblMachineName.ForeColor = Color.Red;
-            lblMachineName.Location = new Point(225, 26);
-            lblMachineName.Name = "lblMachineName";
-            lblMachineName.RightToLeft = RightToLeft.Yes;
-            lblMachineName.Size = new Size(135, 25);
-            lblMachineName.TabIndex = 0;
-            lblMachineName.Text = "MachineName";
-            // 
-            // DataLabel
-            // 
-            DataLabel.AutoSize = true;
-            DataLabel.Location = new Point(60, 10);
-            DataLabel.Name = "DataLabel";
-            DataLabel.Size = new Size(38, 19);
-            DataLabel.TabIndex = 4;
-            DataLabel.Text = "Date";
-            // 
-            // tabIntervals
-            // 
-            tabIntervals.Anchor = AnchorStyles.None;
-            tabIntervals.Appearance = TabAppearance.Buttons;
-            tabIntervals.DrawMode = TabDrawMode.OwnerDrawFixed;
-            tabIntervals.Font = new Font("Segoe UI", 11F);
-            tabIntervals.ItemSize = new Size(150, 40);
-            tabIntervals.Location = new Point(56, 220);
-            tabIntervals.MaximumSize = new Size(1370, 400);
-            tabIntervals.MinimumSize = new Size(1370, 300);
-            tabIntervals.Multiline = true;
-            tabIntervals.Name = "tabIntervals";
-            tabIntervals.RightToLeft = RightToLeft.Yes;
-            tabIntervals.RightToLeftLayout = true;
-            tabIntervals.SelectedIndex = 0;
-            tabIntervals.Size = new Size(1370, 300);
-            tabIntervals.TabIndex = 0;
-            tabIntervals.DrawItem += tabIntervals_DrawItem;
-            // 
-            // btnBack
-            // 
-            btnBack.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnBack.Location = new Point(1307, 10);
-            btnBack.Name = "btnBack";
-            btnBack.RightToLeft = RightToLeft.Yes;
-            btnBack.Size = new Size(119, 50);
-            btnBack.TabIndex = 1;
-            btnBack.Text = "חזור";
-            btnBack.UseVisualStyleBackColor = true;
-            btnBack.Click += btnBack_Click;
-            // 
-            // scrollPanel
-            // 
-            scrollPanel.AutoScroll = true;
-            scrollPanel.BorderStyle = BorderStyle.FixedSingle;
-            scrollPanel.Location = new Point(56, 68);
-            scrollPanel.Name = "scrollPanel";
-            scrollPanel.RightToLeft = RightToLeft.Yes;
-            scrollPanel.Size = new Size(1372, 146);
-            scrollPanel.TabIndex = 1;
-            // 
-            // btnSaveInspection
-            // 
-            btnSaveInspection.Anchor = AnchorStyles.None;
-            btnSaveInspection.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            btnSaveInspection.Location = new Point(1222, 649);
-            btnSaveInspection.Name = "btnSaveInspection";
-            btnSaveInspection.Size = new Size(206, 28);
-            btnSaveInspection.TabIndex = 2;
-            btnSaveInspection.Text = "חתום בדיקה";
-            btnSaveInspection.Click += btnSaveInspection_Click;
-            // 
-            // DefectiveGroupBox
-            // 
-            DefectiveGroupBox.Controls.Add(DefectiveLabel);
-            DefectiveGroupBox.Controls.Add(DefectiveExplanationTextBox);
-            DefectiveGroupBox.Location = new Point(60, 526);
-            DefectiveGroupBox.Name = "DefectiveGroupBox";
-            DefectiveGroupBox.Size = new Size(1368, 100);
-            DefectiveGroupBox.TabIndex = 5;
-            DefectiveGroupBox.TabStop = false;
-            DefectiveGroupBox.Text = "מכונה לא שמישה";
-            // 
-            // DefectiveLabel
-            // 
-            DefectiveLabel.AutoSize = true;
-            DefectiveLabel.Location = new Point(1272, 29);
-            DefectiveLabel.MinimumSize = new Size(90, 20);
-            DefectiveLabel.Name = "DefectiveLabel";
-            DefectiveLabel.Size = new Size(90, 20);
-            DefectiveLabel.TabIndex = 1;
-            DefectiveLabel.Text = "הסבר ופרט";
-            // 
-            // DefectiveExplanationTextBox
-            // 
-            DefectiveExplanationTextBox.Location = new Point(120, 24);
-            DefectiveExplanationTextBox.Name = "DefectiveExplanationTextBox";
-            DefectiveExplanationTextBox.Size = new Size(1127, 25);
-            DefectiveExplanationTextBox.TabIndex = 0;
-            // 
-            // panelOuter
-            // 
-            panelOuter.Controls.Add(InnerPanel);
-            panelOuter.Dock = DockStyle.Fill;
-            panelOuter.Location = new Point(0, 0);
-            panelOuter.Name = "panelOuter";
-            panelOuter.RightToLeft = RightToLeft.Yes;
-            panelOuter.Size = new Size(1500, 703);
-            panelOuter.TabIndex = 2;
-            // 
-            // lblInspectionStatus
-            // 
-            lblInspectionStatus.AutoSize = true;
-            lblInspectionStatus.BackColor = Color.WhiteSmoke;
-            lblInspectionStatus.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblInspectionStatus.Location = new Point(260, 10);
-            lblInspectionStatus.Name = "lblInspectionStatus";
-            lblInspectionStatus.Padding = new Padding(10);
-            lblInspectionStatus.RightToLeft = RightToLeft.Yes;
-            lblInspectionStatus.Size = new Size(20, 41);
-            lblInspectionStatus.TabIndex = 0;
-            // 
-            // MachineInspectionForm
-            // 
-            ClientSize = new Size(1500, 703);
-            Controls.Add(lblInspectionStatus);
-            Controls.Add(panelOuter);
-            Font = new Font("Segoe UI", 10F);
-            Name = "MachineInspectionForm";
-            RightToLeft = RightToLeft.Yes;
-            RightToLeftLayout = true;
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "מערכת בדיקות מכונות";
-            InnerPanel.ResumeLayout(false);
-            InnerPanel.PerformLayout();
-            DefectiveGroupBox.ResumeLayout(false);
-            DefectiveGroupBox.PerformLayout();
-            panelOuter.ResumeLayout(false);
-            ResumeLayout(false);
-            PerformLayout();
-        }
+
 
         protected override void OnLoad(EventArgs e)
         {
 
             base.OnLoad(e);
+            CheckMachineResultFilesInFolder();
+            CheckMachineResultFileSize();
+
             LoadMachine();
 
             this.DataLabel.Text = DateTime.Now.ToString("dd/MM/yyyy");
         }
+
+        private void CheckMachineResultFileSize()
+        {
+            try
+            {
+                string? baseName = ConfigurationManager.AppSettings["CsvBaseName"];   // "Results"
+                string? maxSizeStr = ConfigurationManager.AppSettings["CsvMaxSizeMB"];
+                string? maxFilesStr = ConfigurationManager.AppSettings["CsvMaxFiles"];
+
+
+
+                if (!int.TryParse(maxSizeStr, out int maxSizeMB) ||
+                    !int.TryParse(maxFilesStr, out int maxFiles))
+                {   
+                    throw new Exception("Invalid CSV configuration values");
+                }
+
+                string resultsFolder = FileOperations.GetSharedFolder("MachineResults"); // your existing method
+                Directory.CreateDirectory(resultsFolder);
+
+                // Get all CSV files matching the base name
+                var files = Directory.GetFiles(resultsFolder, $"{baseName}*.csv")
+                                     .Select(f => new FileInfo(f))
+                                     .OrderBy(f => f.CreationTime)
+                                     .ToList();
+
+                // 1️⃣ Delete oldest files if count exceeds limit
+                while (files.Count > maxFiles)
+                {
+                    var oldest = files.First();
+                    oldest.Delete();
+                    files.RemoveAt(0);
+                }
+
+                // 2️⃣ Check active file size
+                string activeFilePath = Path.Combine(resultsFolder, $"{baseName}.csv");
+
+                if (File.Exists(activeFilePath))
+                {
+                    long maxBytes = maxSizeMB * 1024L * 1024L;
+                    long fileSize = new FileInfo(activeFilePath).Length;
+
+                    if (fileSize > maxBytes)
+                    {
+                        // Rotate file: rename with timestamp
+                        string rotatedName = Path.Combine(
+                            resultsFolder,
+                            $"{baseName}_{DateTime.Now:yyyyMMdd_HHmmss}.csv"
+                        );
+
+                        File.Move(activeFilePath, rotatedName);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed checking CSV lifecycle", ex);
+            }
+        }
+
+        private void CheckMachineResultFilesInFolder()
+        {
+            try
+            {
+                string? baseName = ConfigurationManager.AppSettings["CsvBaseName"];   // "Results"
+                string? maxSizeStr = ConfigurationManager.AppSettings["CsvMaxSizeMB"];
+                string? maxFilesStr = ConfigurationManager.AppSettings["CsvMaxFiles"];
+
+
+
+                if (!int.TryParse(maxSizeStr, out int maxSizeMB) ||
+                    !int.TryParse(maxFilesStr, out int maxFiles))
+                {
+                    throw new Exception("Invalid CSV configuration values");
+                }
+                
+                string resultsFolder = FileOperations.GetSharedFolder("MachineResults");
+                Directory.CreateDirectory(resultsFolder);
+
+                // Get all CSV files matching the base name
+                var files = Directory.GetFiles(resultsFolder, $"{baseName}*.csv")
+                                     .Select(f => new FileInfo(f))
+                                     .OrderBy(f => f.CreationTime)
+                                     .ToList();
+
+                // 1️⃣ Delete oldest files if count exceeds limit
+                while (files.Count > maxFiles)
+                {
+                    var oldest = files.First();
+                    oldest.Delete();
+                    files.RemoveAt(0);
+                }
+
+                // 2️⃣ Check active file size
+                string activeFilePath = Path.Combine(resultsFolder, $"{baseName}.csv");
+
+                if (File.Exists(activeFilePath))
+                {
+                    long maxBytes = maxSizeMB * 1024L * 1024L;
+                    long fileSize = new FileInfo(activeFilePath).Length;
+
+                    if (fileSize > maxBytes)
+                    {
+                        // Rotate file: rename with timestamp
+                        string rotatedName = Path.Combine(
+                            resultsFolder,
+                            $"{baseName}_{DateTime.Now:yyyyMMdd_HHmmss}.csv"
+                        );
+
+                        File.Move(activeFilePath, rotatedName);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed checking CSV lifecycle", ex);
+            }
+        }
+
 
         private void btnBack_Click(object sender, EventArgs e)
         {
@@ -312,7 +205,7 @@ namespace MachineInspections
 
                     }
 
-                    
+
 
                     if (lblMachineName != null)
                     {
@@ -682,5 +575,234 @@ namespace MachineInspections
 
             tabIntervals.Invalidate(); // Triggers re-rendering of layout elements with current alerts
         }
+
+        private void InitializeComponent()
+        {
+            InnerPanel = new Panel();
+            SavedResultLabel = new Label();
+            lblSerial = new Label();
+            lblMachineName = new Label();
+            DataLabel = new Label();
+            tabIntervals = new TabControl();
+            btnBack = new Button();
+            scrollPanel = new Panel();
+            btnSaveInspection = new Button();
+            DefectiveGroupBox = new GroupBox();
+            DefectiveLabel = new Label();
+            DefectiveExplanationTextBox = new TextBox();
+            panelOuter = new Panel();
+            lblInspectionStatus = new Label();
+            InnerPanel.SuspendLayout();
+            DefectiveGroupBox.SuspendLayout();
+            panelOuter.SuspendLayout();
+            SuspendLayout();
+            // 
+            // InnerPanel
+            // 
+            InnerPanel.Controls.Add(SavedResultLabel);
+            InnerPanel.Controls.Add(lblSerial);
+            InnerPanel.Controls.Add(lblMachineName);
+            InnerPanel.Controls.Add(DataLabel);
+            InnerPanel.Controls.Add(tabIntervals);
+            InnerPanel.Controls.Add(btnBack);
+            InnerPanel.Controls.Add(scrollPanel);
+            InnerPanel.Controls.Add(btnSaveInspection);
+            InnerPanel.Controls.Add(DefectiveGroupBox);
+            InnerPanel.Dock = DockStyle.Fill;
+            InnerPanel.Location = new Point(0, 0);
+            InnerPanel.Name = "InnerPanel";
+            InnerPanel.Padding = new Padding(10, 20, 0, 0);
+            InnerPanel.Size = new Size(1500, 703);
+            InnerPanel.TabIndex = 0;
+            // 
+            // SavedResultLabel
+            // 
+            SavedResultLabel.AutoSize = true;
+            SavedResultLabel.Location = new Point(925, 649);
+            SavedResultLabel.MinimumSize = new Size(250, 28);
+            SavedResultLabel.Name = "SavedResultLabel";
+            SavedResultLabel.Size = new Size(250, 28);
+            SavedResultLabel.TabIndex = 6;
+            SavedResultLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblSerial
+            // 
+            lblSerial.AutoSize = true;
+            lblSerial.Font = new Font("Segoe UI", 14F);
+            lblSerial.ForeColor = Color.Red;
+            lblSerial.Location = new Point(396, 26);
+            lblSerial.MinimumSize = new Size(150, 25);
+            lblSerial.Name = "lblSerial";
+            lblSerial.RightToLeft = RightToLeft.Yes;
+            lblSerial.Size = new Size(150, 31);
+            lblSerial.TabIndex = 1;
+            lblSerial.Text = "Serial";
+            lblSerial.TextAlign = ContentAlignment.MiddleRight;
+            lblSerial.UseCompatibleTextRendering = true;
+            // 
+            // lblMachineName
+            // 
+            lblMachineName.AutoSize = true;
+            lblMachineName.Font = new Font("Segoe UI", 14F);
+            lblMachineName.ForeColor = Color.Red;
+            lblMachineName.Location = new Point(225, 26);
+            lblMachineName.Name = "lblMachineName";
+            lblMachineName.RightToLeft = RightToLeft.Yes;
+            lblMachineName.Size = new Size(135, 25);
+            lblMachineName.TabIndex = 0;
+            lblMachineName.Text = "MachineName";
+            // 
+            // DataLabel
+            // 
+            DataLabel.AutoSize = true;
+            DataLabel.Location = new Point(60, 10);
+            DataLabel.Name = "DataLabel";
+            DataLabel.Size = new Size(38, 19);
+            DataLabel.TabIndex = 4;
+            DataLabel.Text = "Date";
+            // 
+            // tabIntervals
+            // 
+            tabIntervals.Anchor = AnchorStyles.None;
+            tabIntervals.Appearance = TabAppearance.Buttons;
+            tabIntervals.DrawMode = TabDrawMode.OwnerDrawFixed;
+            tabIntervals.Font = new Font("Segoe UI", 11F);
+            tabIntervals.ItemSize = new Size(150, 40);
+            tabIntervals.Location = new Point(56, 220);
+            tabIntervals.MaximumSize = new Size(1370, 400);
+            tabIntervals.MinimumSize = new Size(1370, 300);
+            tabIntervals.Multiline = true;
+            tabIntervals.Name = "tabIntervals";
+            tabIntervals.RightToLeft = RightToLeft.Yes;
+            tabIntervals.RightToLeftLayout = true;
+            tabIntervals.SelectedIndex = 0;
+            tabIntervals.Size = new Size(1370, 300);
+            tabIntervals.TabIndex = 0;
+            tabIntervals.DrawItem += tabIntervals_DrawItem;
+            // 
+            // btnBack
+            // 
+            btnBack.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnBack.Location = new Point(1307, 10);
+            btnBack.Name = "btnBack";
+            btnBack.RightToLeft = RightToLeft.Yes;
+            btnBack.Size = new Size(119, 50);
+            btnBack.TabIndex = 1;
+            btnBack.Text = "חזור";
+            btnBack.UseVisualStyleBackColor = true;
+            btnBack.Click += btnBack_Click;
+            // 
+            // scrollPanel
+            // 
+            scrollPanel.AutoScroll = true;
+            scrollPanel.BorderStyle = BorderStyle.FixedSingle;
+            scrollPanel.Location = new Point(56, 68);
+            scrollPanel.Name = "scrollPanel";
+            scrollPanel.RightToLeft = RightToLeft.Yes;
+            scrollPanel.Size = new Size(1372, 146);
+            scrollPanel.TabIndex = 1;
+            // 
+            // btnSaveInspection
+            // 
+            btnSaveInspection.Anchor = AnchorStyles.None;
+            btnSaveInspection.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnSaveInspection.Location = new Point(1222, 649);
+            btnSaveInspection.Name = "btnSaveInspection";
+            btnSaveInspection.Size = new Size(206, 28);
+            btnSaveInspection.TabIndex = 2;
+            btnSaveInspection.Text = "חתום בדיקה";
+            btnSaveInspection.Click += btnSaveInspection_Click;
+            // 
+            // DefectiveGroupBox
+            // 
+            DefectiveGroupBox.Controls.Add(DefectiveLabel);
+            DefectiveGroupBox.Controls.Add(DefectiveExplanationTextBox);
+            DefectiveGroupBox.Location = new Point(60, 526);
+            DefectiveGroupBox.Name = "DefectiveGroupBox";
+            DefectiveGroupBox.Size = new Size(1368, 100);
+            DefectiveGroupBox.TabIndex = 5;
+            DefectiveGroupBox.TabStop = false;
+            DefectiveGroupBox.Text = "מכונה לא שמישה";
+            // 
+            // DefectiveLabel
+            // 
+            DefectiveLabel.AutoSize = true;
+            DefectiveLabel.Location = new Point(1272, 29);
+            DefectiveLabel.MinimumSize = new Size(90, 20);
+            DefectiveLabel.Name = "DefectiveLabel";
+            DefectiveLabel.Size = new Size(90, 20);
+            DefectiveLabel.TabIndex = 1;
+            DefectiveLabel.Text = "הסבר ופרט";
+            // 
+            // DefectiveExplanationTextBox
+            // 
+            DefectiveExplanationTextBox.Location = new Point(120, 24);
+            DefectiveExplanationTextBox.Name = "DefectiveExplanationTextBox";
+            DefectiveExplanationTextBox.Size = new Size(1127, 25);
+            DefectiveExplanationTextBox.TabIndex = 0;
+            // 
+            // panelOuter
+            // 
+            panelOuter.Controls.Add(InnerPanel);
+            panelOuter.Dock = DockStyle.Fill;
+            panelOuter.Location = new Point(0, 0);
+            panelOuter.Name = "panelOuter";
+            panelOuter.RightToLeft = RightToLeft.Yes;
+            panelOuter.Size = new Size(1500, 703);
+            panelOuter.TabIndex = 2;
+            // 
+            // lblInspectionStatus
+            // 
+            lblInspectionStatus.AutoSize = true;
+            lblInspectionStatus.BackColor = Color.WhiteSmoke;
+            lblInspectionStatus.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblInspectionStatus.Location = new Point(260, 10);
+            lblInspectionStatus.Name = "lblInspectionStatus";
+            lblInspectionStatus.Padding = new Padding(10);
+            lblInspectionStatus.RightToLeft = RightToLeft.Yes;
+            lblInspectionStatus.Size = new Size(20, 41);
+            lblInspectionStatus.TabIndex = 0;
+            // 
+            // MachineInspectionForm
+            // 
+            ClientSize = new Size(1500, 703);
+            Controls.Add(lblInspectionStatus);
+            Controls.Add(panelOuter);
+            Font = new Font("Segoe UI", 10F);
+            Name = "MachineInspectionForm";
+            RightToLeft = RightToLeft.Yes;
+            RightToLeftLayout = true;
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "מערכת בדיקות מכונות";
+            InnerPanel.ResumeLayout(false);
+            InnerPanel.PerformLayout();
+            DefectiveGroupBox.ResumeLayout(false);
+            DefectiveGroupBox.PerformLayout();
+            panelOuter.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
+        }
+        private InspectionScheduleResult inspectionScheduleResult;
+        private readonly FileOperationsNS.Models.Inspector m_loggedInInspector;
+        private string m_currentMachineName;
+        private bool _IsOverdue;
+        private MachineDefinition currentMachine;
+        //private ListBox lstMachines;
+        private TabControl tabIntervals;
+        private Label lblMachineName;
+        private Label lblSerial;
+        private Label lblInspectionStatus;
+        private Button btnSaveInspection;
+        private Panel InnerPanel;
+        private Panel scrollPanel;
+        private Panel panelOuter;
+        private Button btnBack;
+        private GroupBox DefectiveGroupBox;
+        private Label DefectiveLabel;
+        private TextBox DefectiveExplanationTextBox;
+        private Label SavedResultLabel;
+        private Label label1;
+        private Label DataLabel;
+
     }
 }

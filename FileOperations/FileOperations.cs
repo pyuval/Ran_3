@@ -10,8 +10,8 @@ namespace FileOperationsNS
     {
         public static string GetSharedFolder(string folderName)
         {
-
-            string folder = GetSetting(folderName, folderName);
+            var defaultPath = @"..\..\..\..\SharedData\" + folderName;
+            string folder = GetSetting(folderName, defaultPath);
             //string baseDir = AppDomain.CurrentDomain.BaseDirectory;
             string exePath = AppContext.BaseDirectory;
 

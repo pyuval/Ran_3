@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FileOperationsNS;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -290,7 +291,10 @@ namespace UserAdmin
         // --------------------------------------------------------- LOAD & SAVE JSON ---------------------------------------------------------
         private void LoadUsers()
         {
-            _usersFilePath = Path.Combine("..", "..", "..", @"SharedData\Users", "users.json");
+            //_usersFilePath = Path.Combine("..", "..", "..", @"SharedData\Users", "users.json");
+
+            _usersFilePath = FileOperations.GetSharedFolder("Users");
+
 
             if (!File.Exists(_usersFilePath))
             {
